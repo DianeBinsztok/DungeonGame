@@ -27,9 +27,11 @@ public class Cell {
             case "loot":
                 String loot = setLoot();
                 System.out.println("You just found a " + loot + " !");
+                break;
             case "enemy":
                 String enemy = setEnemy();
                 System.out.println("You are facing a blood-thirsty " + enemy + " !");
+                break;
         }
     }
 }
