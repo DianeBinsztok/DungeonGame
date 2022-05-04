@@ -1,7 +1,7 @@
 package gear.offensiveGear;
 
 public class Sword extends Weapon {
-    public Sword(String name, int stat) {
+    public Sword() {
         super("Sword", 5);
     }
 }

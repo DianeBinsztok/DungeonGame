@@ -5,6 +5,7 @@ import gear.Gear;
 public class Weapon extends Gear {
 
     public Weapon(String name, int stat) {
+
         super(name, stat);
     }
 

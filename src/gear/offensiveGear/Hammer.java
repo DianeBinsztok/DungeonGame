@@ -1,7 +1,7 @@
 package gear.offensiveGear;
 
 public class Hammer extends Weapon {
-    public Hammer(String name, int stat) {
+    public Hammer() {
         super("Hammer", 3);
     }
 }

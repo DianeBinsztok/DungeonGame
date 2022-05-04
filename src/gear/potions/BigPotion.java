@@ -1,7 +1,7 @@
 package gear.potions;
 
 public class BigPotion extends Potion {
-    public BigPotion(String name, int stat){
+    public BigPotion(){
         super("Big Life Potion", 5);
     }
 }

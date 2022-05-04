@@ -3,7 +3,7 @@ package gear.potions;
 import gear.potions.Potion;
 
 public class StandardPotion extends Potion {
-    public StandardPotion(String name, int stat){
+    public StandardPotion(){
         super("Life Potion", 2);
     }
 }

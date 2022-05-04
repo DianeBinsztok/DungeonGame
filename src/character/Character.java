@@ -11,7 +11,7 @@ public class Character {
     private int maxAttack;
 
     /**
-     * constructor for Characters
+     * constructor for Playing Characters
      * @param name
      * @param image
      * @param offensiveGear

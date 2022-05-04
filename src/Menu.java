@@ -1,7 +1,6 @@
-import character.player.Player;
 import character.player.Warrior;
 
-public class Main {
+public class Menu {
     public static void main(String[] args) {
         Game g = new Game();
         for (int i = 0; i < 1000; i++) {
@@ -11,7 +10,7 @@ public class Main {
             }
         }
 
-        Player Dudule = new Player("Dudule", "Dudule_avatar", "Sword", "Shield", 3, 10, 5, 10);
+        Warrior Dudule = new Warrior("Dudule");
         System.out.println("New player named "+ Dudule.getName() + ", equiped with "+ Dudule.getOffensiveGear()+ " and " + Dudule.getDefensiveGear());
     }
 }
