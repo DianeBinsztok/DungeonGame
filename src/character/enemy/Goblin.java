@@ -11,6 +11,6 @@ public class Goblin extends Monster {
      * @param attack
      */
     public Goblin(int lifePoints, int attack) {
-        super(lifePoints, attack);
+        super(6, 1);
     }
 }

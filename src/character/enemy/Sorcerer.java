@@ -11,6 +11,6 @@ public class Sorcerer extends Monster {
      * @param attack
      */
     public Sorcerer(int lifePoints, int attack) {
-        super(lifePoints, attack);
+        super(9, 2);
     }
 }

@@ -1,3 +1,4 @@
+import character.player.Player;
 import character.player.Warrior;
 
 public class Main {
@@ -10,7 +11,7 @@ public class Main {
             }
         }
 
-        Warrior Dudule = new Warrior("Dudule", "Dudule_avatar", "Sword", "Shield", 3, 10, 5, 10);
-        System.out.println("New player named "+ Dudule.getName() + ", equiped with "+ Dudule.getAttackAsset()+ " and " + Dudule.getDefenseAsset());
+        Player Dudule = new Player("Dudule", "Dudule_avatar", "Sword", "Shield", 3, 10, 5, 10);
+        System.out.println("New player named "+ Dudule.getName() + ", equiped with "+ Dudule.getOffensiveGear()+ " and " + Dudule.getDefensiveGear());
     }
 }

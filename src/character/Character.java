@@ -3,8 +3,8 @@ package character;
 public class Character {
     private String name;
     private String image;
-    private Object attackAsset;
-    private Object defenseAsset;
+    private Object offensiveGear;
+    private Object defensiveGear;
     private int lifePoints;
     private int maxLifePoints;
     private int attack;
@@ -14,18 +14,18 @@ public class Character {
      * constructor for Characters
      * @param name
      * @param image
-     * @param attackAsset
-     * @param defenseAsset
+     * @param offensiveGear
+     * @param defensiveGear
      * @param lifePoints
      * @param maxLifePoints
      * @param attack
      * @param maxAttack
      */
-    public Character(String name, String image, Object attackAsset, Object defenseAsset, int lifePoints, int maxLifePoints, int attack, int maxAttack) {
+    public Character(String name, String image, Object offensiveGear, Object defensiveGear, int lifePoints, int maxLifePoints, int attack, int maxAttack) {
         this.name = name;
         this.image = image;
-        this.attackAsset = attackAsset;
-        this.defenseAsset = defenseAsset;
+        this.offensiveGear = offensiveGear;
+        this.defensiveGear = defensiveGear;
         this.lifePoints = lifePoints;
         this.maxLifePoints = maxLifePoints;
         this.attack = attack;
@@ -59,20 +59,20 @@ public class Character {
         this.image = image;
     }
 
-    public Object getAttackAsset() {
-        return attackAsset;
+    public Object getOffensiveGear() {
+        return offensiveGear;
     }
 
-    public void setAttackAsset(Object attackAsset) {
-        this.attackAsset = attackAsset;
+    public void setOffensiveGear(Object offensiveGear) {
+        this.offensiveGear = offensiveGear;
     }
 
-    public Object getDefenseAsset() {
-        return defenseAsset;
+    public Object getDefensiveGear() {
+        return defensiveGear;
     }
 
-    public void setDefenseAsset(String defenseAsset) {
-        this.defenseAsset = defenseAsset;
+    public void setDefensiveGear(String defensiveGear) {
+        this.defensiveGear = defensiveGear;
     }
     public int getLifePoints() {
         return lifePoints;

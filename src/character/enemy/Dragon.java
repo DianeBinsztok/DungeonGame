@@ -9,6 +9,6 @@ public class Dragon extends Monster {
      * @param attack
      */
     public Dragon(int lifePoints, int attack) {
-        super(lifePoints, attack);
+        super(15, 4);
     }
 }
