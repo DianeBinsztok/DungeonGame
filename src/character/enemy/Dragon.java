@@ -1,6 +1,6 @@
 package character.enemy;
 
-public class Dragon extends Monster {
+public class Dragon extends Enemy {
 
     /**
      * Calling the 2nd Character constructor

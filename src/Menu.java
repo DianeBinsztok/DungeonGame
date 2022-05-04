@@ -10,7 +10,11 @@ public class Menu {
             }
         }
 
-        Warrior Dudule = new Warrior("Dudule");
-        System.out.println("New player named "+ Dudule.getName() + ", equiped with "+ Dudule.getOffensiveGear()+ " and " + Dudule.getDefensiveGear());
+       /* Warrior Dudule = new Warrior("Dudule");
+        System.out.println("New player named "+ Dudule.getName() + ", equiped with "+ Dudule.getOffensiveGear()+ " and " + Dudule.getDefensiveGear());*/
+        Cell c = new Cell();
+        System.out.println(c.setEvent());
     }
+
+
 }
