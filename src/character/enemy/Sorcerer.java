@@ -1,6 +1,8 @@
-package character;
+package character.enemy;
 
-public class Sorcerer extends Monster{
+import character.enemy.Monster;
+
+public class Sorcerer extends Monster {
 
     /**
      * Calling the 2nd Character constructor

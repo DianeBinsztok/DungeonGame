@@ -1,6 +1,6 @@
-package character;
+package character.enemy;
 
-public class Goblin extends Monster{
+public class Dragon extends Monster {
 
     /**
      * Calling the 2nd Character constructor
@@ -8,7 +8,7 @@ public class Goblin extends Monster{
      * @param lifePoints
      * @param attack
      */
-    public Goblin(int lifePoints, int attack) {
+    public Dragon(int lifePoints, int attack) {
         super(lifePoints, attack);
     }
 }

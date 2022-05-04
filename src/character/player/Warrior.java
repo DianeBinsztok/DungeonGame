@@ -1,4 +1,6 @@
-package character;
+package character.player;
+
+import character.Character;
 
 public class Warrior extends Character {
 

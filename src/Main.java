@@ -1,4 +1,4 @@
-import character.Warrior;
+import character.player.Warrior;
 
 public class Main {
     public static void main(String[] args) {

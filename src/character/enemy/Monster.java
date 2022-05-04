@@ -1,14 +1,15 @@
-package character;
+package character.enemy;
 
-public class Dragon extends Monster{
+import character.Character;
+
+public class Monster extends Character {
 
     /**
      * Calling the 2nd Character constructor
-     *
      * @param lifePoints
      * @param attack
      */
-    public Dragon(int lifePoints, int attack) {
+    public Monster(int lifePoints, int attack) {
         super(lifePoints, attack);
     }
 }

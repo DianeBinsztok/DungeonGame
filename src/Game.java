@@ -14,7 +14,6 @@ public class Game {
      * generate array of objects Cell;
      */
     public void setBoard(){
-
         for(int i=0; i<64;i++){
              Cell x = new Cell();
              board[i] = x;
