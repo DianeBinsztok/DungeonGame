@@ -5,7 +5,7 @@ import gear.Gear;
 public class Spell extends Gear {
 
     public Spell(String name, int stat) {
-        super("Basic spell", 5);
+        super(name, stat);
     }
 
     public String getSpellName() {

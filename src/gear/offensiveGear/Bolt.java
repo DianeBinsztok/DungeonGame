@@ -1,7 +1,7 @@
 package gear.offensiveGear;
 
 public class Bolt extends Spell{
-    public Bolt(String name, int stat) {
+    public Bolt() {
         super("Bolt", 2);
     }
 }
