@@ -1,10 +1,12 @@
 public class Game {
 
+    // board est un tableau d'instances de Cell = instancier Cell 64 fois
     private Cell[] board = new Cell[64];
 
     public void setLootAndMonsters(){
         double lootIndex = ((Math.random()*(64-1))+1);
         double monsterIndex = ((Math.random()*(64-1))+1);
+        System.out.println(lootIndex + " " + monsterIndex);
     }
 
     /**

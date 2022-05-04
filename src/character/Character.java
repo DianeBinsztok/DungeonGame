@@ -10,6 +10,17 @@ public class Character {
     private int attack;
     private int maxAttack;
 
+    /**
+     * constructor for Characters
+     * @param name
+     * @param image
+     * @param attackAsset
+     * @param defenseAsset
+     * @param lifePoints
+     * @param maxLifePoints
+     * @param attack
+     * @param maxAttack
+     */
     public Character(String name, String image, Object attackAsset, Object defenseAsset, int lifePoints, int maxLifePoints, int attack, int maxAttack) {
         this.name = name;
         this.image = image;
@@ -19,6 +30,16 @@ public class Character {
         this.maxLifePoints = maxLifePoints;
         this.attack = attack;
         this.maxAttack = maxAttack;
+    }
+
+    /**
+     * Contructor for Monsters, with fewer params
+     * @param lifePoints
+     * @param attack
+     */
+    public Character(int lifePoints, int attack){
+        this.lifePoints = lifePoints;
+        this.attack = attack;
     }
 
 
