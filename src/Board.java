@@ -11,7 +11,7 @@ public class Board {
             Cell room = new Cell();
             board[i] = room;
             String roomEvent = room.cellEvent;
-            System.out.println("room event : " + roomEvent);
+            //System.out.println("room event : " + roomEvent);
         }
     }
 }
