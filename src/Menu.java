@@ -1,4 +1,6 @@
-import character.player.*;
+import character.player.Player;
+import character.player.Warrior;
+import character.player.Wizard;
 
 import java.util.Scanner;
 
@@ -19,7 +21,6 @@ public class Menu {
         newGame.start();
 
     }
-
 
     private  void start () {
         // 1 - Création du personnage
@@ -46,16 +47,17 @@ public class Menu {
         String playersClass = classScan.next();
 
         if (playersClass.equals("Warrior")) {
-           player = new Warrior(playersName);
+            player = new Warrior(playersName);
 
 
         } else if (playersClass.equals("Wizard")) {
             player = new Wizard(playersName);
         }else{
             System.out.println("You can only choose between these types; Warrior or Wizard");
-            //setNewPlayer();
+            setNewPlayer();
         }
-        System.out.println("New Player: "+player);
+        System.out.println(player.toString());
         return player;
     }
+
 }
