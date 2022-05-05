@@ -25,14 +25,8 @@ public class Game {
         // 2 - Mise en place du donjon:
         System.out.println("2 - Mise en place du donjon");
         this.board = new Board();
-        // 3 - Diceroll
-        System.out.println("3 - Premier lancer de dés:");
-        int roll = diceRoll();
-        // 4 - Bouger en fonction du jet
-        Cell currentCell = movePlayer(roll);
-        // 5 - Event de la cellule
-        Event event = currentCell.getEvent();
-        event.launchEvent();
+        // 3 - Début de partie:
+        launchGame();
     }
 
     /**
@@ -65,22 +59,41 @@ public class Game {
         return player;
     }
 
+private void launchGame(){
+        while(this.playerPosition<64){
+            // 1 - Diceroll
+            System.out.println("3 - Lancer de dés:");
+            int roll = diceRoll();
+            // 2 - Bouger en fonction du jet
 
+            Cell currentCell = movePlayer(roll);
+            System.out.println("You arrived in the "+ this.playerPosition + "th chamber");
+
+            // 3 - Event de la cellule
+            currentCell.launchCellEvent();
+        }
+        System.out.println("Congratulations, you have survived to the dungeon");
+}
     /**
      * Throw dice
      * @return random int between 1 & 6
      */
     public int diceRoll(){
-
        int roll = (int) ((Math.random()*(6-1))+1);
-       System.out.println("Your first roll : " + roll);
+       System.out.println("Your roll : " + roll);
         return roll;
     }
 
     public Cell movePlayer(int roll){
-        playerPosition += roll;
-        Cell currentCell = board.getCell(playerPosition);
+        int newPosition = this.playerPosition += roll;
+        Cell currentCell;
+        if(newPosition<64){
+             currentCell = board.getCell(this.playerPosition);
+        }else{
+             currentCell = board.getCell(63);
+        }
         return currentCell;
+
     }
 
 

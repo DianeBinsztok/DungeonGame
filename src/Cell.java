@@ -6,8 +6,8 @@ public class Cell {
         this.event = new Event();
     }
 
-    public Event getEvent(){
-        return event;
+    public void launchCellEvent(){
+         event.launchEvent();
     }
 
 }

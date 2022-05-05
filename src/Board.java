@@ -16,7 +16,6 @@ public class Board {
         }
     }
 
-
     public Cell getCell(int position){
         return board[position];
     }

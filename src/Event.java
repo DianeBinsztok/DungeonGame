@@ -1,11 +1,8 @@
-import character.player.Player;
-
 public class Event {
 
     private String[] eventTypes = {"neutral","loot","enemy"};
 
     public void launchEvent(){
-
         switch (getEvent()) {
             case "neutral":
                 System.out.println("You entered a boring looking room");
@@ -22,10 +19,11 @@ public class Event {
     }
 
     private String getEvent(){
-        int randomI = (int) ((Math.random()*(eventTypes.length)));
-        String event = eventTypes[randomI];
+        int randomI = (int) ((Math.random()*(this.eventTypes.length)));
+        String event = this.eventTypes[randomI];
         return event;
     }
+
     public String getLoot(){
         String[] loots={"Philter", "Shield", "Hammer", "Sword", "Fireball", "Bolt", "Life Potion","Big Life Potion"};
         int randomI = (int) ((Math.random()*(loots.length)));
@@ -39,19 +37,4 @@ public class Event {
         return enemy;
     }
 
-    public void setEvent(String event) {
-        switch (event) {
-            case "neutral":
-                System.out.println("You entered a boring looking room");
-                break;
-            case "loot":
-                String loot = getLoot();
-                System.out.println("You just found a " + loot + " !");
-                break;
-            case "enemy":
-                String enemy = getEnemy();
-                System.out.println("You are facing a blood-thirsty " + enemy + " !");
-                break;
-        }
-    }
 }
