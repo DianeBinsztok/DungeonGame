@@ -18,7 +18,7 @@ public class Event {
         return enemy;
     }
 
-    public void setCell(String event) {
+    public void setEvent(String event) {
         switch (event) {
             case "neutral":
                 System.out.println("You entered a boring looking room");

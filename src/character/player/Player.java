@@ -7,3 +7,4 @@ public class Player extends Character {
         super(name, image, offensiveGear, defensiveGear, lifePoints, maxLifePoints, attack, maxAttack);
     }
 }
+
