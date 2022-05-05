@@ -1,6 +1,13 @@
 public class Cell {
 
-    public Event event = new Event();
-    public String cellEvent = event.getEvent();
+    private Event event;
+
+    public Cell(){
+        this.event = new Event();
+    }
+
+    public Event getEvent(){
+        return event;
+    }
 
 }
