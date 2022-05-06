@@ -101,6 +101,14 @@ public class Character {
         this.attack = attack;
     }
 
+    public int getMaxAttack() {
+        return maxAttack;
+    }
+
+    public void setMaxAttack(int attack) {
+        this.maxAttack = maxAttack;
+    }
+
     public void attackOpponent(int damage, Character opponent) {
         int opponentsLife = opponent.getLifePoints() - damage;
         opponent.setLifePoints(opponentsLife);

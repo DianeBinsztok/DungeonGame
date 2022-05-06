@@ -8,7 +8,6 @@ public class Menu {
         // starting new Game
         Game newGame = new Game();
         newGame.start();
-
     }
 
 }
