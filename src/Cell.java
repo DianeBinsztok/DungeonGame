@@ -35,10 +35,27 @@ public class Cell {
             case "enemy":
                 Enemy enemy = getEnemy();
                 System.out.println("You are facing a blood-thirsty " + enemy.getName() + " !");
+                // 1 - le joueur attaque l'ennemi
                 player.attackOpponent(player.getAttack(), enemy);
-                System.out.println("You are attacking the " + enemy.getName()+ ". He has " + enemy.getLifePoints()+ " life points left!");
-                enemy.attackOpponent(enemy.getAttack(), player);
-                System.out.println(enemy.getName()+ "'s counterattack! You have " + player.getLifePoints()+ " life points left!");
+                System.out.println("Attack on the " + enemy.getName());
+                if(enemy.getLifePoints()>0){
+                    System.out.println("The "+ enemy.getName()+ " has "+ enemy.getLifePoints()+" life points left");
+                }else{
+                    System.out.println("Critical! the " + enemy.getName() + " is dead");
+                }
+
+                // 2 - l'ennemi (s'il est en vie) attaque le joueur
+                if(enemy.getLifePoints()>0){
+                    enemy.attackOpponent(enemy.getAttack(), player);
+                    System.out.println(enemy.getName()+ "'s counterattack!");
+                   if(player.getLifePoints()>0){
+                       System.out.println("You have "+ player.getLifePoints()+" life points left!");
+                   }else{
+                       System.out.println("You are dead!");
+                   }
+                }
+
+
                 break;
         }
     }
