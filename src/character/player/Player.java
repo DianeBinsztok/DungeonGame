@@ -13,12 +13,13 @@ public class Player extends Character {
 
     public String toString(){
         String l = System.getProperty("line.separator");
-        return( "New player : " + l +
-                "Name : " + this.getName() + l +
-                "Class : " + this.getClass()+ l +
-                "Gear : offensive: "+this.getOffensiveGear() + ", defensive : "+this.getDefensiveGear()+ l +
-                "lifePoints : " + this.getLifePoints()+ l +
-                "attack power : " + this.getAttack()
+        return( "------------   New player :   ------------" + l +
+                "* Name : " + this.getName() + l +
+                "* Class : " + this.getClass()+ l +
+                "* Gear : offensive: "+this.getOffensiveGear() + ", defensive : "+this.getDefensiveGear()+ l +
+                "* LifePoints : " + this.getLifePoints()+ l +
+                "* Attack power : " + this.getAttack()+ l +
+                "-------------------------------------------"
         );
     }
 }

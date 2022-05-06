@@ -61,7 +61,7 @@ public class Game {
 
             // 2 - Bouger en fonction du jet
             Cell currentCell = movePlayer(roll);
-            System.out.println("You arrived in the "+ this.playerPosition + "th chamber");
+            System.out.println(" -----  You arrived in the "+ this.playerPosition + "th chamber  -----");
 
             // 3 - Event de la cellule
             currentCell.launchEvent(player);

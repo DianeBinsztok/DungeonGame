@@ -38,24 +38,24 @@ public class Cell {
                 // 1 - le joueur attaque l'ennemi
                 player.attackOpponent(player.getAttack(), enemy);
                 System.out.println("Attack on the " + enemy.getName());
+                // Décompte des dommages:
                 if(enemy.getLifePoints()>0){
-                    System.out.println("The "+ enemy.getName()+ " has "+ enemy.getLifePoints()+" life points left");
+                    System.out.println("   -> The "+ enemy.getName()+ " has "+ enemy.getLifePoints()+" life points left");
                 }else{
-                    System.out.println("Critical! the " + enemy.getName() + " is dead");
+                    System.out.println("   -> Critical! the " + enemy.getName() + " is dead");
                 }
 
                 // 2 - l'ennemi (s'il est en vie) attaque le joueur
                 if(enemy.getLifePoints()>0){
                     enemy.attackOpponent(enemy.getAttack(), player);
                     System.out.println(enemy.getName()+ "'s counterattack!");
+                    // Décompte des dommages:
                    if(player.getLifePoints()>0){
-                       System.out.println("You have "+ player.getLifePoints()+" life points left!");
+                       System.out.println("   -> You have "+ player.getLifePoints()+" life points left!");
                    }else{
-                       System.out.println("You are dead!");
+                       System.out.println("   -> You are dead!");
                    }
                 }
-
-
                 break;
         }
     }
