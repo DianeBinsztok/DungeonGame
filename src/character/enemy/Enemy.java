@@ -1,8 +1,9 @@
 package character.enemy;
 
 import character.Character;
+import character.player.Player;
 
-public class Enemy extends Character {
+public  class  Enemy extends Character {
 
     /**
      * Calling the 2nd Character constructor

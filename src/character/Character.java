@@ -2,7 +2,7 @@ package character;
 
 import gear.Gear;
 
-public class Character {
+public abstract class Character {
     private String name;
     private String image;
     private Object offensiveGear;
@@ -99,5 +99,7 @@ public class Character {
     public void setAttack(int attack) {
         this.attack = attack;
     }
+
+    public abstract void attackOpponent(int stat, Object oponent);
 
 }
