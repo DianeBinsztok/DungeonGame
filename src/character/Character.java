@@ -2,7 +2,7 @@ package character;
 
 import gear.Gear;
 
-public abstract class Character {
+public class Character {
     private String name;
     private String image;
     private Object offensiveGear;
@@ -39,7 +39,8 @@ public abstract class Character {
      * @param lifePoints
      * @param attack
      */
-    public Character(int lifePoints, int attack){
+    public Character(String name, int lifePoints, int attack){
+        this.name = name;
         this.lifePoints = lifePoints;
         this.attack = attack;
     }
@@ -100,6 +101,9 @@ public abstract class Character {
         this.attack = attack;
     }
 
-    public abstract void attackOpponent(int stat, Object oponent);
+    public void attackOpponent(int damage, Character opponent) {
+        int opponentsLife = opponent.getLifePoints() - damage;
+        opponent.setLifePoints(opponentsLife);
+    }
 
 }

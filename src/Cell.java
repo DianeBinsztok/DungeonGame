@@ -34,7 +34,9 @@ public class Cell {
                 break;
             case "enemy":
                 Enemy enemy = getEnemy();
-                System.out.println("You are facing a blood-thirsty " + enemy + " !");
+                System.out.println("You are facing a blood-thirsty " + enemy.getName() + " !");
+                player.attackOpponent(player.getAttack(), enemy);
+                System.out.println("You are attacking the " + enemy.getName()+ ". He has " + enemy.getLifePoints()+ " life points left!");
                 break;
         }
     }
