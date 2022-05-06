@@ -1,3 +1,7 @@
+import character.enemy.Dragon;
+import character.enemy.Enemy;
+import character.enemy.Goblin;
+import character.enemy.Sorcerer;
 import character.player.Player;
 import gear.Gear;
 import gear.defensiveGear.Philter;
@@ -10,17 +14,6 @@ import gear.potions.BigPotion;
 import gear.potions.StandardPotion;
 
 public class Cell {
-/*
-    private Event event;
-
-    public Cell(){
-        this.event = new Event();
-    }
-
-    public void launchCellEvent(){
-         event.launchEvent();
-    }
-*/
 
     private String[] eventTypes = {"neutral","loot","enemy"};
 
@@ -40,7 +33,7 @@ public class Cell {
                 loot.changePlayerStat(player);
                 break;
             case "enemy":
-                String enemy = getEnemy();
+                Enemy enemy = getEnemy();
                 System.out.println("You are facing a blood-thirsty " + enemy + " !");
                 break;
         }
@@ -54,10 +47,10 @@ public class Cell {
         return loot;
     }
 
-    public String getEnemy(){
-        String[] enemies={"Dragon", "Sorcerer", "Goblin"};
+    public Enemy getEnemy(){
+        Enemy[] enemies={new Dragon(), new Sorcerer(), new Goblin()};
         int randomI = (int) ((Math.random()*(enemies.length)));
-        String enemy = enemies[randomI];
+        Enemy enemy = enemies[randomI];
         return enemy;
     }
 
