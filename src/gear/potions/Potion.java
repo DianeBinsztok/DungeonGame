@@ -18,8 +18,14 @@ public class Potion extends Gear {
     }
 
     public void changePlayerStat(Player player) {
-            player.setLifePoints(player.getLifePoints() + this.getStat());
-            System.out.println("You are feeling well rested!");
-
+            int playersNewLifePoints = player.getLifePoints() + this.getStat();
+            // Limiter le gain de vie au maximum autorisé:
+            if(playersNewLifePoints<=player.getMaxLifePoints()){
+                player.setLifePoints(playersNewLifePoints);
+            }else{
+                player.setLifePoints(player.getMaxLifePoints());
+            }
+            System.out.println("Your health is now at " + player.getLifePoints()+ " lifepoints!");
     }
+
 }

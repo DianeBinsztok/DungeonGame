@@ -13,7 +13,6 @@ public class Weapon extends Gear {
     }
 
     @Override
-
     public void changePlayerStat(Player player) {
 
         if (player instanceof Warrior){
