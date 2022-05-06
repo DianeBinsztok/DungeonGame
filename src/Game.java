@@ -16,12 +16,11 @@ public class Game {
      */
     public void start () {
         // 1 - Création du personnage
-        System.out.println(" 1 - Création du personnage");
         this.player = setNewPlayer();
         // 2 - Mise en place du donjon:
-        System.out.println("2 - Mise en place du donjon");
         this.board = new Board();
         // 3 - Début de partie:
+        System.out.println("Let's go, " +player.getName()+ "! Roll your dice...");
         launchGame();
     }
 
@@ -58,7 +57,6 @@ public class Game {
     private void launchGame(){
         while(this.playerPosition<64){
             // 1 - Diceroll
-            System.out.println("3 - Lancer de dés:");
             int roll = diceRoll();
 
             // 2 - Bouger en fonction du jet

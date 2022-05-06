@@ -29,7 +29,7 @@ public class Cell {
                 break;
             case "loot":
                 Gear loot = getLoot();
-                System.out.println("You just found a " + loot + " !");
+                System.out.println("You just found a " + loot.getName() + " !");
                 loot.changePlayerStat(player);
                 break;
             case "enemy":
@@ -37,6 +37,8 @@ public class Cell {
                 System.out.println("You are facing a blood-thirsty " + enemy.getName() + " !");
                 player.attackOpponent(player.getAttack(), enemy);
                 System.out.println("You are attacking the " + enemy.getName()+ ". He has " + enemy.getLifePoints()+ " life points left!");
+                enemy.attackOpponent(enemy.getAttack(), player);
+                System.out.println(enemy.getName()+ "'s counterattack! You have " + player.getLifePoints()+ " life points left!");
                 break;
         }
     }
