@@ -1,5 +1,7 @@
 package character;
 
+import gear.Gear;
+
 public class Character {
     private String name;
     private String image;
@@ -63,7 +65,7 @@ public class Character {
         return offensiveGear;
     }
 
-    public void setOffensiveGear(Object offensiveGear) {
+    public void setOffensiveGear(Gear offensiveGear) {
         this.offensiveGear = offensiveGear;
     }
 
@@ -71,7 +73,7 @@ public class Character {
         return defensiveGear;
     }
 
-    public void setDefensiveGear(String defensiveGear) {
+    public void setDefensiveGear(Gear defensiveGear) {
         this.defensiveGear = defensiveGear;
     }
     public int getLifePoints() {

@@ -4,8 +4,8 @@ public class Board {
 
 
     /**
-     * Generate the board
-     * generate array of objects Cell;
+     * Board constructor : Generates the board
+     * generates an array of objects Cell;
      */
     public Board(){
         for(int i=0; i<64;i++){

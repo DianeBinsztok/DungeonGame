@@ -1,5 +1,7 @@
 package gear.potions;
 
+import character.player.Player;
+import character.player.Wizard;
 import gear.Gear;
 
 public class Potion extends Gear {
@@ -15,4 +17,9 @@ public class Potion extends Gear {
         return this.getStat();
     }
 
+    public void changePlayerStat(Player player) {
+            player.setLifePoints(player.getLifePoints() + this.getStat());
+            System.out.println("You are feeling well rested!");
+
+    }
 }

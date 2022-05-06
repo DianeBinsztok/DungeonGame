@@ -1,8 +1,4 @@
 import character.player.*;
-import gear.Gear;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.util.Scanner;
 
 
@@ -59,20 +55,20 @@ public class Game {
         return player;
     }
 
-private void launchGame(){
+    private void launchGame(){
         while(this.playerPosition<64){
             // 1 - Diceroll
             System.out.println("3 - Lancer de dés:");
             int roll = diceRoll();
-            // 2 - Bouger en fonction du jet
 
+            // 2 - Bouger en fonction du jet
             Cell currentCell = movePlayer(roll);
             System.out.println("You arrived in the "+ this.playerPosition + "th chamber");
 
             // 3 - Event de la cellule
-            currentCell.launchCellEvent();
+            currentCell.launchEvent(player);
         }
-        System.out.println("Congratulations, you have survived to the dungeon");
+        System.out.println("Congratulations, you have survived to the dungeon!");
 }
     /**
      * Throw dice

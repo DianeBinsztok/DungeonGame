@@ -1,6 +1,7 @@
 package gear;
+import character.player.Player;
 
-public class Gear {
+public abstract class Gear {
     private String name;
 
     private int stat;
@@ -18,4 +19,7 @@ public class Gear {
     public int getStat(){
         return this.stat;
     }
+
+    public abstract void changePlayerStat(Player player);
+
 }

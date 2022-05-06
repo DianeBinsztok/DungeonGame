@@ -7,6 +7,12 @@ public class Player extends Character {
         super(name, image, offensiveGear, defensiveGear, lifePoints, maxLifePoints, attack, maxAttack);
     }
 
+    /*
+    public int modifyStat(int targetStat, int stat){
+      return targetStat + stat;
+    }
+    */
+
     public String toString(){
         String l = System.getProperty("line.separator");
         return( "New player : " + l +
