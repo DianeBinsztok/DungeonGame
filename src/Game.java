@@ -22,7 +22,7 @@ public class Game {
         this.board = new Board();
         // 3 - Début de partie:
         System.out.println("Let's go, " +player.getName()+ "! Roll your dice...");
-        launchGame();
+        launchGame(board);
     }
 
     /**
@@ -55,8 +55,11 @@ public class Game {
         return player;
     }
 
-    private void launchGame(){
-        while((this.playerPosition<64)&&(this.player.getLifePoints()>0)){
+    /**
+     * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
+     */
+    private void launchGame(Board board){
+        while((this.playerPosition<board.getBoardLength())&&(this.player.getLifePoints()>0)){
             // 1 - Diceroll
             int roll = diceRoll();
 
@@ -69,6 +72,7 @@ public class Game {
         }
         stop(setMessage(player));
 }
+
     /**
      * Throw dice
      * @return random int between 1 & 6
@@ -79,18 +83,27 @@ public class Game {
         return roll;
     }
 
+    /**
+     * Changes player's current position, depending on player's diceroll. Set a limit at 64
+     * @param roll
+     * @return currentCell : player's new position
+     */
     public Cell movePlayer(int roll){
         int newPosition = this.playerPosition += roll;
         Cell currentCell;
-        if(newPosition<64){
+        if(newPosition<board.getBoardLength()){
              currentCell = board.getCell(this.playerPosition);
         }else{
-             currentCell = board.getCell(63);
+             currentCell = board.getCell(board.getBoardLength()-1);
         }
         return currentCell;
 
     }
 
+    /**
+     * Stop the game, displays end message
+     * @param message
+     */
     public void stop(String message){
         String l = System.getProperty("line.separator");
         System.out.println(message +l+
@@ -98,6 +111,11 @@ public class Game {
             "Type 2 to start over");
     }
 
+    /**
+     * Set a goodby message
+     * @param player
+     * @return message
+     */
     public String setMessage(Player player){
         String message="";
         if(playerPosition>=64){

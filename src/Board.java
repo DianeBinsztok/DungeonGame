@@ -2,7 +2,13 @@ public class Board {
     // board est un tableau d'instances de Cell = instancier Cell 64 fois
     private Cell[] board = new Cell[64];
 
-
+    /**
+     * getBoardLength()
+     * @return board.length : board's number of cells
+     */
+    public int getBoardLength(){
+        return board.length;
+    }
     /**
      * Board constructor : Generates the board
      * generates an array of objects Cell;
