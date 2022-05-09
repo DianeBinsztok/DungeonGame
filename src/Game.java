@@ -109,6 +109,14 @@ public class Game {
         System.out.println(message +l+
             "Type 1 to quit"+l+
             "Type 2 to start over");
+        Scanner scan = new Scanner(System.in);
+        String playersChoice = scan.next();
+        if(playersChoice.equals("1")){
+            System.out.println("Goodbye.");
+        }else{
+            playerPosition = 0;
+            start();
+        }
     }
 
     /**
