@@ -53,7 +53,7 @@ public class Cell {
                    if(player.getLifePoints()>0){
                        System.out.println("   -> You have "+ player.getLifePoints()+" life points left!");
                    }else{
-                       System.out.println("   -> You are dead!");
+                       System.out.println("   -> You have been killed by the " +enemy.getName()+ ".");
                    }
                 }
                 break;

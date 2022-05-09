@@ -7,6 +7,7 @@ public class Game {
     private int playerPosition = 0;
     private Board board;
     private Player player;
+    private String message;
 
     /**
      * start a new Game:
@@ -55,7 +56,7 @@ public class Game {
     }
 
     private void launchGame(){
-        while(this.playerPosition<64){
+        while((this.playerPosition<64)&&(this.player.getLifePoints()>0)){
             // 1 - Diceroll
             int roll = diceRoll();
 
@@ -66,7 +67,7 @@ public class Game {
             // 3 - Event de la cellule
             currentCell.launchEvent(player);
         }
-        System.out.println("Congratulations, you have survived to the dungeon!");
+        stop(setMessage(player));
 }
     /**
      * Throw dice
@@ -90,7 +91,22 @@ public class Game {
 
     }
 
+    public void stop(String message){
+        String l = System.getProperty("line.separator");
+        System.out.println(message +l+
+            "Type 1 to quit"+l+
+            "Type 2 to start over");
+    }
 
+    public String setMessage(Player player){
+        String message="";
+        if(playerPosition>=64){
+            message = ("Congratulations, "+player.getName()+", You have survived the dungeon!");
+        } else if (player.getLifePoints()<=0) {
+            message =  ("You are dead.");
+        }
+        return message;
+    }
 
     // Test du diceroll
         /*
