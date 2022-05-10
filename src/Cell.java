@@ -20,24 +20,24 @@ import gear.potions.StandardPotion;
 
 public class Cell {
 
-    // just a reminder of the number of event cases
-     String[] eventTypes={"neutral", "loot", "enemy"};
+     private Event cellEvent;
 
-    /**
-     * randomize event
-     * @return an instance of Gear or Enemy, implementing Event.
-     */
-    public Event getEvent(){
-        int randomI = (int) ((Math.random()*(this.eventTypes.length+1)));
-        Event event=getNeutral();
+     public Event getEvent(){
+         return this.cellEvent;
+     }
+
+    public void setCellEvent(){
+        int randomI = (int) ((Math.random()*(3)));
         switch (randomI) {
-            case 0: break;
-            case 1: event = getLoot();
+            case 0: this.cellEvent = getNeutral();
                     break;
-            case 2: event = getEnemy();
+            case 1: this.cellEvent = getLoot();
+                    break;
+            case 2: this.cellEvent = getEnemy();
+                    break;
+            default: this.cellEvent = getNeutral();
                     break;
         }
-        return event;
     }
 
     /**
@@ -45,7 +45,8 @@ public class Cell {
      * @param player
      */
     public void launchEvent(Player player){
-        getEvent().happen(player);
+        setCellEvent();
+        cellEvent.happen(player);
     };
 
     /**

@@ -60,19 +60,26 @@ public class Game {
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
-    private void launchGame(Board board) {
-
+    private void launchGame(Board board){
+    // L'exception est throw en aval, catch en amont (où est appelée la méthode)
             while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)){
                 // 1 - Diceroll
                 int roll = diceRoll();
 
                 // 2 - Bouger en fonction du jet
-                Cell currentCell = movePlayer(roll);
-                System.out.println(" -----  You arrived in the "+ playerPosition+ "th chamber  -----");
+                try{
+                    Cell currentCell = movePlayer(roll);
+                    System.out.println(" -----  You arrived in the "+ playerPosition+ "th chamber  -----");
 
-                // 3 - Interface.Event de la cellule
-                currentCell.launchEvent(player);
-            }        stop(setMessage(player));
+                    // 3 - Interface.Event de la cellule
+                    currentCell.launchEvent(player);
+
+                }catch(Exception e){
+                    //System.out.println("Exception : player out of board "+ e);
+                }
+
+            }
+        stop(player);
     }
 
     /**
@@ -90,30 +97,27 @@ public class Game {
      * @param roll
      * @return currentCell : player's new position
      */
-    public Cell movePlayer(int roll)  {
-        Cell currentCell = new Cell();
-        try{
+    public Cell movePlayer(int roll) throws Exception {
+        Cell currentCell;
             this.playerPosition += roll;
 
             if(this.playerPosition<board.getBoardLength()){
                 currentCell = board.getCell(this.playerPosition);
             }else{
                 this.playerPosition = board.getBoardLength();
-                currentCell = board.getCell(this.playerPosition-1);
+                currentCell = board.getCell(this.playerPosition);
+                throw new Exception("Out of board");
             }
-        }catch(Exception e){
-            System.out.println(e + ": player rolled out of board.");
-        }
         return currentCell;
     }
 
     /**
      * Stop the game, displays end message
-     * @param message
+     * @param player
      */
-    public void stop(String message){
+    public void stop(Player player){
         String l = System.getProperty("line.separator");
-        System.out.println(message +l+
+        System.out.println(setMessage(player) +l+
             "Type 1 to quit"+l+
             "Type 2 to start over");
         Scanner scan = new Scanner(System.in);
@@ -132,13 +136,12 @@ public class Game {
      * @return message
      */
     public String setMessage(Player player){
-        String message="";
-        if(playerPosition>=64){
-            message = ("Congratulations, "+player.getName()+", You have survived the dungeon!");
+        if(playerPosition>=board.getBoardLength()){
+           return  "Congratulations, "+player.getName()+", You have survived the dungeon!";
         } else if (player.getLifePoints()<=0) {
-            message =  ("You are dead.");
+            return "You are dead.";
         }
-        return message;
+        return "A problem occured";
     }
 
 }

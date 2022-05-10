@@ -110,6 +110,7 @@ public abstract class Character{
         this.maxAttack = maxAttack;
     }
 
+    // supprimer le param damage, remplacer par this.getAttack()
     public int attackOpponent(int damage, Character opponent) {
         int opponentsLife = opponent.getLifePoints() - damage;
         if(opponentsLife > 0){
