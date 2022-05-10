@@ -1,4 +1,7 @@
-import character.player.*;
+import character.player.Player;
+import character.player.Warrior;
+import character.player.Wizard;
+
 import java.util.Scanner;
 
 
@@ -58,20 +61,20 @@ public class Game {
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
-    private void launchGame(Board board){
-        while((this.playerPosition<board.getBoardLength())&&(this.player.getLifePoints()>0)){
-            // 1 - Diceroll
-            int roll = diceRoll();
+    private void launchGame(Board board) {
 
-            // 2 - Bouger en fonction du jet
-            Cell currentCell = movePlayer(roll);
-            System.out.println(" -----  You arrived in the "+ this.playerPosition + "th chamber  -----");
+            while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)){
+                // 1 - Diceroll
+                int roll = diceRoll();
 
-            // 3 - Event de la cellule
-            currentCell.launchEvent(player);
-        }
-        stop(setMessage(player));
-}
+                // 2 - Bouger en fonction du jet
+                Cell currentCell = movePlayer(roll);
+                System.out.println(" -----  You arrived in the "+ playerPosition+ "th chamber  -----");
+
+                // 3 - Interface.Event de la cellule
+                currentCell.launchEvent(player);
+            }        stop(setMessage(player));
+    }
 
     /**
      * Throw dice
@@ -88,13 +91,15 @@ public class Game {
      * @param roll
      * @return currentCell : player's new position
      */
-    public Cell movePlayer(int roll){
+    public Cell movePlayer(int roll)  {
         int newPosition = this.playerPosition += roll;
         Cell currentCell;
         if(newPosition<board.getBoardLength()){
              currentCell = board.getCell(this.playerPosition);
         }else{
-             currentCell = board.getCell(board.getBoardLength()-1);
+            currentCell = board.getCell(board.getBoardLength()-1);
+            System.out.println("Joueur hors plateau: position à "+ playerPosition);
+
         }
         return currentCell;
 

@@ -3,6 +3,8 @@ import character.enemy.Enemy;
 import character.enemy.Goblin;
 import character.enemy.Sorcerer;
 import character.player.Player;
+import events.Event;
+import events.NoEvent;
 import gear.Gear;
 import gear.defensiveGear.Philter;
 import gear.defensiveGear.Shield;
@@ -15,14 +17,36 @@ import gear.potions.StandardPotion;
 
 public class Cell {
 
-    private String[] eventTypes = {"neutral","loot","enemy"};
+    // not used: just a reminder of event cases
+    String[] eventTypes={"neutral", "loot", "enemy"};
 
-    private String getEvent(){
-        int randomI = (int) ((Math.random()*(this.eventTypes.length)));
-        return this.eventTypes[randomI];
+    /**
+     * randomize event
+     * @return an instance of Gear or Enemy, implementing Event.
+     */
+    public Event getEvent(){
+        int randomI = (int) ((Math.random()*(this.eventTypes.length+1)));
+        Event event=getNeutral();
+        switch (randomI) {
+            case 0: break;
+            case 1: event = getLoot();
+                    break;
+            case 2: event = getEnemy();
+                    break;
+        }
+        return event;
     }
 
     public void launchEvent(Player player){
+        getEvent().happen(player);
+    };
+
+/*
+    public void launchEvent(Player player){
+
+        Interface.Event event = getEvent();
+        event.happen(player);
+
         switch (getEvent()) {
             case "neutral":
                 System.out.println("You entered a boring looking room");
@@ -59,7 +83,11 @@ public class Cell {
                 break;
         }
     }
+*/
 
+    public NoEvent getNeutral(){
+        return new NoEvent();
+    }
 
     public Gear getLoot(){
         Gear[] loots={new Philter(), new Shield(), new Hammer(), new Sword(), new FireBall(), new Bolt(), new StandardPotion(),new BigPotion()};

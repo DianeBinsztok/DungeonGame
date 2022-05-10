@@ -14,7 +14,7 @@ public class Board {
      * generates an array of objects Cell;
      */
     public Board(){
-        for(int i=0; i<64;i++){
+        for(int i=0; i<this.getBoardLength();i++){
             Cell room = new Cell();
             board[i] = room;
             //String roomEvent = room.cellEvent;

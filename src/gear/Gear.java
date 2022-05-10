@@ -1,7 +1,9 @@
 package gear;
+
+import events.Event;
 import character.player.Player;
 
-public abstract class Gear {
+public abstract class Gear implements Event {
     private String name;
 
     private int stat;
@@ -20,6 +22,6 @@ public abstract class Gear {
         return this.stat;
     }
 
+// Une classe abstraite peut implémenter une interface sans implémenter ses méthodes
     public abstract void changePlayerStat(Player player);
-
 }

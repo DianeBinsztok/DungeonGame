@@ -12,7 +12,6 @@ public class Potion extends Gear {
     public String getPotionName() {
         return this.getName();
     }
-
     public int getPotionStat() {
         return this.getStat();
     }
@@ -28,4 +27,9 @@ public class Potion extends Gear {
             System.out.println("Your health is now at " + player.getLifePoints()+ " lifepoints!");
     }
 
+    @Override
+    public void happen(Player player) {
+        System.out.println("You just found a "+this.getPotionName() +"!");
+        changePlayerStat(player);
+    }
 }

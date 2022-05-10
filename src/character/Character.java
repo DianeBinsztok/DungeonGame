@@ -1,8 +1,9 @@
 package character;
 
+import events.Event;
 import gear.Gear;
 
-public class Character {
+public abstract class Character{
     private String name;
     private String image;
     private Object offensiveGear;

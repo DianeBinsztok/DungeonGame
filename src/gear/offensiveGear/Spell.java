@@ -28,4 +28,9 @@ public class Spell extends Gear {
         }
     }
 
+    @Override
+    public void happen(Player player) {
+        System.out.println("You found a "+ this.getName());
+        this.changePlayerStat(player);
+    }
 }
