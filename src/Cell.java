@@ -1,3 +1,6 @@
+/**
+ * imports
+ */
 import character.enemy.Dragon;
 import character.enemy.Enemy;
 import character.enemy.Goblin;
@@ -17,8 +20,8 @@ import gear.potions.StandardPotion;
 
 public class Cell {
 
-    // not used: just a reminder of event cases
-    String[] eventTypes={"neutral", "loot", "enemy"};
+    // just a reminder of the number of event cases
+     String[] eventTypes={"neutral", "loot", "enemy"};
 
     /**
      * randomize event
@@ -37,58 +40,26 @@ public class Cell {
         return event;
     }
 
+    /**
+     * calls event's method happen(), with the event that was selected by getEvent()
+     * @param player
+     */
     public void launchEvent(Player player){
         getEvent().happen(player);
     };
 
-/*
-    public void launchEvent(Player player){
-
-        Interface.Event event = getEvent();
-        event.happen(player);
-
-        switch (getEvent()) {
-            case "neutral":
-                System.out.println("You entered a boring looking room");
-                break;
-            case "loot":
-                Gear loot = getLoot();
-                System.out.println("You just found a " + loot.getName() + " !");
-                loot.changePlayerStat(player);
-                break;
-            case "enemy":
-                Enemy enemy = getEnemy();
-                System.out.println("You are facing a blood-thirsty " + enemy.getName() + " !");
-                // 1 - le joueur attaque l'ennemi
-                player.attackOpponent(player.getAttack(), enemy);
-                System.out.println("Attack on the " + enemy.getName());
-                // Décompte des dommages:
-                if(enemy.getLifePoints()>0){
-                    System.out.println("   -> The "+ enemy.getName()+ " has "+ enemy.getLifePoints()+" life points left");
-                }else{
-                    System.out.println("   -> Critical! the " + enemy.getName() + " is dead");
-                }
-
-                // 2 - l'ennemi (s'il est en vie) attaque le joueur
-                if(enemy.getLifePoints()>0){
-                    enemy.attackOpponent(enemy.getAttack(), player);
-                    System.out.println(enemy.getName()+ "'s counterattack!");
-                    // Décompte des dommages:
-                   if(player.getLifePoints()>0){
-                       System.out.println("   -> You have "+ player.getLifePoints()+" life points left!");
-                   }else{
-                       System.out.println("   -> You have been killed by the " +enemy.getName()+ ".");
-                   }
-                }
-                break;
-        }
-    }
-*/
-
+    /**
+     * set a neutral Event
+     * @return instance of class NoEvent
+     */
     public NoEvent getNeutral(){
         return new NoEvent();
     }
 
+    /**
+     * randomize loot event
+     * @return an instance of Gear
+     */
     public Gear getLoot(){
         Gear[] loots={new Philter(), new Shield(), new Hammer(), new Sword(), new FireBall(), new Bolt(), new StandardPotion(),new BigPotion()};
         int randomI = (int) ((Math.random()*(loots.length)));
@@ -96,6 +67,10 @@ public class Cell {
         return loot;
     }
 
+    /**
+     * randomize enemy event
+     * @return an instance of Enemy
+     */
     public Enemy getEnemy(){
         Enemy[] enemies={new Dragon(), new Sorcerer(), new Goblin()};
         int randomI = (int) ((Math.random()*(enemies.length)));

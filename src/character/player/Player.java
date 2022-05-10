@@ -15,7 +15,7 @@ public abstract class Player extends Character {
         String l = System.getProperty("line.separator");
         return( "------------   New player :   ------------" + l +
                 "* Name : " + this.getName() + l +
-                "* Class : " + this.getClass()+ l +
+                "* Class : " + this.getClass().getSimpleName()+ l +
                 "* Gear : offensive: "+this.getOffensiveGear() + ", defensive : "+this.getDefensiveGear()+ l +
                 "* LifePoints : " + this.getLifePoints()+ l +
                 "* Attack power : " + this.getAttack()+ l +

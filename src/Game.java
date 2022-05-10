@@ -10,7 +10,6 @@ public class Game {
     private int playerPosition = 0;
     private Board board;
     private Player player;
-    private String message;
 
     /**
      * start a new Game:
@@ -92,17 +91,20 @@ public class Game {
      * @return currentCell : player's new position
      */
     public Cell movePlayer(int roll)  {
-        int newPosition = this.playerPosition += roll;
-        Cell currentCell;
-        if(newPosition<board.getBoardLength()){
-             currentCell = board.getCell(this.playerPosition);
-        }else{
-            currentCell = board.getCell(board.getBoardLength()-1);
-            System.out.println("Joueur hors plateau: position à "+ playerPosition);
+        Cell currentCell = new Cell();
+        try{
+            this.playerPosition += roll;
 
+            if(this.playerPosition<board.getBoardLength()){
+                currentCell = board.getCell(this.playerPosition);
+            }else{
+                this.playerPosition = board.getBoardLength();
+                currentCell = board.getCell(this.playerPosition-1);
+            }
+        }catch(Exception e){
+            System.out.println(e + ": player rolled out of board.");
         }
         return currentCell;
-
     }
 
     /**
@@ -125,7 +127,7 @@ public class Game {
     }
 
     /**
-     * Set a goodby message
+     * Set an end message, depending on how the game ended
      * @param player
      * @return message
      */
@@ -139,15 +141,5 @@ public class Game {
         return message;
     }
 
-    // Test du diceroll
-        /*
-        Game g = new Game();
-        for (int i = 0; i < 1000; i++) {
-            int test = g.diceRoll();
-            if ((test < 1) || (test > 6)) {
-                System.out.println("Problem with the diceroll");
-            }
-        }
-       */
 }
 
