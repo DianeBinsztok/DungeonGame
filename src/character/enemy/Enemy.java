@@ -11,8 +11,8 @@ public abstract class Enemy extends Character implements Event {
      * @param lifePoints
      * @param attack
      */
-    public Enemy(String name, int lifePoints, int attack) {
-        super(name, lifePoints, attack);
+    public Enemy(String name, String type, int lifePoints, int attack) {
+        super(name, type ,lifePoints, attack);
     }
 
     @Override

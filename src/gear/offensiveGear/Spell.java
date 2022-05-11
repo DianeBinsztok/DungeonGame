@@ -4,11 +4,12 @@ import character.player.Player;
 import character.player.Wizard;
 import gear.Gear;
 
-public abstract class Spell extends Gear {
+public abstract class Spell extends OffensiveGear {
 
     public Spell(String name, int stat) {
-        super(name, stat);
+        super(name, stat, "Wizard");
     }
+
 
     public void changePlayerStat(Player player) {
 

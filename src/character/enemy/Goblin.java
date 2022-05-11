@@ -7,6 +7,6 @@ public class Goblin extends Enemy {
      *
      */
     public Goblin() {
-        super("goblin",6, 1);
+        super("goblin","Enemy", 6, 1);
     }
 }

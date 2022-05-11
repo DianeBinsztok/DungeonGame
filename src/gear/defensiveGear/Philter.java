@@ -4,18 +4,13 @@ import character.player.Player;
 import character.player.Wizard;
 import gear.Gear;
 
-public class Philter extends Gear {
+public class Philter extends DefensiveGear {
+
 
     public Philter() {
-        super("Philter", 5);
+        super("Philter", 5, "Wizard");
     }
 
-    public String getPhilterName(){
-        return this.getName();
-    }
-    public int getPhilterProtection() {
-        return this.getStat();
-    }
 
     @Override
     public void changePlayerStat(Player player) {

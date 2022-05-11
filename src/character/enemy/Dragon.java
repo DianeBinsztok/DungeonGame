@@ -8,6 +8,6 @@ public class Dragon extends Enemy {
      * Calling the 2nd Character constructor
      */
     public Dragon() {
-        super("dragon", 15, 4);
+        super("dragon", "Enemy",15, 4);
     }
 }

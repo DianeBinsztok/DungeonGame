@@ -1,6 +1,8 @@
 import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
+import gear.offensiveGear.Bolt;
+import gear.offensiveGear.OffensiveGear;
 
 import java.util.Scanner;
 
@@ -61,6 +63,8 @@ public class Game {
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
     private void launchGame(Board board){
+
+        OffensiveGear bolt = new Bolt();
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
             while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)){
                 // 1 - Diceroll

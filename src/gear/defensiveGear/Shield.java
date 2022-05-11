@@ -5,16 +5,9 @@ import character.player.Warrior;
 import character.player.Wizard;
 import gear.Gear;
 
-public class Shield extends Gear {
+public class Shield extends DefensiveGear {
     public Shield() {
-        super("Shield", 5);
-    }
-
-    public String getShieldName(){
-        return this.getName();
-    }
-    public int getShieldProtection() {
-        return this.getStat();
+        super("Shield", 5, "Warrior");
     }
 
     @Override

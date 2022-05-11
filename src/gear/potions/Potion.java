@@ -4,16 +4,9 @@ import character.player.Player;
 import character.player.Wizard;
 import gear.Gear;
 
-public class Potion extends Gear {
+public abstract class Potion extends Gear {
     public Potion(String name, int stat) {
         super(name, stat);
-    }
-
-    public String getPotionName() {
-        return this.getName();
-    }
-    public int getPotionStat() {
-        return this.getStat();
     }
 
     public void changePlayerStat(Player player) {
@@ -25,11 +18,5 @@ public class Potion extends Gear {
                 player.setLifePoints(player.getMaxLifePoints());
             }
             System.out.println("Your health is now at " + player.getLifePoints()+ " lifepoints!");
-    }
-
-    @Override
-    public void happen(Player player) {
-        System.out.println("You just found a "+this.getPotionName() +"!");
-        changePlayerStat(player);
     }
 }

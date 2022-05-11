@@ -2,13 +2,11 @@ package gear.offensiveGear;
 
 import character.player.Player;
 import character.player.Warrior;
-import character.player.Wizard;
-import gear.Gear;
 
 public abstract class Weapon extends OffensiveGear {
 
     public Weapon(String name, int stat) {
-        super(name, stat);
+        super(name, stat, "Warrior");
     }
 
     @Override
