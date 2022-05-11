@@ -4,7 +4,7 @@ import character.player.Player;
 import character.player.Wizard;
 import gear.Gear;
 
-public class Spell extends Gear {
+public abstract class Spell extends Gear {
 
     public Spell(String name, int stat) {
         super(name, stat);

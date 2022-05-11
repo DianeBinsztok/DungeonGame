@@ -5,10 +5,9 @@ import character.player.Warrior;
 import character.player.Wizard;
 import gear.Gear;
 
-public class Weapon extends Gear {
+public abstract class Weapon extends OffensiveGear {
 
     public Weapon(String name, int stat) {
-
         super(name, stat);
     }
 
@@ -31,11 +30,4 @@ public class Weapon extends Gear {
         }
     }
 
-    public String getWeaponName() {
-        return this.getName();
-    }
-
-    public int getWeaponStat() {
-        return this.getStat();
-    }
 }
