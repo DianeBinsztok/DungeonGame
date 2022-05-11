@@ -7,6 +7,8 @@ import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 import gear.potions.Potion;
 
+import java.util.Scanner;
+
 public abstract class Player extends Character {
 
 
@@ -73,27 +75,56 @@ public abstract class Player extends Character {
      * set Player's gear
      */
     public void pickDefensiveGear(DefensiveGear defensiveGear){
-        if (offensiveGear.getAuthorizedHandler().equals(this.getType())){
-            this.setDefensiveGear(defensiveGear);
-            System.out.println("Congratulations "+ this.getType()+", you gained a new "+ defensiveGear.getName() +". This will diminish your enemy's damage by "+ defensiveGear.getStat() +" points!");
-            System.out.println("Your inventory now contains a "+ this.getDefensiveGear().getName());
+        if (defensiveGear.getAuthorizedHandler().equals(this.getType())){
+            if(this.getDefensiveGear()!=null){
+                System.out.println("You already have a "+this.getDefensiveGear().getName()+" as defensive gear. Type 1 to replace it, type 2 to leave it.");
+                Scanner scan = new Scanner(System.in);
+                String playersChoice = scan.next();
+                if(playersChoice.equals("1")){
+                    this.setDefensiveGear(defensiveGear);
+                    System.out.println("Your inventory now contains a "+ this.getDefensiveGear().getName());
+                }
+            }else{
+                this.setDefensiveGear(defensiveGear);
+                System.out.println("Congratulations "+ this.getType()+", you gained a new "+ defensiveGear.getName() +". This will diminish your enemy's damage by "+ defensiveGear.getStat() +" points!");
+                }
         }else{
-            System.out.println("You are not a "+offensiveGear.getAuthorizedHandler()+"! This is useless to you.");
+            System.out.println("You are not a "+defensiveGear.getAuthorizedHandler()+"! This is useless to you.");
         }
     }
+
     public void pickOffensiveGear(OffensiveGear offensiveGear){
         if (offensiveGear.getAuthorizedHandler().equals(this.getType())){
-            int playersNewAttackStat = this.getAttack() + offensiveGear.getStat();
-            // placer la nouvelle arme dans l'inventaire
-            this.setOffensiveGear(offensiveGear);
-            // limiter la force d'attaque au maximum autorisé:
-            if(playersNewAttackStat <= this.getMaxAttack()){
-                this.setAttack(playersNewAttackStat);
+            if(this.getOffensiveGear()!=null){
+                System.out.println("You already have a "+this.getOffensiveGear().getName()+" as offensive gear. Type 1 to replace it, type 2 to leave it.");
+                Scanner scan = new Scanner(System.in);
+                String playersChoice = scan.next();
+                if(playersChoice.equals("1")){
+                    this.setOffensiveGear(offensiveGear);
+                    System.out.println("Your inventory now contains a "+ this.getOffensiveGear().getName());
+                    int playersNewAttackStat = this.getAttack() + offensiveGear.getStat();
+                    // placer la nouvelle arme dans l'inventaire
+                    this.setOffensiveGear(offensiveGear);
+                    // limiter la force d'attaque au maximum autorisé:
+                    if(playersNewAttackStat <= this.getMaxAttack()){
+                        this.setAttack(playersNewAttackStat);
+                    }else{
+                        this.setAttack(this.getMaxAttack());
+                    }
+                }
             }else{
-                this.setAttack(this.getMaxAttack());
+                int playersNewAttackStat = this.getAttack() + offensiveGear.getStat();
+                // placer la nouvelle arme dans l'inventaire
+                this.setOffensiveGear(offensiveGear);
+                // limiter la force d'attaque au maximum autorisé:
+                if(playersNewAttackStat <= this.getMaxAttack()){
+                    this.setAttack(playersNewAttackStat);
+                }else{
+                    this.setAttack(this.getMaxAttack());
+                }
+                System.out.println("Congratulations "+this.getType()+", you gained a new "+ offensiveGear.getName() +". This will increase your damages on enemies by "+ offensiveGear.getStat() +" points!");
             }
-            System.out.println("Congratulations "+this.getType()+", you gained a new "+ offensiveGear.getName() +". This will increase your damages on enemies by "+ offensiveGear.getStat() +" points!");
-            System.out.println("Your inventory now contains a "+ this.getOffensiveGear().getName());
+
         }else{
             System.out.println("You are not a "+offensiveGear.getAuthorizedHandler()+"! This is useless to you.");
         }
