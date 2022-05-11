@@ -10,8 +10,7 @@ public class Philter extends DefensiveGear {
     public Philter() {
         super("Philter", 5, "Wizard");
     }
-
-
+    /*
     @Override
     public void changePlayerStat(Player player) {
         if (player instanceof Wizard){
@@ -21,4 +20,5 @@ public class Philter extends DefensiveGear {
             System.out.println("You are not a wizard! This is useless to you.");
         }
     }
+    */
 }

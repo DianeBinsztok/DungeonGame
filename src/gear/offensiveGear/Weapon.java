@@ -8,7 +8,7 @@ public abstract class Weapon extends OffensiveGear {
     public Weapon(String name, int stat) {
         super(name, stat, "Warrior");
     }
-
+    /*
     @Override
     public void changePlayerStat(Player player) {
 
@@ -27,5 +27,6 @@ public abstract class Weapon extends OffensiveGear {
             System.out.println("You are not a Warrior! This is useless to you.");
         }
     }
+    */
 
 }

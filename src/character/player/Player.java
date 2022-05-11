@@ -5,6 +5,7 @@ import character.enemy.Enemy;
 import gear.Gear;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
+import gear.potions.Potion;
 
 public abstract class Player extends Character {
 
@@ -43,12 +44,59 @@ public abstract class Player extends Character {
         String l = System.getProperty("line.separator");
         return( "------------   New player :   ------------" + l +
                 "* Name : " + this.getName() + l +
-                "* Class : " + this.getClass().getSimpleName()+ l +
+                "* Class : " + this.getType()+ l +
                 "* Gear : offensive: "+this.getOffensiveGear() + ", defensive : "+this.getDefensiveGear()+ l +
                 "* LifePoints : " + this.getLifePoints()+ l +
                 "* Attack power : " + this.getAttack()+ l +
                 "-------------------------------------------"
         );
+    }
+
+    /**
+     * When the Player finds a potion:
+     * set player's lifePoints
+     */
+    public void drinkPotion(Potion potion){
+            int playersNewLifePoints = this.getLifePoints() + potion.getStat();
+            // Limiter le gain de vie au maximum autorisé:
+            if(playersNewLifePoints<=this.getMaxLifePoints()){
+                this.setLifePoints(playersNewLifePoints);
+            }else{
+                this.setLifePoints(this.getMaxLifePoints());
+            }
+            System.out.println("Your health is now at " + this.getLifePoints()+ " lifepoints!");
+    }
+
+    /**
+     * When the Player finds a specialised gear:
+     * check if compatible with player's type
+     * set Player's gear
+     */
+    public void pickDefensiveGear(DefensiveGear defensiveGear){
+        if (offensiveGear.getAuthorizedHandler().equals(this.getType())){
+            this.setDefensiveGear(defensiveGear);
+            System.out.println("Congratulations "+ this.getType()+", you gained a new "+ defensiveGear.getName() +". This will diminish your enemy's damage by "+ defensiveGear.getStat() +" points!");
+            System.out.println("Your inventory now contains a "+ this.getDefensiveGear().getName());
+        }else{
+            System.out.println("You are not a "+offensiveGear.getAuthorizedHandler()+"! This is useless to you.");
+        }
+    }
+    public void pickOffensiveGear(OffensiveGear offensiveGear){
+        if (offensiveGear.getAuthorizedHandler().equals(this.getType())){
+            int playersNewAttackStat = this.getAttack() + offensiveGear.getStat();
+            // placer la nouvelle arme dans l'inventaire
+            this.setOffensiveGear(offensiveGear);
+            // limiter la force d'attaque au maximum autorisé:
+            if(playersNewAttackStat <= this.getMaxAttack()){
+                this.setAttack(playersNewAttackStat);
+            }else{
+                this.setAttack(this.getMaxAttack());
+            }
+            System.out.println("Congratulations "+this.getType()+", you gained a new "+ offensiveGear.getName() +". This will increase your damages on enemies by "+ offensiveGear.getStat() +" points!");
+            System.out.println("Your inventory now contains a "+ this.getOffensiveGear().getName());
+        }else{
+            System.out.println("You are not a "+offensiveGear.getAuthorizedHandler()+"! This is useless to you.");
+        }
     }
 
     public String getImage() {

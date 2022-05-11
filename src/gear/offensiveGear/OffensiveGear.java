@@ -19,4 +19,9 @@ public abstract class OffensiveGear extends Gear {
     public void setAuthorizedHandler(String authorizedHandler) {
         this.authorizedHandler = authorizedHandler;
     }
+
+    public void happen(Player player){
+        System.out.println("You found a "+ this.getName());
+        player.pickOffensiveGear(this);
+    }
 }

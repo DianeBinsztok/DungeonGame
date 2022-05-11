@@ -11,12 +11,18 @@ public abstract class DefensiveGear extends Gear {
         super(name, stat);
         this.authorizedHandler=authorizedHandler;
     }
+
     public String getAuthorizedHandler() {
         return authorizedHandler;
     }
 
     public void setAuthorizedHandler(String authorizedHandler) {
         this.authorizedHandler = authorizedHandler;
+    }
+
+    public void happen(Player player){
+        System.out.println("You found a "+ this.getName());
+        player.pickDefensiveGear(this);
     }
 
 }

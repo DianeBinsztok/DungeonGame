@@ -9,8 +9,7 @@ public abstract class Spell extends OffensiveGear {
     public Spell(String name, int stat) {
         super(name, stat, "Wizard");
     }
-
-
+    /*
     public void changePlayerStat(Player player) {
 
         if (player instanceof Wizard){
@@ -28,4 +27,5 @@ public abstract class Spell extends OffensiveGear {
             System.out.println("You are not a wizard! This is useless to you.");
         }
     }
+    */
 }

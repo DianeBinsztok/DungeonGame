@@ -9,7 +9,7 @@ public class Shield extends DefensiveGear {
     public Shield() {
         super("Shield", 5, "Warrior");
     }
-
+/*
     @Override
     public void changePlayerStat(Player player) {
         if (player instanceof Warrior){
@@ -19,4 +19,6 @@ public class Shield extends DefensiveGear {
             System.out.println("You are not a warrior! This is useless to you.");
         }
     }
+
+ */
 }
