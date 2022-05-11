@@ -38,10 +38,4 @@ public class Weapon extends Gear {
     public int getWeaponStat() {
         return this.getStat();
     }
-
-    @Override
-    public void happen(Player player) {
-        System.out.println("You found a "+ this.getName());
-        this.changePlayerStat(player);
-    }
 }

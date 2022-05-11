@@ -27,10 +27,4 @@ public class Spell extends Gear {
             System.out.println("You are not a wizard! This is useless to you.");
         }
     }
-
-    @Override
-    public void happen(Player player) {
-        System.out.println("You found a "+ this.getName());
-        this.changePlayerStat(player);
-    }
 }
