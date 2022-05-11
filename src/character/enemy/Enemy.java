@@ -21,7 +21,7 @@ public abstract class Enemy extends Character implements Event {
         // la partie
         System.out.println("You are facing a blood-thirsty " + getName() + " !");
         // 1 - le joueur attaque l'ennemi
-        this.attackOpponent(player.getAttack(), this);
+        player.attackOpponent(this);
         System.out.println("Attack on the " + this.getName());
         // Décompte des dommages:
         if(this.getLifePoints()>0){
@@ -32,7 +32,7 @@ public abstract class Enemy extends Character implements Event {
 
         // 2 - l'ennemi (s'il est en vie) attaque le joueur
         if(this.getLifePoints()>0){
-            this.attackOpponent(this.getAttack(), player);
+            this.attackOpponent(player);
             System.out.println(this.getName()+ "'s counterattack!");
             // Décompte des dommages:
             if(player.getLifePoints()>0){
