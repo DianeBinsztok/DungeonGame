@@ -35,9 +35,4 @@ public abstract class Gear implements Event {
     //public abstract void changePlayerStat(Player player);
 
     // (Une classe abstraite peut implémenter une interface sans implémenter ses méthodes: il faudra qu'elles soient implémentées dans les sous-classes.
-    // Ici, j'implémente happen, donc pas besoin de l'override dans les sous-classes.)
-    public void happen(Player player){
-        System.out.println("You found a "+ this.getName());
-        //this.changePlayerStat(player);
-    }
 }

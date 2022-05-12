@@ -38,6 +38,21 @@ public abstract class Player extends Character {
         this.maxAttack = maxAttack;
     }
 
+    @Override
+    public int getAttack() {
+        if(this.getOffensiveGear()!=null){
+            // La puissance d'attaque du joueur s'incrémente de celle de son équipement offensif
+            int getNewAttack = super.getAttack()+this.getOffensiveGear().getStat();
+            // Limiter à la puissance max autorisée dans les props:
+            if(getNewAttack>this.getMaxAttack()){
+                getNewAttack = this.getMaxAttack();
+            }
+            return getNewAttack;
+        }else{
+            return super.getAttack();
+        }
+    }
+
     /**
      * Display player's data & stats
      * @return
@@ -71,8 +86,9 @@ public abstract class Player extends Character {
 
     /**
      * When the Player finds a specialised gear:
-     * check if compatible with player's type
-     * set Player's gear
+     * 1 - check if compatible with player's type
+     * 2 - check player's gear : leave or replace
+     * 3 - set Player's gear
      */
     public void pickDefensiveGear(DefensiveGear defensiveGear){
         if (defensiveGear.getAuthorizedHandler().equals(this.getType())){
@@ -94,41 +110,33 @@ public abstract class Player extends Character {
     }
 
     public void pickOffensiveGear(OffensiveGear offensiveGear){
+        // 1 - a : Si le joueur a la bonne classe pour manier l'arme
         if (offensiveGear.getAuthorizedHandler().equals(this.getType())){
+            // 2 - a : Si le joueur a déjà une arme
             if(this.getOffensiveGear()!=null){
                 System.out.println("You already have a "+this.getOffensiveGear().getName()+" as offensive gear. Type 1 to replace it, type 2 to leave it.");
                 Scanner scan = new Scanner(System.in);
                 String playersChoice = scan.next();
+                // 3 - Si le joueur a déjà une arme mais veut la remplacer:
                 if(playersChoice.equals("1")){
-                    this.setOffensiveGear(offensiveGear);
-                    System.out.println("Your inventory now contains a "+ this.getOffensiveGear().getName());
-                    int playersNewAttackStat = this.getAttack() + offensiveGear.getStat();
                     // placer la nouvelle arme dans l'inventaire
                     this.setOffensiveGear(offensiveGear);
-                    // limiter la force d'attaque au maximum autorisé:
-                    if(playersNewAttackStat <= this.getMaxAttack()){
-                        this.setAttack(playersNewAttackStat);
-                    }else{
-                        this.setAttack(this.getMaxAttack());
-                    }
+                    System.out.println("Your inventory now contains a "+ this.getOffensiveGear().getName());
                 }
+            // 2 - b : Si je joueur n'a pas encore  d'arme
             }else{
-                int playersNewAttackStat = this.getAttack() + offensiveGear.getStat();
                 // placer la nouvelle arme dans l'inventaire
                 this.setOffensiveGear(offensiveGear);
-                // limiter la force d'attaque au maximum autorisé:
-                if(playersNewAttackStat <= this.getMaxAttack()){
-                    this.setAttack(playersNewAttackStat);
-                }else{
-                    this.setAttack(this.getMaxAttack());
-                }
                 System.out.println("Congratulations "+this.getType()+", you gained a new "+ offensiveGear.getName() +". This will increase your damages on enemies by "+ offensiveGear.getStat() +" points!");
             }
-
+        // 1 - b : Si le joueur n'est pas de la bonne classe pour manier l'arme
         }else{
             System.out.println("You are not a "+offensiveGear.getAuthorizedHandler()+"! This is useless to you.");
         }
     }
+
+
+
 
     public String getImage() {
         return image;
