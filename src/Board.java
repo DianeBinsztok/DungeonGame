@@ -14,9 +14,13 @@ public class Board {
      * generates an array of objects Cell;
      */
     public Board(){
+        System.out.println("Initialisation de la board");
         for(int i=0; i<this.getBoardLength();i++){
-            Cell room = new Cell();
-            board[i] = room;
+            Cell cell = new Cell();
+            board[i] = cell;
+            cell.setCellEvent();
+            System.out.println("Cell's event : " + cell.getEvent());
+
             //Event roomEvent = room.cellEvent;
             //System.out.println("room event : " + roomEvent);
         }

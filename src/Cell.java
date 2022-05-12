@@ -45,7 +45,7 @@ public class Cell {
      * @param player
      */
     public void launchEvent(Player player){
-        setCellEvent();
+        //setCellEvent();
         cellEvent.happen(player);
     };
 

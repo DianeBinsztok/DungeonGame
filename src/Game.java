@@ -140,7 +140,7 @@ public class Game {
      */
     public String setMessage(Player player){
         if(playerPosition>=board.getBoardLength()){
-           return  "Congratulations, "+player.getName()+", You have survived the dungeon!";
+           return  "Congratulations "+player.getName()+", You have survived the dungeon!";
         } else if (player.getLifePoints()<=0) {
             return "You are dead.";
         }
