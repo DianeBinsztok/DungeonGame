@@ -16,6 +16,20 @@ public abstract class Enemy extends Character implements Event {
     }
 
     @Override
+    public int attackOpponent(Character opponent) {
+        int opponentsNewLifePoints = opponent.getLifePoints() - this.getAttack();
+        if(((Player) opponent).getDefensiveGear()!=null){
+            opponentsNewLifePoints += ((Player) opponent).getDefensiveGear().getStat();
+        }
+        if(opponentsNewLifePoints > 0){
+            opponent.setLifePoints(opponentsNewLifePoints);
+        }else{
+            opponent.setLifePoints(0);
+        }
+        return opponent.getLifePoints();
+    }
+
+    @Override
     public void happen(Player player) {
 
         // la partie
