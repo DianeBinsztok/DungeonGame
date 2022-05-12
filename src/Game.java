@@ -3,6 +3,8 @@ import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
+import events.NoEvent;
+import gear.Gear;
 import gear.offensiveGear.Bolt;
 import gear.offensiveGear.OffensiveGear;
 
@@ -67,23 +69,27 @@ public class Game {
     private void launchGame(Board board){
 
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
-            while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)){
+            while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)) {
                 // 1 - Diceroll
                 int roll = diceRoll();
 
                 // 2 - Bouger en fonction du jet
-                try{
+                try {
                     Cell currentCell = movePlayer(roll);
-
-                    System.out.println(" -----  You arrived in the "+ playerPosition+ "th chamber  -----");
 
                     // 3 - Interface.Event de la cellule
                     Event cellEvent = currentCell.getCellEvent();
-                    currentCell.launchEvent(player);
-                }catch(Exception e){
+
+                    announceEvent(cellEvent);
+                    if (cellEvent instanceof Enemy) {
+                        fightOrFlight(this.player, (Enemy) cellEvent);
+                    }else{
+                        currentCell.launchEvent(this.player);
+                    }
+
+                } catch (Exception e) {
                     //System.out.println("Exception : player out of board "+ e);
                 }
-
             }
         stop(player);
     }
@@ -110,7 +116,7 @@ public class Game {
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();
         if(playersChoice.equals("1")){
-            player.attackOpponent(enemy);
+            enemy.happen(player);
         }else{
             int rollback=(int) ((Math.random()*(3-1))+1);
             this.movePlayer(-rollback);
@@ -127,9 +133,12 @@ public class Game {
 
             if(this.playerPosition<board.getBoardLength()){
                 currentCell = board.getCell(this.playerPosition);
+                System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
+
             }else{
                 this.playerPosition = board.getBoardLength();
                 currentCell = board.getCell(this.playerPosition);
+                System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
                 throw new Exception("Out of board");
             }
         return currentCell;
@@ -141,7 +150,7 @@ public class Game {
      */
     public void stop(Player player){
         String l = System.getProperty("line.separator");
-        System.out.println(setMessage(player) +l+
+        System.out.println(/*setMessage(player) +l+*/
             "Type 1 to quit"+l+
             "Type 2 to start over");
         Scanner scan = new Scanner(System.in);
@@ -166,6 +175,19 @@ public class Game {
             return "You are dead.";
         }
         return "A problem occured";
+    }
+
+    public String announceEvent(Event event){
+        String message="";
+        if (event instanceof NoEvent) {
+            message = "* You enter a boring lookind room.";
+        } else if (event instanceof Gear) {
+            message = "* You found a "+ ((Gear) event).getName();
+        } else if (event instanceof Enemy) {
+            message = "* You are facing a blood-thirsty "+((Enemy) event).getName();
+        }
+        System.out.println(message);
+        return message;
     }
 
 }
