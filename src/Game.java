@@ -1,6 +1,8 @@
+import character.enemy.Enemy;
 import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
+import events.Event;
 import gear.offensiveGear.Bolt;
 import gear.offensiveGear.OffensiveGear;
 
@@ -72,11 +74,12 @@ public class Game {
                 // 2 - Bouger en fonction du jet
                 try{
                     Cell currentCell = movePlayer(roll);
+
                     System.out.println(" -----  You arrived in the "+ playerPosition+ "th chamber  -----");
 
                     // 3 - Interface.Event de la cellule
+                    Event cellEvent = currentCell.getCellEvent();
                     currentCell.launchEvent(player);
-
                 }catch(Exception e){
                     //System.out.println("Exception : player out of board "+ e);
                 }
@@ -95,6 +98,24 @@ public class Game {
         return roll;
     }
 
+    public void fightOrFlight(Player player, Enemy enemy) throws Exception {
+        String l = System.getProperty("line.separator");
+        System.out.println(
+                "------------   Fight or flight!   ------------" + l +
+                        "If you fight the "+ enemy.getName()+", he can cost you "+enemy.getAttack()+ " lifepoint(s). "+l+
+                        "If you flee, you will be set back to a previous chamber!"+l+
+                        "Type 1 to fight,"+l+
+                        "Press any other key to flee"
+        );
+        Scanner scan = new Scanner(System.in);
+        String playersChoice = scan.next();
+        if(playersChoice.equals("1")){
+            player.attackOpponent(enemy);
+        }else{
+            int rollback=(int) ((Math.random()*(3-1))+1);
+            this.movePlayer(-rollback);
+        }
+    }
     /**
      * Changes player's current position, depending on player's diceroll. Set a limit at 64
      * @param roll

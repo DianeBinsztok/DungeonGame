@@ -22,7 +22,7 @@ public class Cell {
 
      private Event cellEvent;
 
-     public Event getEvent(){
+     public Event getCellEvent(){
          return this.cellEvent;
      }
 
@@ -45,7 +45,6 @@ public class Cell {
      * @param player
      */
     public void launchEvent(Player player){
-        //setCellEvent();
         cellEvent.happen(player);
     };
 

@@ -39,6 +39,9 @@ public abstract class Player extends Character {
     }
 
     @Override
+    /**
+     * Player's getAttack() getter takes Player's offensiveGear in consideration
+     */
     public int getAttack() {
         if(this.getOffensiveGear()!=null){
             // La puissance d'attaque du joueur s'incrémente de celle de son équipement offensif
@@ -134,8 +137,6 @@ public abstract class Player extends Character {
             System.out.println("You are not a "+offensiveGear.getAuthorizedHandler()+"! This is useless to you.");
         }
     }
-
-
 
 
     public String getImage() {

@@ -19,10 +19,7 @@ public class Board {
             Cell cell = new Cell();
             board[i] = cell;
             cell.setCellEvent();
-            System.out.println("Cell's event : " + cell.getEvent());
-
-            //Event roomEvent = room.cellEvent;
-            //System.out.println("room event : " + roomEvent);
+            System.out.println("Cell's event : " + cell.getCellEvent());
         }
     }
 

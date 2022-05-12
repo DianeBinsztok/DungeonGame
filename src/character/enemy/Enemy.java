@@ -31,9 +31,9 @@ public abstract class Enemy extends Character implements Event {
 
     @Override
     public void happen(Player player) {
-
         // la partie
         System.out.println("You are facing a blood-thirsty " + getName() + " !");
+
         // 1 - le joueur attaque l'ennemi
         player.attackOpponent(this);
         System.out.println("Attack on the " + this.getName());
