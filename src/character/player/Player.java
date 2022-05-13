@@ -72,6 +72,29 @@ public abstract class Player extends Character {
         );
     }
 
+    //fightOrFlight doit retourner qqc: un statut qui déclence l'event ou une valeur négative pour le rollback
+    public boolean acceptFight(Enemy enemy) {
+        String l = System.getProperty("line.separator");
+        System.out.println(
+                "------------   Fight or flight!   ------------" + l +
+                        "If you fight the "+ enemy.getName()+", he can cost you "+enemy.getAttack()+ " lifepoint(s). "+l+
+                        "If you flee, you will be set back to a previous chamber!"+l+
+                        "Type 1 to fight,"+l+
+                        "Type 2 to flee."
+        );
+        Scanner scan = new Scanner(System.in);
+        String playersChoice = scan.next();
+        boolean accept = false;
+        if(playersChoice.equals("1")){
+           accept = true;
+        }else if(playersChoice.equals("2")){
+            accept = false;
+        }else{
+            System.out.println("You can only type 1 or 2");
+        }
+        return accept;
+    }
+
     /**
      * When the Player finds a potion:
      * set player's lifePoints

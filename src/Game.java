@@ -79,8 +79,6 @@ public class Game {
 
                     // 3 - Interface.Event de la cellule
                     Event cellEvent = currentCell.getCellEvent();
-
-                    //currentCell.launchEvent(this.player);
                     cellEvent.happen(this.player);
 
                 } catch (Exception e) {
@@ -100,25 +98,7 @@ public class Game {
         return roll;
     }
 
-    //fightOrFlight doit retourner qqc: un statut qui déclence l'event ou une valeur négative pour le rollback
-    public void fightOrFlight(Player player, Enemy enemy) throws Exception {
-        String l = System.getProperty("line.separator");
-        System.out.println(
-                "------------   Fight or flight!   ------------" + l +
-                        "If you fight the "+ enemy.getName()+", he can cost you "+enemy.getAttack()+ " lifepoint(s). "+l+
-                        "If you flee, you will be set back to a previous chamber!"+l+
-                        "Type 1 to fight,"+l+
-                        "Press any other key to flee"
-        );
-        Scanner scan = new Scanner(System.in);
-        String playersChoice = scan.next();
-        if(playersChoice.equals("1")){
-            enemy.happen(player);
-        }else{
-            int rollback=(int) ((Math.random()*(3-1))+1);
-            this.movePlayer(-rollback);
-        }
-    }
+
     /**
      * Changes player's current position, depending on player's diceroll. Set a limit at 64
      * @param roll
@@ -173,19 +153,5 @@ public class Game {
         }
         return "A problem occured";
     }
-/*
-    public String announceEvent(Event event){
-        String message="";
-        if (event instanceof NoEvent) {
-            message = "* You enter a boring lookind room.";
-        } else if (event instanceof Gear) {
-            message = "* You found a "+ ((Gear) event).getName();
-        } else if (event instanceof Enemy) {
-            message = "* You are facing a blood-thirsty "+((Enemy) event).getName();
-        }
-        System.out.println(message);
-        return message;
-    }
-*/
 }
 
