@@ -13,10 +13,10 @@ import java.util.Scanner;
 
 public class Game {
 
-    private int playerPosition = 0;
+    private int playerPosition=0;
     private Board board;
     private Player player;
-
+    private int roll;
     /**
      * start a new Game:
      * 1 - Create a new player with method netNewPlayer
@@ -70,19 +70,20 @@ public class Game {
 
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
             while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)) {
+
                 // 1 - Diceroll
-                int roll = diceRoll();
+                 diceRoll();
 
                 // 2 - Bouger en fonction du jet
                 try {
-                    Cell currentCell = movePlayer(roll);
+                    Cell currentCell = movePlayer(this.roll);
 
                     // 3 - Interface.Event de la cellule
                     Event cellEvent = currentCell.getCellEvent();
                     cellEvent.happen(this.player);
 
-                } catch (Exception e) {
-                    //System.out.println("Exception : player out of board "+ e);
+                }catch (Exception e) {
+                    System.out.println("Exception : player runs - "+ e);
                 }
             }
         stop(player);
@@ -93,9 +94,9 @@ public class Game {
      * @return random int between 1 & 6
      */
     public int diceRoll(){
-       int roll = (int) ((Math.random()*(6-1))+1);
+        int roll = (int) ((Math.random()*(6-1))+1);
        System.out.println("Your roll : " + roll);
-        return roll;
+       return roll;
     }
 
 

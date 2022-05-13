@@ -32,8 +32,7 @@ public abstract class Enemy extends Character implements Event {
     }
 
     @Override
-    public void happen(Player player) {
-        // la partie
+    public void happen (Player player) throws Exception {
         System.out.println("You are facing a blood-thirsty " + getName() + " !");
         // 1  - La décision du joueur:
         if(player.acceptFight(this)){
@@ -56,13 +55,11 @@ public abstract class Enemy extends Character implements Event {
             }
         }else{
             System.out.println("You will be set 3 rooms back");
+            // throw an exception to be caught in Game => renvoie un roll négatif
+            Exception playerRunsException = new Exception("You will be set 3 rooms back");
+            throw playerRunsException;
         }
-        // FOF doit renvoyer une info : fuite, attaque critique, attaque non-critique
-
-
-
     }
 
-    //fightOrFlight doit retourner qqc: un statut qui déclence l'event ou une valeur négative pour le rollback
 
 }

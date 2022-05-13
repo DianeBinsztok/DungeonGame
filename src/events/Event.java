@@ -4,5 +4,5 @@ import character.player.Player;
 
 
 public interface Event {
-    void happen(Player player);
+    void happen(Player player)throws Exception;
 }

@@ -51,8 +51,6 @@ public abstract class Character{
         this.attack = attack;
     }
 
-
-    // supprimer le param damage, remplacer par this.getAttack()
     public int attackOpponent(Character opponent) {
         int opponentsLife = opponent.getLifePoints() - this.getAttack();
         if(opponentsLife > 0){

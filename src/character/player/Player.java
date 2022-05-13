@@ -13,6 +13,7 @@ public abstract class Player extends Character {
 
 
     private String image;
+    private int currentPosition;
     private OffensiveGear offensiveGear;
     private DefensiveGear defensiveGear;
     private int maxLifePoints;
@@ -56,6 +57,46 @@ public abstract class Player extends Character {
         }
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public OffensiveGear getOffensiveGear() {
+        return offensiveGear;
+    }
+
+    public void setOffensiveGear(OffensiveGear offensiveGear) {
+        this.offensiveGear = offensiveGear;
+    }
+
+    public DefensiveGear getDefensiveGear() {
+        return defensiveGear;
+    }
+
+    public void setDefensiveGear(DefensiveGear defensiveGear) {
+        this.defensiveGear = defensiveGear;
+    }
+
+    public int getMaxLifePoints() {
+        return maxLifePoints;
+    }
+
+    public void setMaxLifePoints(int maxLifePoints) {
+        this.maxLifePoints = maxLifePoints;
+    }
+
+    public int getMaxAttack() {
+        return maxAttack;
+    }
+
+    public void setMaxAttack(int maxAttack) {
+        this.maxAttack = maxAttack;
+    }
+
     /**
      * Display player's data & stats
      * @return
@@ -72,7 +113,11 @@ public abstract class Player extends Character {
         );
     }
 
-    //fightOrFlight doit retourner qqc: un statut qui déclence l'event ou une valeur négative pour le rollback
+    /**
+     * When facing an enemy: fight or flight
+     * @param enemy
+     * @return true(to fight) or false(to flee).
+     */
     public boolean acceptFight(Enemy enemy) {
         String l = System.getProperty("line.separator");
         System.out.println(
@@ -86,7 +131,7 @@ public abstract class Player extends Character {
         String playersChoice = scan.next();
         boolean accept = false;
         if(playersChoice.equals("1")){
-           accept = true;
+            accept = true;
         }else if(playersChoice.equals("2")){
             accept = false;
         }else{
@@ -100,16 +145,15 @@ public abstract class Player extends Character {
      * set player's lifePoints
      */
     public void drinkPotion(Potion potion){
-            int playersNewLifePoints = this.getLifePoints() + potion.getStat();
-            // Limiter le gain de vie au maximum autorisé:
-            if(playersNewLifePoints<=this.getMaxLifePoints()){
-                this.setLifePoints(playersNewLifePoints);
-            }else{
-                this.setLifePoints(this.getMaxLifePoints());
-            }
-            System.out.println("Your health is now at " + this.getLifePoints()+ " lifepoints!");
+        int playersNewLifePoints = this.getLifePoints() + potion.getStat();
+        // Limiter le gain de vie au maximum autorisé:
+        if(playersNewLifePoints<=this.getMaxLifePoints()){
+            this.setLifePoints(playersNewLifePoints);
+        }else{
+            this.setLifePoints(this.getMaxLifePoints());
+        }
+        System.out.println("Your health is now at " + this.getLifePoints()+ " lifepoints!");
     }
-
     /**
      * When the Player finds a specialised gear:
      * 1 - check if compatible with player's type
@@ -129,12 +173,11 @@ public abstract class Player extends Character {
             }else{
                 this.setDefensiveGear(defensiveGear);
                 System.out.println("Congratulations "+ this.getType()+", you gained a new "+ defensiveGear.getName() +". This will diminish your enemy's damage by "+ defensiveGear.getStat() +" points!");
-                }
+            }
         }else{
             System.out.println("You are not a "+defensiveGear.getAuthorizedHandler()+"! This is useless to you.");
         }
     }
-
     public void pickOffensiveGear(OffensiveGear offensiveGear){
         // 1 - a : Si le joueur a la bonne classe pour manier l'arme
         if (offensiveGear.getAuthorizedHandler().equals(this.getType())){
@@ -149,52 +192,16 @@ public abstract class Player extends Character {
                     this.setOffensiveGear(offensiveGear);
                     System.out.println("Your inventory now contains a "+ this.getOffensiveGear().getName());
                 }
-            // 2 - b : Si je joueur n'a pas encore  d'arme
+                // 2 - b : Si je joueur n'a pas encore  d'arme
             }else{
                 // placer la nouvelle arme dans l'inventaire
                 this.setOffensiveGear(offensiveGear);
                 System.out.println("Congratulations "+this.getType()+", you gained a new "+ offensiveGear.getName() +". This will increase your damages on enemies by "+ offensiveGear.getStat() +" points!");
             }
-        // 1 - b : Si le joueur n'est pas de la bonne classe pour manier l'arme
+            // 1 - b : Si le joueur n'est pas de la bonne classe pour manier l'arme
         }else{
             System.out.println("You are not a "+offensiveGear.getAuthorizedHandler()+"! This is useless to you.");
         }
-    }
-
-
-    public String getImage() {
-        return image;
-    }
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    public OffensiveGear getOffensiveGear() {
-        return offensiveGear;
-    }
-    public void setOffensiveGear(OffensiveGear offensiveGear) {
-        this.offensiveGear = offensiveGear;
-    }
-
-    public DefensiveGear getDefensiveGear() {
-        return defensiveGear;
-    }
-    public void setDefensiveGear(DefensiveGear defensiveGear) {
-        this.defensiveGear = defensiveGear;
-    }
-
-    public int getMaxLifePoints() {
-        return maxLifePoints;
-    }
-    public void setMaxLifePoints(int maxLifePoints) {
-        this.maxLifePoints = maxLifePoints;
-    }
-
-    public int getMaxAttack() {
-        return maxAttack;
-    }
-    public void setMaxAttack(int maxAttack) {
-        this.maxAttack = maxAttack;
     }
 }
 
