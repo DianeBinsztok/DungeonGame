@@ -80,12 +80,8 @@ public class Game {
                     // 3 - Interface.Event de la cellule
                     Event cellEvent = currentCell.getCellEvent();
 
-                    announceEvent(cellEvent);
-                    if (cellEvent instanceof Enemy) {
-                        fightOrFlight(this.player, (Enemy) cellEvent);
-                    }else{
-                        currentCell.launchEvent(this.player);
-                    }
+                    //currentCell.launchEvent(this.player);
+                    cellEvent.happen(this.player);
 
                 } catch (Exception e) {
                     //System.out.println("Exception : player out of board "+ e);
@@ -104,6 +100,7 @@ public class Game {
         return roll;
     }
 
+    //fightOrFlight doit retourner qqc: un statut qui déclence l'event ou une valeur négative pour le rollback
     public void fightOrFlight(Player player, Enemy enemy) throws Exception {
         String l = System.getProperty("line.separator");
         System.out.println(
@@ -138,7 +135,7 @@ public class Game {
             }else{
                 this.playerPosition = board.getBoardLength();
                 currentCell = board.getCell(this.playerPosition);
-                System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
+                System.out.println(" -----  You arrived in the last chamber  -----");
                 throw new Exception("Out of board");
             }
         return currentCell;
@@ -150,7 +147,7 @@ public class Game {
      */
     public void stop(Player player){
         String l = System.getProperty("line.separator");
-        System.out.println(/*setMessage(player) +l+*/
+        System.out.println(setMessage(player) +l+
             "Type 1 to quit"+l+
             "Type 2 to start over");
         Scanner scan = new Scanner(System.in);
@@ -176,7 +173,7 @@ public class Game {
         }
         return "A problem occured";
     }
-
+/*
     public String announceEvent(Event event){
         String message="";
         if (event instanceof NoEvent) {
@@ -189,6 +186,6 @@ public class Game {
         System.out.println(message);
         return message;
     }
-
+*/
 }
 

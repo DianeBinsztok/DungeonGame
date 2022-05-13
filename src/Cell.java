@@ -44,10 +44,11 @@ public class Cell {
      * calls event's method happen(), with the event that was selected by getEvent()
      * @param player
      */
+    /*
     public void launchEvent(Player player){
         cellEvent.happen(player);
     };
-
+*/
     /**
      * set a neutral Event
      * @return instance of class NoEvent
