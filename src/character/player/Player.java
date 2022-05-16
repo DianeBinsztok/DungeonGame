@@ -13,7 +13,6 @@ public abstract class Player extends Character {
 
 
     private String image;
-    private int currentPosition;
     private OffensiveGear offensiveGear;
     private DefensiveGear defensiveGear;
     private int maxLifePoints;
