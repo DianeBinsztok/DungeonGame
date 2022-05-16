@@ -1,10 +1,7 @@
 /**
  * imports
  */
-import character.enemy.Dragon;
-import character.enemy.Enemy;
-import character.enemy.Goblin;
-import character.enemy.Sorcerer;
+import character.enemy.*;
 import character.player.Player;
 import events.Event;
 import events.NoEvent;
@@ -21,6 +18,11 @@ import gear.potions.StandardPotion;
 public class Cell {
 
     private Event cellEvent;
+
+    public void setBossEvent(){
+        this.cellEvent= new EndBoss();
+    }
+
     public Event getCellEvent(){
          return this.cellEvent;
      }

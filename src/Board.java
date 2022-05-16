@@ -15,12 +15,16 @@ public class Board {
      */
     public Board(){
         System.out.println("Initialisation de la board");
-        for(int i=0; i<this.getBoardLength();i++){
+        for(int i=0; i<this.getBoardLength()-1;i++){
             Cell cell = new Cell();
             board[i] = cell;
             cell.setCellEvent();
             System.out.println("Cell's event : " + cell.getCellEvent());
         }
+        Cell lastCell = new Cell();
+        board[this.getBoardLength()-1]= lastCell;
+        lastCell.setBossEvent();
+        System.out.println("Cell's event : " + lastCell.getCellEvent());
     }
 
     public Cell getCell(int position){

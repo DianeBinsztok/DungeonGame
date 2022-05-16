@@ -1,3 +1,4 @@
+import character.enemy.EndBoss;
 import character.enemy.Enemy;
 import character.player.Player;
 import character.player.Warrior;
@@ -66,7 +67,7 @@ public class Game {
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
-    public void launchGame(Board board){
+    public void launchGame(Board board) {
     // 3 - Début de partie:
         String l = System.getProperty("line.separator");
         System.out.println("********** NEW GAME WITH PLAYER: "+player.getName()+" **********"+l+" Let's go, " +player.getName()+ "! Roll your dice...");
@@ -88,6 +89,8 @@ public class Game {
                     System.out.println("Exception : player runs - "+ e);
                 }
             }
+
+
         stop(player);
     }
 
@@ -107,19 +110,17 @@ public class Game {
      * @param roll
      * @return currentCell : player's new position
      */
-    public Cell movePlayer(int roll) throws Exception {
+    public Cell movePlayer(int roll){
         Cell currentCell;
             this.playerPosition += roll;
 
-            if(this.playerPosition<board.getBoardLength()){
+            if(this.playerPosition<board.getBoardLength()-1){
                 currentCell = board.getCell(this.playerPosition);
                 System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
 
             }else{
-                this.playerPosition = board.getBoardLength();
-                currentCell = board.getCell(this.playerPosition);
                 System.out.println(" -----  You arrived in the last chamber  -----");
-                throw new Exception("Out of board");
+                currentCell = board.getCell(board.getBoardLength()-1);
             }
         return currentCell;
     }
