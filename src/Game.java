@@ -23,14 +23,14 @@ public class Game {
      * 2 - Generate a new Board with random events
      * 3 - First diceroll
      */
-    public void start () {
+    public Board start () {
         // 1 - Création du personnage
         this.player = setNewPlayer();
         // 2 - Mise en place du donjon:
         this.board = new Board();
-        // 3 - Début de partie:
-        System.out.println("Let's go, " +player.getName()+ "! Roll your dice...");
-        launchGame(board);
+
+       // launchGame(board);
+        return this.board;
     }
 
     /**
@@ -66,8 +66,10 @@ public class Game {
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
-    private void launchGame(Board board){
-
+    public void launchGame(Board board){
+    // 3 - Début de partie:
+        String l = System.getProperty("line.separator");
+        System.out.println("********** NEW GAME WITH PLAYER: "+player.getName()+" **********"+l+" Let's go, " +player.getName()+ "! Roll your dice...");
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
             while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)) {
 
@@ -94,7 +96,7 @@ public class Game {
      * @return random int between 1 & 6
      */
     public int diceRoll(){
-        int roll = (int) ((Math.random()*(6-1))+1);
+        this.roll = (int) ((Math.random()*(6-1))+1);
        System.out.println("Your roll : " + roll);
        return roll;
     }
@@ -137,7 +139,7 @@ public class Game {
             System.out.println("Goodbye.");
         }else{
             playerPosition = 0;
-            start();
+            launchGame(board);
         }
     }
 
