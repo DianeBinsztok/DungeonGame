@@ -31,8 +31,5 @@ public abstract class Gear implements Event {
     public void setStat(int stat) {
         this.stat = stat;
     }
-
-    //public abstract void changePlayerStat(Player player);
-
     // (Une classe abstraite peut implémenter une interface sans implémenter ses méthodes: il faudra qu'elles soient implémentées dans les sous-classes.
 }
