@@ -159,4 +159,3 @@ INSERT INTO `PlayersType` (`id`, `name`, `lifePoints`, `maxLifePoints`, `attack`
                                                                                                    (1,	'Warrior',	5,	10,	5,	10),
                                                                                                    (2,	'Wizard',	3,	6,	8,	15);
 
--- 2022-05-17 12:18:26

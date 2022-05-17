@@ -65,10 +65,6 @@ public class Game {
         return player;
     }
 
-    public Player getHeroes(){
-        // afficher le tableau des personnages disponible
-        // permettre une sélection
-    }
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
