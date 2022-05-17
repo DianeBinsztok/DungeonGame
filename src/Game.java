@@ -1,14 +1,7 @@
-import character.enemy.EndBoss;
-import character.enemy.Enemy;
 import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
-import events.NoEvent;
-import gear.Gear;
-import gear.offensiveGear.Bolt;
-import gear.offensiveGear.OffensiveGear;
-
 import java.util.Scanner;
 
 
@@ -94,6 +87,11 @@ public class Game {
 
         stop(player);
     }
+
+    /*
+    public Player getHero(){
+    }
+*/
 
     /**
      * Throw dice
