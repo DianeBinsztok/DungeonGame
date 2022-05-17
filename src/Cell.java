@@ -19,14 +19,11 @@ public class Cell {
 
     private Event cellEvent;
 
-    public void setBossEvent(){
-        this.cellEvent= new EndBoss();
-    }
+
 
     public Event getCellEvent(){
          return this.cellEvent;
      }
-
     public void setCellEvent(){
         int randomI = (int) ((Math.random()*(3)));
         switch (randomI) {
@@ -41,6 +38,9 @@ public class Cell {
         }
     }
 
+    public void setBossEvent(){
+        this.cellEvent= new EndBoss();
+    }
     // randomized Events:
     /**
      * set a neutral Event

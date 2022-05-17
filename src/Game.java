@@ -18,6 +18,7 @@ public class Game {
     private Board board;
     private Player player;
     private int roll;
+
     /**
      * start a new Game:
      * 1 - Create a new player with method netNewPlayer
@@ -64,6 +65,10 @@ public class Game {
         return player;
     }
 
+    public Player getHeroes(){
+        // afficher le tableau des personnages disponible
+        // permettre une sélection
+    }
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
@@ -103,7 +108,6 @@ public class Game {
        System.out.println("Your roll : " + roll);
        return roll;
     }
-
 
     /**
      * Changes player's current position, depending on player's diceroll. Set a limit at 64
@@ -145,7 +149,7 @@ public class Game {
     }
 
     /**
-     * Set an end message, depending on how the game ended
+     * Set the end message, depending on how the game ended
      * @param player
      * @return message
      */

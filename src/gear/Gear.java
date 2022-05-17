@@ -5,11 +5,10 @@ import character.player.Player;
 
 public abstract class Gear implements Event {
     private String name;
-
     private int stat;
 
     /**
-     * For gear that works for all player's classes (ex: potions can be picked by all players)
+     * Global constructor for Gear
      * @param name
      * @param stat
      */
