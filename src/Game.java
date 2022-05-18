@@ -89,9 +89,9 @@ public class Game {
     }
 
     /*
-    public Player getHero(){
+    public Player getHeroes(){
     }
-*/
+    */
 
     /**
      * Throw dice

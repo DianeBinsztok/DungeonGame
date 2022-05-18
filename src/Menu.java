@@ -16,7 +16,7 @@ public class Menu {
         try
         {
             DBConnection connection = new DBConnection();
-            Class.forName("com.mariadb.cj.jdbc.Driver");
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con=DriverManager.getConnection(
                     connection.getUrl(),connection.getUser(), connection.getPassword());
             // go check : https://docs.oracle.com/javase/tutorial/essential/environment/env.html#:~:text=Like%20properties%20in%20the%20Java,also%20between%20command%20line%20interpreters.
