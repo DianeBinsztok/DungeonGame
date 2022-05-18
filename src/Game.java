@@ -35,20 +35,34 @@ public class Game {
      * Diplay all Players saved in table Hero
      * @return
      */
-    public ResultSet getHeroes(){
+    public Player getHeroes(){
         Connection con = DBConnect.getConnection();
-        String query = "SELECT * FROM Hero";
+        String query = "select Hero.name, PlayersType.name as type, Hero.image, Hero.lifepoints, Hero.attack, Hero.maxLifePoints, Hero.maxAttack, Hero.offensiveGear, Hero.defensiveGear from Hero\n" +
+                "join PlayersType where PlayersType.id = Hero.playersType_id";
         ResultSet result=null;
+        Player newPlayer = null;
         try{
             Statement stmt = con.createStatement();
             result = stmt.executeQuery(query);
             result.next();
+
+            if(result.getString("type").equals("Warrior")){
+                newPlayer  = new Warrior(result.getString("name"));
+                System.out.println("new instance of Warrior: "+ newPlayer);
+            } else if (result.getString("type").equals("Wizard")) {
+                newPlayer = new Wizard(result.getString("name"));
+                System.out.println("new instance of Wizard: "+ newPlayer);
+            }else{
+                Exception unknownTypeException = new Exception();
+                System.out.println("A problem occurred with player's type : "+ unknownTypeException);
+            }
+
             System.out.println("Query results : "+result.getString("name"));
 
         }catch(Exception e){
-            System.out.println("A problem occured : "+ e);
+            System.out.println("A problem occurred : "+ e);
         }
-        return result;
+        return newPlayer;
     }
 
     /**

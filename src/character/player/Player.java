@@ -2,7 +2,6 @@ package character.player;
 
 import character.Character;
 import character.enemy.Enemy;
-import gear.Gear;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 import gear.potions.Potion;
@@ -21,6 +20,7 @@ public abstract class Player extends Character {
     /**
      * constructor for Playing Characters
      * @param name
+     * @param type
      * @param image
      * @param offensiveGear
      * @param defensiveGear
@@ -29,13 +29,13 @@ public abstract class Player extends Character {
      * @param attack
      * @param maxAttack
      */
-    public Player(String name, String type, String image, OffensiveGear offensiveGear, DefensiveGear defensiveGear, int lifePoints, int maxLifePoints, int attack, int maxAttack) {
+    public Player(String name, String type, String image, int lifePoints, int maxLifePoints, int attack, int maxAttack, OffensiveGear offensiveGear, DefensiveGear defensiveGear) {
         super(name, type, lifePoints, attack);
         this.image = image;
-        this.offensiveGear = offensiveGear;
-        this.defensiveGear = defensiveGear;
         this.maxLifePoints = maxLifePoints;
         this.maxAttack = maxAttack;
+        this.offensiveGear = offensiveGear;
+        this.defensiveGear = defensiveGear;
     }
 
     @Override
