@@ -1,8 +1,3 @@
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
 public class Menu {
 
     /**
@@ -12,23 +7,7 @@ public class Menu {
      * @param args
      */
     public static void main(String[] args) {
-        // tester la connexion à la BDD:
-        try
-        {
-            DBConnection connection = new DBConnection();
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con=DriverManager.getConnection(
-                    connection.getUrl(),connection.getUser(), connection.getPassword());
-            // go check : https://docs.oracle.com/javase/tutorial/essential/environment/env.html#:~:text=Like%20properties%20in%20the%20Java,also%20between%20command%20line%20interpreters.
 
-            Statement stmt=con.createStatement();
-            ResultSet rs=stmt.executeQuery("show databases;");
-            System.out.println("Connected");
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
 
         // starting new Game
         Game newGame = new Game();

@@ -2,6 +2,9 @@ import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Scanner;
 
 
@@ -20,12 +23,32 @@ public class Game {
      */
     public Board start () {
         // 1 - Création du personnage
+        getHeroes();
         this.player = setNewPlayer();
         // 2 - Mise en place du donjon:
         this.board = new Board();
-
-       // launchGame(board);
+        launchGame(board);
         return this.board;
+    }
+
+    /**
+     * Diplay all Players saved in table Hero
+     * @return
+     */
+    public ResultSet getHeroes(){
+        Connection con = DBConnect.getConnection();
+        String query = "SELECT * FROM Hero";
+        ResultSet result=null;
+        try{
+            Statement stmt = con.createStatement();
+            result = stmt.executeQuery(query);
+            result.next();
+            System.out.println("Query results : "+result.getString("name"));
+
+        }catch(Exception e){
+            System.out.println("A problem occured : "+ e);
+        }
+        return result;
     }
 
     /**
@@ -87,11 +110,6 @@ public class Game {
 
         stop(player);
     }
-
-    /*
-    public Player getHeroes(){
-    }
-    */
 
     /**
      * Throw dice
