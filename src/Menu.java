@@ -15,9 +15,10 @@ public class Menu {
         // tester la connexion à la BDD:
         try
         {
-            Class.forName("com.mysql.jdbc.Driver");
+            DBConnection connection = new DBConnection();
+            Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con=DriverManager.getConnection(
-                    "jdbc:sgbd://localhost:port/bdName","username","password4thisDB");
+                    connection.getUrl(),connection.getUser(), connection.getPassword());
             // go check : https://docs.oracle.com/javase/tutorial/essential/environment/env.html#:~:text=Like%20properties%20in%20the%20Java,also%20between%20command%20line%20interpreters.
 
             Statement stmt=con.createStatement();
