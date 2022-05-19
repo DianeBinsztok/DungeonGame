@@ -5,23 +5,19 @@ import character.player.Wizard;
 import gear.Gear;
 
 public abstract class Potion extends Gear {
+    /**
+     * Potions use the global constructor for Gear : potions can be picked by all player types
+     * @param name
+     * @param stat
+     */
     public Potion(String name, int stat) {
         super(name, stat);
     }
 
-    /*
-    public void changePlayerStat(Player player) {
-            int playersNewLifePoints = player.getLifePoints() + this.getStat();
-            // Limiter le gain de vie au maximum autorisé:
-            if(playersNewLifePoints<=player.getMaxLifePoints()){
-                player.setLifePoints(playersNewLifePoints);
-            }else{
-                player.setLifePoints(player.getMaxLifePoints());
-            }
-            System.out.println("Your health is now at " + player.getLifePoints()+ " lifepoints!");
-    }
+    /**
+     * Overriding interface Event's method happen(): When the player finds a potion, he/she drinks it
+     * @param player
      */
-
     public void happen(Player player){
         System.out.println("You found a "+ this.getName());
         player.drinkPotion(this);

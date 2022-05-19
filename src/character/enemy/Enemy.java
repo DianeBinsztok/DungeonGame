@@ -18,6 +18,11 @@ public abstract class Enemy extends Character implements Event {
     }
 
     @Override
+    /**
+     * Overriding Character's method attackOpponent()
+     * the opponent is cast as a Player
+     * considers the player's defensiveGear to limit the damage
+     */
     public int attackOpponent(Character opponent) {
         int opponentsNewLifePoints = opponent.getLifePoints() - this.getAttack();
         if(((Player) opponent).getDefensiveGear()!=null){
@@ -32,6 +37,13 @@ public abstract class Enemy extends Character implements Event {
     }
 
     @Override
+    /**
+     * Overriding interface Event's method happen():
+     * when the event in an Enemy :
+     * - call player's method acceptFight();
+     * - If the player accepts the fight, call attackOpponent() for Player, then Enemy
+     * - If the player refuses the fight, throw an exception
+     */
     public void happen (Player player) throws Exception {
         System.out.println("You are facing a blood-thirsty " + getName() + " !");
         // 1  - La décision du joueur:

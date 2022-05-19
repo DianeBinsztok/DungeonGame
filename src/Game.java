@@ -1,15 +1,19 @@
-import character.enemy.EndBoss;
-import character.enemy.Enemy;
 import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
-import events.NoEvent;
-import gear.Gear;
-import gear.offensiveGear.Bolt;
+import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.Scanner;
+
+import static java.lang.Class.forName;
 
 
 public class Game {
@@ -18,6 +22,7 @@ public class Game {
     private Board board;
     private Player player;
     private int roll;
+
     /**
      * start a new Game:
      * 1 - Create a new player with method netNewPlayer
@@ -26,11 +31,13 @@ public class Game {
      */
     public Board start () {
         // 1 - Création du personnage
-        this.player = setNewPlayer();
+
+        //this.player = setNewPlayer();
+        this.player = getHeroes();
+
         // 2 - Mise en place du donjon:
         this.board = new Board();
-
-       // launchGame(board);
+        launchGame(board);
         return this.board;
     }
 
@@ -52,16 +59,138 @@ public class Game {
 
         if (playersClass.equals("Warrior")) {
             player = new Warrior(playersName);
-
-
         } else if (playersClass.equals("Wizard")) {
             player = new Wizard(playersName);
         }else{
-            System.out.println("You can only choose between these types; Warrior or Wizard");
+            System.out.println("You can only choose between these types: Warrior or Wizard");
             setNewPlayer();
         }
         System.out.println(player);
         return player;
+    }
+
+    /**
+     * Diplay all Players saved in table Hero
+     * @return
+     */
+    public Player getHeroes(){
+        Connection con = DBConnect.getConnection();
+        String query = "select Hero .id, Hero.name, PlayersType.name as type, Hero.image, Hero.lifepoints, Hero.attack, Hero.maxLifePoints, Hero.maxAttack, Hero.offensiveGear, Hero.defensiveGear from Hero\n" +
+                "join PlayersType where PlayersType.id = Hero.playersType_id";
+        ResultSet result=null;
+        Player newPlayer = null;
+        try{
+            Statement stmt = con.createStatement();
+            result = stmt.executeQuery(query);
+            System.out.println("Enter player's id number to select your player: ");
+            while(result.next()){
+                String l = System.getProperty("line.separator");
+                System.out.println(
+                        "--------------- player " +result.getInt("id")+": -----------------------" + l +
+                        "Name : " + result.getString("name")+ l +
+                        "Class : " + result.getString("type")+ l +
+                        "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
+                        "LifePoints : " + result.getInt("lifepoints")+ l +
+                        "Attack power : " + result.getInt("attack")+ l +
+                        "--------------------------------------------------"
+                );
+            };
+        }catch(Exception e){
+            System.out.println("A problem occurred in the search for players list: "+ e);
+        }
+        selectPlayer();
+        return newPlayer;
+    }
+
+    /**
+     * Player selects a character from DB
+     * returns an instance of the selected player
+     */
+    public Player selectPlayer(){
+        Player newPlayer = null;
+        try{
+            // demander l'id du perso
+            Scanner playerIdScan = new Scanner(System.in);
+            String selectedPlayerId = playerIdScan.next();
+            // Connexion à la bdd
+            Connection con = DBConnect.getConnection();
+            // Requête préparée
+            String query = "select Hero.id, Hero.name, PlayersType.name as type, Hero.image, Hero.lifepoints, Hero.attack, Hero.maxLifePoints, Hero.maxAttack, Hero.offensiveGear, Hero.defensiveGear from Hero \n" +
+                    "join PlayersType where PlayersType.id = Hero.playersType_id and Hero.id = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            // Insérer la valeur dans la query
+            stmt.setString(1, selectedPlayerId);
+            // Exécuter la query
+            ResultSet result=null;
+            result = stmt.executeQuery();
+            // Afficher le perso sélectionné
+            if(result.next()){
+
+                String l = System.getProperty("line.separator");
+                System.out.println(
+                        "--------------- selected player: " + result.getString("name")+ "-----------------------" + l +
+                                "Class : " + result.getString("type")+ l +
+                                "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
+                                "LifePoints : " + result.getInt("lifepoints")+ l +
+                                "Attack power : " + result.getInt("attack")+ l +
+                                "--------------------------------------------------"
+                );
+                // Vérifier en amont si le perso a du matériel puis, le passer en arg ds le contructeur du perso
+                // ou initialiser à null et ajouter le gear avec les setters
+                // Vérifier le type du perso pour instancier la bonne classe
+                Class selectedPlayersClass = forName( "character.player."+result.getString("type"));
+                // Aller chercher le contructeur de la classe correspondante
+                Constructor cons= selectedPlayersClass.getConstructor(String.class, String.class, String.class, int.class, int.class, int.class, int.class, OffensiveGear.class, DefensiveGear.class);
+                // NewPlayer Appelle le contructeur pour instancier la classe
+                newPlayer = (Player) cons.newInstance(result.getString("name"), result.getString("type"), result.getString("image"), result.getInt("lifepoints"), result.getInt("attack"), result.getInt("maxLifePoints"), result.getInt("maxAttack"), checkIfOffensiveGear(result.getString("offensiveGear")), checkIfDefensiveGear(result.getString("defensiveGear")));
+                System.out.println("Welcome back, " + newPlayer.getName()+". Let's play!" );
+            };
+        }catch (Exception e){
+            System.out.println("A problem occurred when selecting the character: "+ e);
+        }
+        return newPlayer;
+    }
+
+    /**
+     * Check if selected player has offensive gear and create instance of the matching class of offensivegear
+     * @param gearname
+     * @return
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
+    public OffensiveGear checkIfOffensiveGear(String gearname) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        OffensiveGear playersGear = null;
+        if (gearname!=null){
+            Class selectedGearsClass = forName("gear.offensiveGear."+gearname);
+            // Aller chercher le contructeur de la classe correspondante
+            Constructor cons= selectedGearsClass.getConstructor();
+            playersGear = (OffensiveGear) cons.newInstance();
+        }
+        return playersGear;
+    }
+
+    /**
+     * Check if selected player has defensive gear and create instance of the matching class of defensivegear
+     * @param gearname
+     * @return
+     * @throws ClassNotFoundException
+     * @throws NoSuchMethodException
+     * @throws InvocationTargetException
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
+    public DefensiveGear checkIfDefensiveGear(String gearname) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        DefensiveGear playersGear = null;
+        if (gearname!=null){
+            Class selectedGearsClass = forName("gear.defensiveGear."+gearname);
+            // Aller chercher le contructeur de la classe correspondante
+            Constructor cons= selectedGearsClass.getConstructor();
+            playersGear = (DefensiveGear) cons.newInstance();
+        }
+        return playersGear;
     }
 
     /**
@@ -89,8 +218,6 @@ public class Game {
                     System.out.println("Exception : player runs - "+ e);
                 }
             }
-
-
         stop(player);
     }
 
@@ -103,7 +230,6 @@ public class Game {
        System.out.println("Your roll : " + roll);
        return roll;
     }
-
 
     /**
      * Changes player's current position, depending on player's diceroll. Set a limit at 64
@@ -145,7 +271,7 @@ public class Game {
     }
 
     /**
-     * Set an end message, depending on how the game ended
+     * Set the end message, depending on how the game ended
      * @param player
      * @return message
      */

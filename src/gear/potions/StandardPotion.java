@@ -7,3 +7,4 @@ public class StandardPotion extends Potion {
         super("Life Potion", 2);
     }
 }
+

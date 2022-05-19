@@ -8,7 +8,7 @@ public class EndBoss extends Enemy{
      * Calling the Enemy constructor
      */
     public EndBoss() {
-        super("Robert, the Very Bad One", "Enemy", 20, 5);
+        super("Robert, the Very Bad One", "Boss", 20, 5);
     }
 
     @Override

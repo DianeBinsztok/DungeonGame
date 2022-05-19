@@ -51,6 +51,12 @@ public abstract class Character{
         this.attack = attack;
     }
 
+    /**
+     * Attack tho opponent : resets opponent's lifepoints with a limit of zero
+     * Works for a player attacking an enemy and the other way: the method will be overridden to cast the opponent as a player or an enemy
+     * @param opponent
+     * @return
+     */
     public int attackOpponent(Character opponent) {
         int opponentsLife = opponent.getLifePoints() - this.getAttack();
         if(opponentsLife > 0){
