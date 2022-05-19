@@ -4,6 +4,7 @@ import character.player.Wizard;
 import events.Event;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -70,16 +71,22 @@ public class Game {
      * returns an instance of the selected player
      */
     public void selectPlayer(){
-        Scanner playerIdScan = new Scanner(System.in);
-        String selectedPlayerId = playerIdScan.next();
-        Connection con = DBConnect.getConnection();
-        String query = "select Hero.id, Hero.name, PlayersType.name as type, Hero.image, Hero.lifepoints, Hero.attack, Hero.maxLifePoints, Hero.maxAttack, Hero.offensiveGear, Hero.defensiveGear from Hero \n" +
-                "join PlayersType where PlayersType.id = Hero.playersType_id and Hero.id ="+selectedPlayerId;
-        ResultSet result=null;
-        Player newPlayer = null;
         try{
-            Statement stmt = con.createStatement();
-            result = stmt.executeQuery(query);
+            // demander l'id du perso
+            Scanner playerIdScan = new Scanner(System.in);
+            String selectedPlayerId = playerIdScan.next();
+            // Connexion à la bdd
+            Connection con = DBConnect.getConnection();
+            // Requête préparée
+            String query = "select Hero.id, Hero.name, PlayersType.name as type, Hero.image, Hero.lifepoints, Hero.attack, Hero.maxLifePoints, Hero.maxAttack, Hero.offensiveGear, Hero.defensiveGear from Hero \n" +
+                    "join PlayersType where PlayersType.id = Hero.playersType_id and Hero.id = ?";
+            PreparedStatement stmt = con.prepareStatement(query);
+            // Insérer la valeur dans la query
+            stmt.setString(1, selectedPlayerId);
+            // Exécuter la query
+            ResultSet result=null;
+            result = stmt.executeQuery();
+            // Afficher le perso sélectionné
             if(result.next()){
                 String l = System.getProperty("line.separator");
                 System.out.println(
