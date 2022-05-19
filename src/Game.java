@@ -2,6 +2,7 @@ import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -37,28 +38,25 @@ public class Game {
      */
     public Player getHeroes(){
         Connection con = DBConnect.getConnection();
-        String query = "select Hero.name, PlayersType.name as type, Hero.image, Hero.lifepoints, Hero.attack, Hero.maxLifePoints, Hero.maxAttack, Hero.offensiveGear, Hero.defensiveGear from Hero\n" +
+        String query = "select Hero .id, Hero.name, PlayersType.name as type, Hero.image, Hero.lifepoints, Hero.attack, Hero.maxLifePoints, Hero.maxAttack, Hero.offensiveGear, Hero.defensiveGear from Hero\n" +
                 "join PlayersType where PlayersType.id = Hero.playersType_id";
         ResultSet result=null;
         Player newPlayer = null;
         try{
             Statement stmt = con.createStatement();
             result = stmt.executeQuery(query);
-            result.next();
 
-            if(result.getString("type").equals("Warrior")){
-                newPlayer  = new Warrior(result.getString("name"));
-                System.out.println("new instance of Warrior: "+ newPlayer);
-            } else if (result.getString("type").equals("Wizard")) {
-                newPlayer = new Wizard(result.getString("name"));
-                System.out.println("new instance of Wizard: "+ newPlayer);
-            }else{
-                Exception unknownTypeException = new Exception();
-                System.out.println("A problem occurred with player's type : "+ unknownTypeException);
-            }
-
-            System.out.println("Query results : "+result.getString("name"));
-
+            while(result.next()){
+                String l = System.getProperty("line.separator");
+                System.out.println( "--------------- player " +result.getInt("id")+": -----------------------" + l +
+                        "Name : " + result.getString("name")+ l +
+                        "Class : " + result.getString("type")+ l +
+                        "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
+                        "LifePoints : " + result.getInt("lifepoints")+ l +
+                        "Attack power : " + result.getInt("attack")+ l +
+                        "--------------------------------------------------"
+                );
+            };
         }catch(Exception e){
             System.out.println("A problem occurred : "+ e);
         }
@@ -83,12 +81,10 @@ public class Game {
 
         if (playersClass.equals("Warrior")) {
             player = new Warrior(playersName);
-
-
         } else if (playersClass.equals("Wizard")) {
             player = new Wizard(playersName);
         }else{
-            System.out.println("You can only choose between these types; Warrior or Wizard");
+            System.out.println("You can only choose between these types: Warrior or Wizard");
             setNewPlayer();
         }
         System.out.println(player);

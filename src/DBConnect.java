@@ -30,6 +30,7 @@ public class DBConnect {
         try
         {
             DBConnectionVariables connection = new DBConnectionVariables();
+            //
             Class.forName("com.mysql.cj.jdbc.Driver");
             con= DriverManager.getConnection(
                     connection.getUrl(),connection.getUser(), connection.getPassword());
