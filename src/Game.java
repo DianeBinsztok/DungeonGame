@@ -45,10 +45,11 @@ public class Game {
         try{
             Statement stmt = con.createStatement();
             result = stmt.executeQuery(query);
-
+            System.out.println("Enter player's id number to select your player: ");
             while(result.next()){
                 String l = System.getProperty("line.separator");
-                System.out.println( "--------------- player " +result.getInt("id")+": -----------------------" + l +
+                System.out.println(
+                        "--------------- player " +result.getInt("id")+": -----------------------" + l +
                         "Name : " + result.getString("name")+ l +
                         "Class : " + result.getString("type")+ l +
                         "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
@@ -58,9 +59,43 @@ public class Game {
                 );
             };
         }catch(Exception e){
-            System.out.println("A problem occurred : "+ e);
+            System.out.println("A problem occurred in the search for players list: "+ e);
         }
+        selectPlayer();
         return newPlayer;
+    }
+
+    /**
+     * Player selects a character from DB
+     * returns an instance of the selected player
+     */
+    public void selectPlayer(){
+        Scanner playerIdScan = new Scanner(System.in);
+        String selectedPlayerId = playerIdScan.next();
+        Connection con = DBConnect.getConnection();
+        String query = "select Hero.id, Hero.name, PlayersType.name as type, Hero.image, Hero.lifepoints, Hero.attack, Hero.maxLifePoints, Hero.maxAttack, Hero.offensiveGear, Hero.defensiveGear from Hero \n" +
+                "join PlayersType where PlayersType.id = Hero.playersType_id and Hero.id ="+selectedPlayerId;
+        ResultSet result=null;
+        Player newPlayer = null;
+        try{
+            Statement stmt = con.createStatement();
+            result = stmt.executeQuery(query);
+            if(result.next()){
+                String l = System.getProperty("line.separator");
+                System.out.println(
+                        "--------------- selected player: -----------------------" + l +
+                                "Name : " + result.getString("name")+ l +
+                                "Class : " + result.getString("type")+ l +
+                                "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
+                                "LifePoints : " + result.getInt("lifepoints")+ l +
+                                "Attack power : " + result.getInt("attack")+ l +
+                                "--------------------------------------------------"
+                );
+            };
+        }catch (Exception e){
+            System.out.println("A problem occurred when selecting the character: "+ e);
+        }
+
     }
 
     /**
