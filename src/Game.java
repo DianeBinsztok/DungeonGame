@@ -94,11 +94,12 @@ public class Game {
                         "Attack power : " + result.getInt("attack")+ l +
                         "--------------------------------------------------"
                 );
+
             };
         }catch(Exception e){
             System.out.println("A problem occurred in the search for players list: "+ e);
         }
-        selectPlayer();
+        newPlayer = selectPlayer();
         return newPlayer;
     }
 
