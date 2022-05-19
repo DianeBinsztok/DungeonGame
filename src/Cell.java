@@ -1,8 +1,8 @@
 /**
  * imports
  */
+
 import character.enemy.*;
-import character.player.Player;
 import events.Event;
 import events.NoEvent;
 import gear.Gear;
@@ -18,8 +18,6 @@ import gear.potions.StandardPotion;
 public class Cell {
 
     private Event cellEvent;
-
-
 
     public Event getCellEvent(){
          return this.cellEvent;
