@@ -10,7 +10,7 @@ public class Warrior extends Player {
      * @param name
      */
     public Warrior(String name) {
-        super(name, "Warrior", "Warrior", 5, 10, 5, 10, null, null);
+        super(name, "Warrior", "http://image-of-Warrior", 5, 10, 5, 10, null, null);
     }
 
     /**

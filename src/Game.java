@@ -32,8 +32,8 @@ public class Game {
     public Board start () {
         // 1 - Création du personnage
 
-        //this.player = setNewPlayer();
-        this.player = getHeroes();
+        this.player = setNewPlayer();
+        //this.player = getHeroes();
 
         // 2 - Mise en place du donjon:
         this.board = new Board();
@@ -66,6 +66,7 @@ public class Game {
             setNewPlayer();
         }
         System.out.println(player);
+        savePlayer(player);
         return player;
     }
 
@@ -126,7 +127,6 @@ public class Game {
             result = stmt.executeQuery();
             // Afficher le perso sélectionné
             if(result.next()){
-
                 String l = System.getProperty("line.separator");
                 System.out.println(
                         "--------------- selected player: " + result.getString("name")+ "-----------------------" + l +
@@ -192,6 +192,41 @@ public class Game {
             playersGear = (DefensiveGear) cons.newInstance();
         }
         return playersGear;
+    }
+
+    /**
+     * Save player in database
+     */
+    public void savePlayer(Player player){
+        try{
+            Connection con = DBConnect.getConnection();
+            String query = "insert into Hero (name, image, lifepoints, attack, maxLifePoints, maxAttack, offensiveGear, defensiveGear, playersType_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement stmt = con.prepareStatement(query);
+            // Insérer la valeur dans la query
+            stmt.setString(1, player.getName());
+            stmt.setString(2, player.getImage());
+            stmt.setInt(3, player.getLifePoints());
+            stmt.setInt(4, player.getAttack());
+            stmt.setInt(5, player.getMaxLifePoints());
+            stmt.setInt(6, player.getMaxAttack());
+            stmt.setObject(7, player.getOffensiveGear());
+            stmt.setObject(8, player.getDefensiveGear());
+            if(player.getType() == "Warrior"){
+                stmt.setInt(9, 1);
+            } else if (player.getType() == "Wizard") {
+                stmt.setInt(9, 2);
+            }else{
+                System.out.println("A problem occurred with your character's class");
+            }
+            // Exécuter la query
+            int result=0;
+            result = stmt.executeUpdate();
+            if(result != 0){
+                System.out.println("Your "+player.getType()+" "+player.getName()+" has been successfully saved. ");
+            }
+        }catch(Exception e){
+            System.out.println("A problem occurred : your player could not be saved - "+ e);
+        }
     }
 
     /**

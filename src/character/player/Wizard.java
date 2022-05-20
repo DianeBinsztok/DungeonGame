@@ -10,7 +10,7 @@ public class Wizard extends Player {
      * @param name
      */
     public Wizard(String name) {
-        super(name, "Wizard", "Wizard", 3, 8, 6, 15, null, null);
+        super(name, "Wizard", "http://image-of-Wizard", 3, 8, 6, 15, null, null);
     }
 
     /**
