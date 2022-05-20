@@ -32,13 +32,31 @@ public class Game {
     public Board start () {
         // 1 - Création du personnage
 
-        this.player = setNewPlayer();
-        //this.player = getHeroes();
-
+        this.player = setPlayer();
         // 2 - Mise en place du donjon:
         this.board = new Board();
         launchGame(board);
         return this.board;
+    }
+
+    private Player setPlayer(){
+        Player player = null;
+        Scanner nameScan = new Scanner(System.in);
+        String l = System.getProperty("line.separator");
+        System.out.println(
+                "Welcome in the dungeon. Who are you? "+l+
+                "[1] -> create a new character"+l+
+                "[2] -> pick a character from saved players"
+                );
+        String choice = nameScan.next();
+        if(choice.equals("1")){
+            player = setNewPlayer();
+        }else if(choice.equals("2")){
+            player = getHeroes();
+        }else{
+            System.out.println("Your answer can only be 1 or 2 !");
+        }
+        return player;
     }
 
     /**
@@ -50,7 +68,7 @@ public class Game {
         Player player=null;
 
         Scanner nameScan = new Scanner(System.in);
-        System.out.println("Welcome in the dungeon. What is your name? ");
+        System.out.println("Welcome stranger. What is your name? ");
         String playersName = nameScan.next();
 
         Scanner classScan = new Scanner(System.in);
@@ -66,7 +84,7 @@ public class Game {
             setNewPlayer();
         }
         System.out.println(player);
-        savePlayer(player);
+        //savePlayer(player);
         return player;
     }
 
@@ -196,6 +214,7 @@ public class Game {
 
     /**
      * Save player in database
+     * @param player
      */
     public void savePlayer(Player player){
         try{
