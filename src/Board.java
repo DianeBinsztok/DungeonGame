@@ -9,7 +9,7 @@ public class Board {
      */
     public Board(){
         System.out.println("Initialisation de la board");
-        for(int i=0; i<this.getBoardLength()-1;i++){
+        for(int i=0; i<this.getBoardLength();i++){
             Cell cell = new Cell();
             board[i] = cell;
             cell.setCellEvent();

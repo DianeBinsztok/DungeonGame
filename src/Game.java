@@ -2,6 +2,7 @@ import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
+import exceptions.PlayerRunsException;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 
@@ -21,7 +22,6 @@ public class Game {
     private int playerPosition=0;
     private Board board;
     private Player player;
-    private int roll;
 
     /**
      * start a new Game:
@@ -251,26 +251,33 @@ public class Game {
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
-    public void launchGame(Board board) {
+    public void launchGame(Board board){
     // 3 - Début de partie:
         String l = System.getProperty("line.separator");
         System.out.println("********** NEW GAME WITH PLAYER: "+player.getName()+" **********"+l+" Let's go, " +player.getName()+ "! Roll your dice...");
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
+        boolean forward = true;
             while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)) {
-
+                int roll=0;
                 // 1 - Diceroll
-                 diceRoll();
-
+                if(forward){
+                     roll = diceRoll();
+                }else{
+                     roll = -diceRoll();
+                }
                 // 2 - Bouger en fonction du jet
                 try {
-                    Cell currentCell = movePlayer(this.roll);
+                    Cell currentCell = movePlayer(roll);
 
                     // 3 - Interface.Event de la cellule
                     Event cellEvent = currentCell.getCellEvent();
                     cellEvent.happen(this.player);
-
-                }catch (Exception e) {
-                    System.out.println("Exception : player runs - "+ e);
+                    forward = true;
+                }catch (PlayerRunsException e) {
+                    System.out.println("Player runs: your next dice roll will send you backward! " + e);
+                    forward = false;
+                }catch (Exception e){
+                    System.out.println("A problem occured -> " + e);
                 }
             }
         stop(player);
@@ -281,7 +288,7 @@ public class Game {
      * @return random int between 1 & 6
      */
     public int diceRoll(){
-        this.roll = (int) ((Math.random()*(6-1))+1);
+       int roll = (int) ((Math.random()*(6-1))+1);
        System.out.println("Your roll : " + roll);
        return roll;
     }

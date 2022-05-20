@@ -1,10 +1,8 @@
 package character.enemy;
-
-import events.Event;
 import character.Character;
 import character.player.Player;
-
-import java.util.Scanner;
+import events.Event;
+import exceptions.PlayerRunsException;
 
 public abstract class Enemy extends Character implements Event {
 
@@ -44,7 +42,7 @@ public abstract class Enemy extends Character implements Event {
      * - If the player accepts the fight, call attackOpponent() for Player, then Enemy
      * - If the player refuses the fight, throw an exception
      */
-    public void happen (Player player) throws Exception {
+    public void happen (Player player) throws PlayerRunsException {
         System.out.println("You are facing a blood-thirsty " + getName() + " !");
         // 1  - La décision du joueur:
         if(player.acceptFight(this)){
@@ -66,9 +64,8 @@ public abstract class Enemy extends Character implements Event {
                 System.out.println("   -> Critical! the "+this.getName()+" is dead.");
             }
         }else{
-            System.out.println("You will be set 3 rooms back");
             // throw an exception to be caught in Game => renvoie un roll négatif
-            Exception playerRunsException = new Exception("You will be set 3 rooms back");
+            PlayerRunsException playerRunsException = new PlayerRunsException();
             throw playerRunsException;
         }
     }
