@@ -1,7 +1,10 @@
+package game;
+
 import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
+import exceptions.PlayerOutOfBoardException;
 import exceptions.PlayerRunsException;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
@@ -22,21 +25,19 @@ public class Game {
     private int playerPosition=0;
     private Board board;
     private Player player;
+    private Cell currentCell;
 
     /**
-     * start a new Game:
+     * start a new game.Game:
      * 1 - Create a new player with method netNewPlayer
-     * 2 - Generate a new Board with random events
-     * 3 - First diceroll
+     * 2 - Generate a new game.Board with random events
+     *
      */
-    public Board start () {
+    public void start () {
         // 1 - Création du personnage
-
         this.player = setPlayer();
         // 2 - Mise en place du donjon:
         this.board = new Board();
-        launchGame(board);
-        return this.board;
     }
 
     private Player setPlayer(){
@@ -251,13 +252,13 @@ public class Game {
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
-    public void launchGame(Board board){
+    public void launchGame(){
     // 3 - Début de partie:
         String l = System.getProperty("line.separator");
         System.out.println("********** NEW GAME WITH PLAYER: "+player.getName()+" **********"+l+" Let's go, " +player.getName()+ "! Roll your dice...");
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
         boolean forward = true;
-            while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)) {
+            while((this.playerPosition < this.board.getBoardLength())&&(this.player.getLifePoints()>0)) {
                 int roll=0;
                 // 1 - Diceroll
                 if(forward){
@@ -276,8 +277,9 @@ public class Game {
                 }catch (PlayerRunsException e) {
                     System.out.println("Player runs: your next dice roll will send you backward! " + e);
                     forward = false;
+                }catch(PlayerOutOfBoardException e){
                 }catch (Exception e){
-                    System.out.println("A problem occured -> " + e);
+                    System.out.println("A problem occureed -> " + e);
                 }
             }
         stop(player);
@@ -298,17 +300,19 @@ public class Game {
      * @param roll
      * @return currentCell : player's new position
      */
-    public Cell movePlayer(int roll){
-        Cell currentCell;
+    public Cell movePlayer(int roll) throws PlayerOutOfBoardException {
+       // Cell currentCell;
             this.playerPosition += roll;
 
             if(this.playerPosition<board.getBoardLength()-1){
-                currentCell = board.getCell(this.playerPosition);
+                this.currentCell = board.getCell(this.playerPosition);
                 System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
 
             }else{
                 System.out.println(" -----  You arrived in the last chamber  -----");
-                currentCell = board.getCell(board.getBoardLength()-1);
+                this.currentCell = board.getCell(board.getBoardLength()-1);
+                //PlayerOutOfBoardException out = new PlayerOutOfBoardException();
+                //throw out;
             }
         return currentCell;
     }
@@ -320,15 +324,15 @@ public class Game {
     public void stop(Player player){
         String l = System.getProperty("line.separator");
         System.out.println(setMessage(player) +l+
-            "Type 1 to quit"+l+
-            "Type 2 to start over");
+            "[1] -> quit"+l+
+            "[2] -> start over");
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();
         if(playersChoice.equals("1")){
             System.out.println("Goodbye.");
         }else{
             playerPosition = 0;
-            launchGame(board);
+            launchGame();
         }
     }
 

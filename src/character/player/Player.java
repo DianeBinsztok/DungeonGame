@@ -120,8 +120,8 @@ public abstract class Player extends Character {
                 "------------   Fight or flight!   ------------" + l +
                         "If you fight the "+ enemy.getName()+", he can cost you "+enemy.getAttack()+ " lifepoint(s). "+l+
                         "If you flee, you will be set back to a previous chamber!"+l+
-                        "Type 1 to fight,"+l+
-                        "Type 2 to flee."
+                        "[1] -> to fight,"+l+
+                        "[2] -> to flee."
         );
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();

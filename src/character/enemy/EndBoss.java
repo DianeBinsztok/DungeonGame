@@ -34,7 +34,7 @@ public class EndBoss extends Enemy{
             }
         }else{
             System.out.println("You will be set 3 rooms back");
-            // throw an exception to be caught in Game => renvoie un roll négatif
+            // throw an exception to be caught in game.Game => renvoie un roll négatif
             PlayerRunsException playerRunsException = new PlayerRunsException();
             throw playerRunsException;
         }

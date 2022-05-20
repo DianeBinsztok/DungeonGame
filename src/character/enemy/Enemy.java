@@ -64,7 +64,7 @@ public abstract class Enemy extends Character implements Event {
                 System.out.println("   -> Critical! the "+this.getName()+" is dead.");
             }
         }else{
-            // throw an exception to be caught in Game => renvoie un roll négatif
+            // throw an exception to be caught in game.Game => renvoie un roll négatif
             PlayerRunsException playerRunsException = new PlayerRunsException();
             throw playerRunsException;
         }
