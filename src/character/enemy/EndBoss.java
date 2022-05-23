@@ -2,6 +2,7 @@ package character.enemy;
 
 
 import character.player.Player;
+import exceptions.PlayerRunsException;
 
 public class EndBoss extends Enemy{
     /**
@@ -11,8 +12,9 @@ public class EndBoss extends Enemy{
         super("Robert, the Very Bad One", "Boss", 20, 5);
     }
 
+
     @Override
-    public void happen (Player player) throws Exception {
+    public void happen (Player player) throws PlayerRunsException {
         System.out.println("You are facing " + this.getName() + " !");
         // 1  - La décision du joueur:
         if(player.acceptFight(this)){
@@ -35,9 +37,10 @@ public class EndBoss extends Enemy{
             }
         }else{
             System.out.println("You will be set 3 rooms back");
-            // throw an exception to be caught in Game => renvoie un roll négatif
-            Exception playerRunsException = new Exception("You will be set 3 rooms back");
+            // throw an exception to be caught in game.Game => renvoie un roll négatif
+            PlayerRunsException playerRunsException = new PlayerRunsException();
             throw playerRunsException;
         }
     }
+
 }

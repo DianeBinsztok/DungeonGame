@@ -1,3 +1,5 @@
+package game;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -8,7 +10,7 @@ public class DBConnect {
         // tester la connexion à la BDD:
         try
         {
-            DBConnectionVariables connection = new DBConnectionVariables();
+            game.DBConnectionVariables connection = new game.DBConnectionVariables();
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection con= DriverManager.getConnection(
                     connection.getUrl(),connection.getUser(), connection.getPassword());

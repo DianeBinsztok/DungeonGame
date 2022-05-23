@@ -5,7 +5,7 @@ SET time_zone = '+00:00';
 SET foreign_key_checks = 0;
 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
-DROP TABLE IF EXISTS `Board`;
+DROP TABLE IF EXISTS `game.Board`;
 CREATE TABLE `Board` (
                          `id` int(11) NOT NULL AUTO_INCREMENT,
                          `playerPosition` int(11) DEFAULT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE `board_has_cells` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-DROP TABLE IF EXISTS `Cell`;
+DROP TABLE IF EXISTS `game.Cell`;
 CREATE TABLE `Cell` (
                         `id` int(11) NOT NULL AUTO_INCREMENT,
                         `position` int(11) DEFAULT NULL,

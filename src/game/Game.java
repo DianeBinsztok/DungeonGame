@@ -1,42 +1,45 @@
+package game;
+
 import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
+import exceptions.PlayerOutOfBoardException;
+import exceptions.PlayerRunsException;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
 import static java.lang.Class.forName;
 
 
 public class Game {
-
-    private int playerPosition=0;
     private Board board;
+    private Cell currentCell;
+    private int playerPosition=0;
     private Player player;
-    private int roll;
 
+    private boolean forward = true;
+
+    public Cell getCurrentCell(){
+        return this.currentCell;
+    }
+    public Board getBoard(){ return this.board;}
     /**
-     * start a new Game:
+     * start a new game.Game:
      * 1 - Create a new player with method netNewPlayer
-     * 2 - Generate a new Board with random events
-     * 3 - First diceroll
+     * 2 - Generate a new game.Board with random events
+     *
      */
-    public Board start () {
+    public void start () {
         // 1 - Création du personnage
-
         this.player = setPlayer();
         // 2 - Mise en place du donjon:
         this.board = new Board();
-        launchGame(board);
-        return this.board;
     }
 
     private Player setPlayer(){
@@ -151,7 +154,9 @@ public class Game {
                                 "Class : " + result.getString("type")+ l +
                                 "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
                                 "LifePoints : " + result.getInt("lifepoints")+ l +
+                                "maxLifePoints : " + result.getInt("maxLifePoints")+ l +
                                 "Attack power : " + result.getInt("attack")+ l +
+                                "Max attack power : " + result.getInt("maxAttack")+ l +
                                 "--------------------------------------------------"
                 );
                 // Vérifier en amont si le perso a du matériel puis, le passer en arg ds le contructeur du perso
@@ -161,11 +166,23 @@ public class Game {
                 // Aller chercher le contructeur de la classe correspondante
                 Constructor cons= selectedPlayersClass.getConstructor(String.class, String.class, String.class, int.class, int.class, int.class, int.class, OffensiveGear.class, DefensiveGear.class);
                 // NewPlayer Appelle le contructeur pour instancier la classe
-                newPlayer = (Player) cons.newInstance(result.getString("name"), result.getString("type"), result.getString("image"), result.getInt("lifepoints"), result.getInt("attack"), result.getInt("maxLifePoints"), result.getInt("maxAttack"), checkIfOffensiveGear(result.getString("offensiveGear")), checkIfDefensiveGear(result.getString("defensiveGear")));
+                newPlayer = (Player) cons.newInstance(result.getString("name"), result.getString("type"), result.getString("image"), result.getInt("lifepoints"), result.getInt("maxLifePoints"), result.getInt("attack"), result.getInt("maxAttack"), checkIfOffensiveGear(result.getString("offensiveGear")), checkIfDefensiveGear(result.getString("defensiveGear")));
+                System.out.println("newPlayer's stats --->"+ newPlayer);
                 System.out.println("Welcome back, " + newPlayer.getName()+". Let's play!" );
+
             };
-        }catch (Exception e){
-            System.out.println("A problem occurred when selecting the character: "+ e);
+        }catch (InstantiationException e){
+            System.out.println("InstantiationException: "+ e);
+        } catch (SQLException e) {
+            System.out.println("SQLException: "+ e);
+        } catch (ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException: "+ e);
+        } catch (InvocationTargetException e) {
+            System.out.println("InvocationTargetException: "+ e);
+        } catch (NoSuchMethodException e) {
+            System.out.println("NoSuchMethodException: "+ e);
+        } catch (IllegalAccessException e) {
+            System.out.println("IllegalAccessException: "+ e);
         }
         return newPlayer;
     }
@@ -182,10 +199,10 @@ public class Game {
      */
     public OffensiveGear checkIfOffensiveGear(String gearname) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         OffensiveGear playersGear = null;
-        if (gearname!=null){
-            Class selectedGearsClass = forName("gear.offensiveGear."+gearname);
+        if (gearname!=null) {
+            Class selectedGearsClass = forName("gear.offensiveGear." + gearname);
             // Aller chercher le contructeur de la classe correspondante
-            Constructor cons= selectedGearsClass.getConstructor();
+            Constructor cons = selectedGearsClass.getConstructor();
             playersGear = (OffensiveGear) cons.newInstance();
         }
         return playersGear;
@@ -228,15 +245,18 @@ public class Game {
             stmt.setInt(4, player.getAttack());
             stmt.setInt(5, player.getMaxLifePoints());
             stmt.setInt(6, player.getMaxAttack());
-            stmt.setObject(7, player.getOffensiveGear());
-            stmt.setObject(8, player.getDefensiveGear());
-            if(player.getType() == "Warrior"){
+            stmt.setObject(7, player.getOffensiveGear().getName());
+            stmt.setObject(8, player.getDefensiveGear().getName());
+
+            if(player.getType().equals("Warrior")){
                 stmt.setInt(9, 1);
-            } else if (player.getType() == "Wizard") {
+            } else if (player.getType().equals("Wizard")) {
                 stmt.setInt(9, 2);
             }else{
                 System.out.println("A problem occurred with your character's class");
             }
+
+
             // Exécuter la query
             int result=0;
             result = stmt.executeUpdate();
@@ -251,26 +271,25 @@ public class Game {
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
-    public void launchGame(Board board) {
+    public void launchGame(){
     // 3 - Début de partie:
         String l = System.getProperty("line.separator");
         System.out.println("********** NEW GAME WITH PLAYER: "+player.getName()+" **********"+l+" Let's go, " +player.getName()+ "! Roll your dice...");
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
-            while((this.playerPosition < board.getBoardLength())&&(this.player.getLifePoints()>0)) {
+            while((this.playerPosition < this.board.getBoardLength())&&(this.player.getLifePoints()>0)) {
+                int roll = this.forward ? diceRoll() : -diceRoll();
 
-                // 1 - Diceroll
-                 diceRoll();
-
-                // 2 - Bouger en fonction du jet
                 try {
-                    Cell currentCell = movePlayer(this.roll);
-
+                   movePlayer(roll);
                     // 3 - Interface.Event de la cellule
                     Event cellEvent = currentCell.getCellEvent();
                     cellEvent.happen(this.player);
-
-                }catch (Exception e) {
-                    System.out.println("Exception : player runs - "+ e);
+                    this.forward = true;
+                }catch (PlayerRunsException e) {
+                    System.out.println("Player runs: your next dice roll will send you backward! " + e);
+                    this.forward = false;
+                }catch (Exception e){
+                    System.out.println("A problem occurred -> " + e);
                 }
             }
         stop(player);
@@ -281,7 +300,7 @@ public class Game {
      * @return random int between 1 & 6
      */
     public int diceRoll(){
-        this.roll = (int) ((Math.random()*(6-1))+1);
+       int roll = (int) ((Math.random()*(6-1))+1);
        System.out.println("Your roll : " + roll);
        return roll;
     }
@@ -291,19 +310,22 @@ public class Game {
      * @param roll
      * @return currentCell : player's new position
      */
-    public Cell movePlayer(int roll){
-        Cell currentCell;
+    public void movePlayer(int roll) throws PlayerOutOfBoardException {
+       // Cell currentCell;
             this.playerPosition += roll;
 
             if(this.playerPosition<board.getBoardLength()-1){
-                currentCell = board.getCell(this.playerPosition);
+                this.currentCell = board.getCell(this.playerPosition);
                 System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
 
             }else{
+                this.playerPosition=(board.getBoardLength());
                 System.out.println(" -----  You arrived in the last chamber  -----");
-                currentCell = board.getCell(board.getBoardLength()-1);
+                this.currentCell = board.getCell(board.getBoardLength()-1);
+                //PlayerOutOfBoardException outOfBoardException = new PlayerOutOfBoardException();
+                //throw outOfBoardException;
             }
-        return currentCell;
+        //return currentCell;
     }
 
     /**
@@ -313,15 +335,18 @@ public class Game {
     public void stop(Player player){
         String l = System.getProperty("line.separator");
         System.out.println(setMessage(player) +l+
-            "Type 1 to quit"+l+
-            "Type 2 to start over");
+            "[1] -> quit"+l+
+            "[2] -> save my player and quit"+l+
+            "[3] -> start over");
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();
         if(playersChoice.equals("1")){
             System.out.println("Goodbye.");
+        }else if(playersChoice.equals("2")){
+            savePlayer(this.player);
         }else{
             playerPosition = 0;
-            launchGame(board);
+            start();
         }
     }
 

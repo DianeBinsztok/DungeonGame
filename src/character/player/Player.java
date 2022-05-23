@@ -104,7 +104,9 @@ public abstract class Player extends Character {
                 "* Class : " + this.getType()+ l +
                 "* Gear : offensive: "+this.getOffensiveGear() + ", defensive : "+this.getDefensiveGear()+ l +
                 "* LifePoints : " + this.getLifePoints()+ l +
+                "* MaxLifePoints : " + this.getMaxLifePoints()+ l +
                 "* Attack power : " + this.getAttack()+ l +
+                "* Max attack : " + this.getMaxAttack()+ l +
                 "-------------------------------------------"
         );
     }
@@ -120,8 +122,8 @@ public abstract class Player extends Character {
                 "------------   Fight or flight!   ------------" + l +
                         "If you fight the "+ enemy.getName()+", he can cost you "+enemy.getAttack()+ " lifepoint(s). "+l+
                         "If you flee, you will be set back to a previous chamber!"+l+
-                        "Type 1 to fight,"+l+
-                        "Type 2 to flee."
+                        "[1] -> to fight,"+l+
+                        "[2] -> to flee."
         );
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();
@@ -142,11 +144,14 @@ public abstract class Player extends Character {
      */
     public void drinkPotion(Potion potion){
         int playersNewLifePoints = this.getLifePoints() + potion.getStat();
+        System.out.println("playersNewLifePoints: "+ playersNewLifePoints);
         // Limiter le gain de vie au maximum autorisé:
         if(playersNewLifePoints<=this.getMaxLifePoints()){
             this.setLifePoints(playersNewLifePoints);
+            System.out.println("this.setLifePoints(playersNewLifePoints) -> " + this.getLifePoints());
         }else{
             this.setLifePoints(this.getMaxLifePoints());
+            System.out.println("this.setLifePoints(this.getMaxLifePoints()) -> "+ this.getLifePoints());
         }
         System.out.println("Your health is now at " + this.getLifePoints()+ " lifepoints!");
     }

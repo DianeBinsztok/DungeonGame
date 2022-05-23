@@ -1,10 +1,9 @@
 package character.enemy;
-
-import events.Event;
 import character.Character;
 import character.player.Player;
-
-import java.util.Scanner;
+import events.Event;
+import exceptions.PlayerRunsException;
+import gear.defensiveGear.DefensiveGear;
 
 public abstract class Enemy extends Character implements Event {
 
@@ -24,10 +23,16 @@ public abstract class Enemy extends Character implements Event {
      * considers the player's defensiveGear to limit the damage
      */
     public int attackOpponent(Character opponent) {
-        int opponentsNewLifePoints = opponent.getLifePoints() - this.getAttack();
-        if(((Player) opponent).getDefensiveGear()!=null){
-            opponentsNewLifePoints += ((Player) opponent).getDefensiveGear().getStat();
+        int damage = this.getAttack();
+        DefensiveGear protection = ((Player) opponent).getDefensiveGear();
+        if(protection!=null){
+            if(damage<= protection.getStat()){
+                damage = 0;
+            }else if(damage>protection.getStat()){
+                damage -= ((Player) opponent).getDefensiveGear().getStat();
+            }
         }
+        int opponentsNewLifePoints = opponent.getLifePoints() - damage;
         if(opponentsNewLifePoints > 0){
             opponent.setLifePoints(opponentsNewLifePoints);
         }else{
@@ -44,7 +49,7 @@ public abstract class Enemy extends Character implements Event {
      * - If the player accepts the fight, call attackOpponent() for Player, then Enemy
      * - If the player refuses the fight, throw an exception
      */
-    public void happen (Player player) throws Exception {
+    public void happen (Player player) throws PlayerRunsException {
         System.out.println("You are facing a blood-thirsty " + getName() + " !");
         // 1  - La décision du joueur:
         if(player.acceptFight(this)){
@@ -66,9 +71,8 @@ public abstract class Enemy extends Character implements Event {
                 System.out.println("   -> Critical! the "+this.getName()+" is dead.");
             }
         }else{
-            System.out.println("You will be set 3 rooms back");
-            // throw an exception to be caught in Game => renvoie un roll négatif
-            Exception playerRunsException = new Exception("You will be set 3 rooms back");
+            // throw an exception to be caught in game.Game => renvoie un roll négatif
+            PlayerRunsException playerRunsException = new PlayerRunsException();
             throw playerRunsException;
         }
     }

@@ -1,24 +1,26 @@
+package game;
+
 public class Board {
-    // board est un tableau d'instances de Cell = instancier Cell 64 fois
+    // board est un tableau d'instances de game.Cell = instancier game.Cell 64 fois
     private Cell[] board = new Cell[64];
 
 
     /**
-     * Board constructor : Generates the board
-     * generates an array of objects Cell;
+     * game.Board constructor : Generates the board
+     * generates an array of objects game.Cell;
      */
     public Board(){
         System.out.println("Initialisation de la board");
-        for(int i=0; i<this.getBoardLength()-1;i++){
+        for(int i=0; i<this.getBoardLength();i++){
             Cell cell = new Cell();
             board[i] = cell;
             cell.setCellEvent();
-            //System.out.println("Cell's event : " + cell.getCellEvent());
+            //System.out.println("game.Cell's event : " + cell.getCellEvent());
         }
         Cell lastCell = new Cell();
         board[this.getBoardLength()-1]= lastCell;
         lastCell.setBossEvent();
-        //System.out.println("Cell's event : " + lastCell.getCellEvent());
+        //System.out.println("game.Cell's event : " + lastCell.getCellEvent());
     }
 
     /**
