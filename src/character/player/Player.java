@@ -102,7 +102,7 @@ public abstract class Player extends Character {
         return( "------------   New player :   ------------" + l +
                 "* Name : " + this.getName() + l +
                 "* Class : " + this.getType()+ l +
-                "* Gear : offensive: "+this.getOffensiveGear().getName() + ", defensive : "+this.getDefensiveGear().getName()+ l +
+                "* Gear : offensive: "+this.getOffensiveGear() + ", defensive : "+this.getDefensiveGear()+ l +
                 "* LifePoints : " + this.getLifePoints()+ l +
                 "* MaxLifePoints : " + this.getMaxLifePoints()+ l +
                 "* Attack power : " + this.getAttack()+ l +

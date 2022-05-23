@@ -11,10 +11,7 @@ import gear.offensiveGear.OffensiveGear;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.Scanner;
 
 import static java.lang.Class.forName;
@@ -171,9 +168,20 @@ public class Game {
                 newPlayer = (Player) cons.newInstance(result.getString("name"), result.getString("type"), result.getString("image"), result.getInt("lifepoints"), result.getInt("maxLifePoints"), result.getInt("attack"), result.getInt("maxAttack"), checkIfOffensiveGear(result.getString("offensiveGear")), checkIfDefensiveGear(result.getString("defensiveGear")));
                 System.out.println("newPlayer's stats --->"+ newPlayer);
                 System.out.println("Welcome back, " + newPlayer.getName()+". Let's play!" );
+
             };
-        }catch (Exception e){
-            System.out.println("A problem occurred when selecting the character: "+ e);
+        }catch (InstantiationException e){
+            System.out.println("InstantiationException: "+ e);
+        } catch (SQLException e) {
+            System.out.println("SQLException: "+ e);
+        } catch (ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException: "+ e);
+        } catch (InvocationTargetException e) {
+            System.out.println("InvocationTargetException: "+ e);
+        } catch (NoSuchMethodException e) {
+            System.out.println("NoSuchMethodException: "+ e);
+        } catch (IllegalAccessException e) {
+            System.out.println("IllegalAccessException: "+ e);
         }
         return newPlayer;
     }
@@ -190,10 +198,10 @@ public class Game {
      */
     public OffensiveGear checkIfOffensiveGear(String gearname) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
         OffensiveGear playersGear = null;
-        if (gearname!=null){
-            Class selectedGearsClass = forName("gear.offensiveGear."+gearname);
+        if (gearname!=null) {
+            Class selectedGearsClass = forName("gear.offensiveGear." + gearname);
             // Aller chercher le contructeur de la classe correspondante
-            Constructor cons= selectedGearsClass.getConstructor();
+            Constructor cons = selectedGearsClass.getConstructor();
             playersGear = (OffensiveGear) cons.newInstance();
         }
         return playersGear;
@@ -227,7 +235,7 @@ public class Game {
     public void savePlayer(Player player){
         try{
             Connection con = DBConnect.getConnection();
-            String query = "insert into Hero (name, image, lifepoints, attack, maxLifePoints, maxAttack, offensiveGear, defensiveGear, playersType_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "insert into Hero (name, image, lifepoints, attack, maxLifePoints, maxAttack, playersType_id, offensiveGear, defensiveGear) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(query);
             // Insérer la valeur dans la query
             stmt.setString(1, player.getName());
