@@ -3,6 +3,7 @@ import character.Character;
 import character.player.Player;
 import events.Event;
 import exceptions.PlayerRunsException;
+import gear.defensiveGear.DefensiveGear;
 
 public abstract class Enemy extends Character implements Event {
 
@@ -23,8 +24,13 @@ public abstract class Enemy extends Character implements Event {
      */
     public int attackOpponent(Character opponent) {
         int damage = this.getAttack();
-        if(((Player) opponent).getDefensiveGear()!=null){
-           damage -= ((Player) opponent).getDefensiveGear().getStat();
+        DefensiveGear protection = ((Player) opponent).getDefensiveGear();
+        if(protection!=null){
+            if(damage<= protection.getStat()){
+                damage = 0;
+            }else if(damage>protection.getStat()){
+                damage -= ((Player) opponent).getDefensiveGear().getStat();
+            }
         }
         int opponentsNewLifePoints = opponent.getLifePoints() - damage;
         if(opponentsNewLifePoints > 0){
