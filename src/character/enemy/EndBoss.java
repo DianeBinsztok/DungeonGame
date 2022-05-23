@@ -1,6 +1,9 @@
 package character.enemy;
 
 
+import character.player.Player;
+import exceptions.PlayerRunsException;
+
 public class EndBoss extends Enemy{
     /**
      * Calling the Enemy constructor
@@ -9,7 +12,7 @@ public class EndBoss extends Enemy{
         super("Robert, the Very Bad One", "Boss", 20, 5);
     }
 
-    /*
+
     @Override
     public void happen (Player player) throws PlayerRunsException {
         System.out.println("You are facing " + this.getName() + " !");
@@ -39,5 +42,5 @@ public class EndBoss extends Enemy{
             throw playerRunsException;
         }
     }
-    */
+
 }

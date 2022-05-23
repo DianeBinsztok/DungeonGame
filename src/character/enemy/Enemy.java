@@ -22,10 +22,11 @@ public abstract class Enemy extends Character implements Event {
      * considers the player's defensiveGear to limit the damage
      */
     public int attackOpponent(Character opponent) {
-        int opponentsNewLifePoints = opponent.getLifePoints() - this.getAttack();
+        int damage = this.getAttack();
         if(((Player) opponent).getDefensiveGear()!=null){
-            opponentsNewLifePoints += ((Player) opponent).getDefensiveGear().getStat();
+           damage -= ((Player) opponent).getDefensiveGear().getStat();
         }
+        int opponentsNewLifePoints = opponent.getLifePoints() - damage;
         if(opponentsNewLifePoints > 0){
             opponent.setLifePoints(opponentsNewLifePoints);
         }else{
