@@ -18,11 +18,12 @@ import static java.lang.Class.forName;
 
 
 public class Game {
-
-    private int playerPosition=0;
     private Board board;
-    private Player player;
     private Cell currentCell;
+    private int playerPosition=0;
+    private Player player;
+
+    private boolean forward = true;
 
     public Cell getCurrentCell(){
         return this.currentCell;
@@ -235,7 +236,7 @@ public class Game {
     public void savePlayer(Player player){
         try{
             Connection con = DBConnect.getConnection();
-            String query = "insert into Hero (name, image, lifepoints, attack, maxLifePoints, maxAttack, playersType_id, offensiveGear, defensiveGear) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            String query = "insert into Hero (name, image, lifepoints, attack, maxLifePoints, maxAttack, offensiveGear, defensiveGear, playersType_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(query);
             // Insérer la valeur dans la query
             stmt.setString(1, player.getName());
@@ -244,15 +245,18 @@ public class Game {
             stmt.setInt(4, player.getAttack());
             stmt.setInt(5, player.getMaxLifePoints());
             stmt.setInt(6, player.getMaxAttack());
-            stmt.setObject(7, player.getOffensiveGear());
-            stmt.setObject(8, player.getDefensiveGear());
-            if(player.getType() == "Warrior"){
+            stmt.setObject(7, player.getOffensiveGear().getName());
+            stmt.setObject(8, player.getDefensiveGear().getName());
+
+            if(player.getType().equals("Warrior")){
                 stmt.setInt(9, 1);
-            } else if (player.getType() == "Wizard") {
+            } else if (player.getType().equals("Wizard")) {
                 stmt.setInt(9, 2);
             }else{
                 System.out.println("A problem occurred with your character's class");
             }
+
+
             // Exécuter la query
             int result=0;
             result = stmt.executeUpdate();
@@ -267,36 +271,25 @@ public class Game {
     /**
      * Launch the game, calls diceRoll(), movePlayer() and cell's launchEvent() methods, sets conditions to stop the game.
      */
-    public void launchGame() {
+    public void launchGame(){
     // 3 - Début de partie:
         String l = System.getProperty("line.separator");
         System.out.println("********** NEW GAME WITH PLAYER: "+player.getName()+" **********"+l+" Let's go, " +player.getName()+ "! Roll your dice...");
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
-        boolean forward = true;
             while((this.playerPosition < this.board.getBoardLength())&&(this.player.getLifePoints()>0)) {
-                int roll=0;
-                // 1 - Diceroll
-                if(forward){
-                     roll = diceRoll();
-                }else{
-                     roll = -diceRoll();
-                }
-                // 2 - Bouger en fonction du jet
-                try {
-                    Cell currentCell = movePlayer(roll);
+                int roll = this.forward ? diceRoll() : -diceRoll();
 
+                try {
+                   movePlayer(roll);
                     // 3 - Interface.Event de la cellule
                     Event cellEvent = currentCell.getCellEvent();
                     cellEvent.happen(this.player);
-                    forward = true;
+                    this.forward = true;
                 }catch (PlayerRunsException e) {
                     System.out.println("Player runs: your next dice roll will send you backward! " + e);
-                    forward = false;
-                }catch(PlayerOutOfBoardException e){
-                    //System.out.println(" -----  You arrived in the last chamber  -----");
-                    //this.currentCell = board.getCell(board.getBoardLength()-1);
+                    this.forward = false;
                 }catch (Exception e){
-                    System.out.println("A problem occureed -> " + e);
+                    System.out.println("A problem occurred -> " + e);
                 }
             }
         stop(player);
@@ -317,7 +310,7 @@ public class Game {
      * @param roll
      * @return currentCell : player's new position
      */
-    public Cell movePlayer(int roll) throws PlayerOutOfBoardException {
+    public void movePlayer(int roll) throws PlayerOutOfBoardException {
        // Cell currentCell;
             this.playerPosition += roll;
 
@@ -326,12 +319,13 @@ public class Game {
                 System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
 
             }else{
+                this.playerPosition=(board.getBoardLength());
                 System.out.println(" -----  You arrived in the last chamber  -----");
                 this.currentCell = board.getCell(board.getBoardLength()-1);
-                //PlayerOutOfBoardException outOfBoardException = new PlayerOutOfBoardException(this.currentCell, this.board);
+                //PlayerOutOfBoardException outOfBoardException = new PlayerOutOfBoardException();
                 //throw outOfBoardException;
             }
-        return currentCell;
+        //return currentCell;
     }
 
     /**
@@ -342,11 +336,14 @@ public class Game {
         String l = System.getProperty("line.separator");
         System.out.println(setMessage(player) +l+
             "[1] -> quit"+l+
-            "[2] -> start over");
+            "[2] -> save my player and quit"+l+
+            "[3] -> start over");
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();
         if(playersChoice.equals("1")){
             System.out.println("Goodbye.");
+        }else if(playersChoice.equals("2")){
+            savePlayer(this.player);
         }else{
             playerPosition = 0;
             start();
