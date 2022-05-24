@@ -53,8 +53,9 @@ public class Inventory {
         return this.getPotions()[i];
     }
 
+    // pour afficher le contenu du sac de potions
     public String getPotionsToString(){
-        String stringPotions ="";
+        String stringPotions =" ";
         for (Potion potion : potions) {
             stringPotions = stringPotions.concat(potion.getName());
         }
@@ -76,5 +77,4 @@ public class Inventory {
     public void addPotion(Potion potion){
         this.potions.add(potion);
     }
-
 }

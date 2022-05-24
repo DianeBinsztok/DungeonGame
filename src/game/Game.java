@@ -37,13 +37,13 @@ public class Game {
      */
     public void start () {
         // 1 - Création du personnage
-        this.player = setPlayer();
+        setPlayer();
         // 2 - Mise en place du donjon:
         this.board = new Board();
     }
 
-    private Player setPlayer(){
-        Player player = null;
+    private void setPlayer(){
+
         Scanner nameScan = new Scanner(System.in);
         String l = System.getProperty("line.separator");
         System.out.println(
@@ -53,22 +53,20 @@ public class Game {
                 );
         String choice = nameScan.next();
         if(choice.equals("1")){
-            player = setNewPlayer();
+            setNewPlayer();
         }else if(choice.equals("2")){
-            player = getHeroes();
+            this.player = getHeroes();
         }else{
             System.out.println("Your answer can only be 1 or 2 !");
         }
-        return player;
+
     }
 
     /**
      * Ask for user input and create a new player
      * @return player = new instance of Warrior or Wizard
      */
-    private  Player setNewPlayer() {
-
-        Player player=null;
+    private void setNewPlayer() {
 
         Scanner nameScan = new Scanner(System.in);
         System.out.println("Welcome stranger. What is your name? ");
@@ -79,16 +77,16 @@ public class Game {
         String playersClass = classScan.next();
 
         if (playersClass.equals("Warrior")) {
-            player = new Warrior(playersName);
+            this.player = new Warrior(playersName);
         } else if (playersClass.equals("Wizard")) {
-            player = new Wizard(playersName);
+            this.player = new Wizard(playersName);
         }else{
             System.out.println("You can only choose between these types: Warrior or Wizard");
             setNewPlayer();
         }
         System.out.println(player);
         //savePlayer(player);
-        return player;
+
     }
 
     /**
