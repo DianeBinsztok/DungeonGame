@@ -1,5 +1,6 @@
 package character.player;
 
+import gear.Inventory;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 
@@ -10,7 +11,7 @@ public class Wizard extends Player {
      * @param name
      */
     public Wizard(String name) {
-        super(name, "Wizard", "http://image-of-Wizard", 3, 8, 6, 15, null, null);
+        super(name, "Wizard", "http://image-of-Wizard", 3, 8, 6, 15, null, null, new Inventory());
     }
 
     /**
@@ -26,6 +27,6 @@ public class Wizard extends Player {
      * @param defensiveGear
      */
     public Wizard(String name, String type, String image, int lifePoints, int attack, int maxLifePoints,  int maxAttack, OffensiveGear offensiveGear, DefensiveGear defensiveGear) {
-        super(name, type, image,lifePoints, attack, maxLifePoints, maxAttack, offensiveGear, defensiveGear);
+        super(name, type, image,lifePoints, attack, maxLifePoints, maxAttack, offensiveGear, defensiveGear, new Inventory());
     }
 }

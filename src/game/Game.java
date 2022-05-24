@@ -108,7 +108,7 @@ public class Game {
             while(result.next()){
                 String l = System.getProperty("line.separator");
                 System.out.println(
-                        "--------------- player " +result.getInt("id")+": -----------------------" + l +
+                        "--------------- player " +result.getInt("id")+": -------------------" + l +
                         "Name : " + result.getString("name")+ l +
                         "Class : " + result.getString("type")+ l +
                         "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
@@ -150,7 +150,7 @@ public class Game {
             if(result.next()){
                 String l = System.getProperty("line.separator");
                 System.out.println(
-                        "--------------- selected player: " + result.getString("name")+ "-----------------------" + l +
+                        "--------------- selected player: " + result.getString("name")+ "----------------" + l +
                                 "Class : " + result.getString("type")+ l +
                                 "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
                                 "LifePoints : " + result.getInt("lifepoints")+ l +

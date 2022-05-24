@@ -55,18 +55,9 @@ public class Inventory {
 
     public String getPotionsToString(){
         String stringPotions ="";
-
         for (Potion potion : potions) {
             stringPotions = stringPotions.concat(potion.getName());
         }
-
-       /* for(int i=0;i< potions.length;i++){
-            if(potions[i]!=null){
-                String potion = getSinglePotion(i).getName();
-                stringPotions = stringPotions.concat(potion);
-            }
-        }
-        */
         return stringPotions;
     }
 

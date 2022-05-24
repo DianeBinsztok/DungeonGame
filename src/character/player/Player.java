@@ -2,6 +2,7 @@ package character.player;
 
 import character.Character;
 import character.enemy.Enemy;
+import gear.Inventory;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 import gear.potions.Potion;
@@ -16,7 +17,7 @@ public abstract class Player extends Character {
     private DefensiveGear defensiveGear;
     private int maxLifePoints;
     private int maxAttack;
-
+    private Inventory inventory;
     /**
      * constructor for Playing Characters
      * @param name
@@ -29,13 +30,14 @@ public abstract class Player extends Character {
      * @param attack
      * @param maxAttack
      */
-    public Player(String name, String type, String image, int lifePoints, int maxLifePoints, int attack, int maxAttack, OffensiveGear offensiveGear, DefensiveGear defensiveGear) {
+    public Player(String name, String type, String image, int lifePoints, int maxLifePoints, int attack, int maxAttack, OffensiveGear offensiveGear, DefensiveGear defensiveGear, Inventory inventory) {
         super(name, type, lifePoints, attack);
         this.image = image;
         this.maxLifePoints = maxLifePoints;
         this.maxAttack = maxAttack;
         this.offensiveGear = offensiveGear;
         this.defensiveGear = defensiveGear;
+        this.inventory = inventory;
     }
 
     @Override
@@ -58,12 +60,13 @@ public abstract class Player extends Character {
     }
 
     public String getImage() {
-        return image;
+        return this.image;
     }
-
     public void setImage(String image) {
         this.image = image;
     }
+
+    public Inventory getInventory(){return this.inventory;}
 
     public OffensiveGear getOffensiveGear() {
         return offensiveGear;
@@ -99,14 +102,13 @@ public abstract class Player extends Character {
      */
     public String toString(){
         String l = System.getProperty("line.separator");
-        return( "------------   New player :   ------------" + l +
-                "* Name : " + this.getName() + l +
+        return( "------------   New player :  "+this.getName()+" ------------" + l +
                 "* Class : " + this.getType()+ l +
                 "* Gear : offensive: "+this.getOffensiveGear() + ", defensive : "+this.getDefensiveGear()+ l +
                 "* LifePoints : " + this.getLifePoints()+ l +
-                "* MaxLifePoints : " + this.getMaxLifePoints()+ l +
                 "* Attack power : " + this.getAttack()+ l +
-                "* Max attack : " + this.getMaxAttack()+ l +
+                "* Inventory : " + this.getInventory().getContent()+ l +
+
                 "-------------------------------------------"
         );
     }
@@ -119,11 +121,12 @@ public abstract class Player extends Character {
     public boolean acceptFight(Enemy enemy) {
         String l = System.getProperty("line.separator");
         System.out.println(
-                "------------   Fight or flight!   ------------" + l +
+                "--------------   Fight or flight!   --------------" + l +
                         "If you fight the "+ enemy.getName()+", he can cost you "+enemy.getAttack()+ " lifepoint(s). "+l+
                         "If you flee, you will be set back to a previous chamber!"+l+
                         "[1] -> to fight,"+l+
-                        "[2] -> to flee."
+                        "[2] -> to flee." +l+
+                        "-----------------------------------------------------"
         );
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();
