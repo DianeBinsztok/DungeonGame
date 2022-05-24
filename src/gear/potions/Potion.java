@@ -1,7 +1,6 @@
 package gear.potions;
 
 import character.player.Player;
-import character.player.Wizard;
 import gear.Gear;
 
 public abstract class Potion extends Gear {

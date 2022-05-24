@@ -167,7 +167,6 @@ public class Game {
                 Constructor cons= selectedPlayersClass.getConstructor(String.class, String.class, String.class, int.class, int.class, int.class, int.class, OffensiveGear.class, DefensiveGear.class);
                 // NewPlayer Appelle le contructeur pour instancier la classe
                 newPlayer = (Player) cons.newInstance(result.getString("name"), result.getString("type"), result.getString("image"), result.getInt("lifepoints"), result.getInt("maxLifePoints"), result.getInt("attack"), result.getInt("maxAttack"), checkIfOffensiveGear(result.getString("offensiveGear")), checkIfDefensiveGear(result.getString("defensiveGear")));
-                System.out.println("newPlayer's stats --->"+ newPlayer);
                 System.out.println("Welcome back, " + newPlayer.getName()+". Let's play!" );
 
             };
@@ -278,7 +277,6 @@ public class Game {
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
             while((this.playerPosition < this.board.getBoardLength())&&(this.player.getLifePoints()>0)) {
                 int roll = this.forward ? diceRoll() : -diceRoll();
-
                 try {
                    movePlayer(roll);
                     // 3 - Interface.Event de la cellule

@@ -127,15 +127,14 @@ public abstract class Player extends Character {
         );
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();
-        boolean accept = false;
-        if(playersChoice.equals("1")){
-            accept = true;
-        }else if(playersChoice.equals("2")){
-            accept = false;
-        }else{
-            System.out.println("You can only type 1 or 2");
+
+        if (playersChoice.equals("1")) {
+            return true;
+        } else if (playersChoice.equals("2")) {
+            return false;
         }
-        return accept;
+        System.out.println("You can only type 1 or 2");
+        return acceptFight(enemy);
     }
 
     /**

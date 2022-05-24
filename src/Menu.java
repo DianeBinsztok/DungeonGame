@@ -17,21 +17,16 @@ public class Menu {
     public static void main(String[] args) {
 
         Inventory testInventory = new Inventory();
-        System.out.println("test inventory -> "+testInventory.getContent());
 
         testInventory.setOffensiveGear(new Sword());
-        System.out.println("test inventory -> "+testInventory.getContent());
 
         testInventory.setDefensiveGear(new Shield());
-        System.out.println("test inventory -> "+testInventory.getContent());
 
         Potion[] myPotions= new Potion[10];
         myPotions[0]=new StandardPotion();
-        testInventory.addPotion(0, new StandardPotion());
-        System.out.println("test inventory -> "+testInventory.getPotions());
-
-        testInventory.addPotion(1, new BigPotion());
-        System.out.println("test inventory -> "+testInventory.getPotions());
+        testInventory.addPotion(new StandardPotion());
+        testInventory.addPotion(new BigPotion());
+        System.out.println(testInventory);
 
         // starting new game.Game
         Game newGame = new Game();
