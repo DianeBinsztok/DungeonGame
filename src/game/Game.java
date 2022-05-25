@@ -357,7 +357,7 @@ public class Game {
         } else if (player.getLifePoints()<=0) {
             return "You are dead.";
         }
-        return "A problem occured";
+        return "A problem occurred";
     }
 }
 

@@ -107,7 +107,8 @@ public abstract class Player extends Character {
                 "* Gear : offensive: "+this.getOffensiveGear() + ", defensive : "+this.getDefensiveGear()+ l +
                 "* LifePoints : " + this.getLifePoints()+ l +
                 "* Attack power : " + this.getAttack()+ l +
-                "* Inventory : " + this.getInventory().getContent()+ l +
+                "-------------------------------------------" + l +
+                this.getInventory()+ l +
 
                 "-------------------------------------------"
         );

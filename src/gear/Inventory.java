@@ -13,23 +13,36 @@ public class Inventory {
 
     private OffensiveGear offensiveGear;
     private DefensiveGear defensiveGear;
-    //private Potion[] potions = new Potion[10];
-    private List<Potion> potions = new ArrayList<Potion>();
-    private Map<String, Object> content = new HashMap<String, Object>();
+    private final List<Potion> potions = new ArrayList<Potion>();
+    private int maxPotions = 5;
+    private final Map<String, Object> content = new HashMap<String, Object>();
+
 
     // 0 - CONSTRUCTEUR
     public Inventory(){
-        this.setOffensiveGear(null);
-        this.setDefensiveGear(null);
-        this.setPotions();
+        this.content.put("OffensiveGear", this.offensiveGear);
+        this.content.put("DefensiveGear", this.defensiveGear);
+        this.content.put("Potions", this.potions);
     }
 
     public String toString() {
+        String offensiveGearString = "none";
+        String defensiveGearString = "none";
+        String potionsString = "empty";
+        if(this.getOffensiveGear()!=null){
+            offensiveGearString = this.getOffensiveGear().getName();
+        }
+        if(this.getDefensiveGear()!=null){
+            defensiveGearString = this.getDefensiveGear().getName();
+        }
+        if(this.getPotionsToString()!=""){
+            potionsString = getPotionsToString();
+        }
         String l = System.getProperty("line.separator");
-        return ("------------   My inventory :   ------------" + l +
-                "* Offensive gear : " + this.getOffensiveGear().getName() + l +
-                "* Defensive gear : " + this.getDefensiveGear().getName() + l +
-                "* Potions : " + this.getPotionsToString()+l+
+        return ("------------   Inventory :   ------------" + l +
+                "* Offensive gear : " + offensiveGearString + l +
+                "* Defensive gear : " + defensiveGearString + l +
+                "* Potions bag: " + potionsString+l+
                 "-------------------------------------------"
         );
     }
@@ -55,26 +68,26 @@ public class Inventory {
 
     // pour afficher le contenu du sac de potions
     public String getPotionsToString(){
-        String stringPotions =" ";
+        String stringPotions ="";
         for (Potion potion : potions) {
-            stringPotions = stringPotions.concat(potion.getName());
+            stringPotions = stringPotions.concat(potion.getName())+" - ";
         }
         return stringPotions;
     }
 
     // 2 - SETTERS
     public void setOffensiveGear(OffensiveGear gear){
-        this.content.put("OffensiveGear", gear);
+        this.content.replace("OffensiveGear", gear);
     }
     public void setDefensiveGear(DefensiveGear gear){
-        this.content.put("DefensiveGear", gear);
+        this.content.replace("DefensiveGear", gear);
     }
-    public void setPotions(){
-        this.content.put("Potions", this.potions);
-    }
-
-    // 3 - ADD to array potions
     public void addPotion(Potion potion){
-        this.potions.add(potion);
+        if(potions.size()<this.maxPotions){
+            this.potions.add(potion);
+        }else{
+            System.out.println("Your potion's bag is full!");
+            // Permettre de cibler et remplacer une potion. Il faudra appeler une autre fonction
+        }
     }
 }
