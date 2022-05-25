@@ -120,25 +120,28 @@ public abstract class Player extends Character {
      * @return true(to fight) or false(to flee).
      */
     public boolean acceptFight(Enemy enemy) {
+        boolean accept=true;
         String l = System.getProperty("line.separator");
         System.out.println(
                 "--------------   Fight or flight!   --------------" + l +
                         "If you fight the "+ enemy.getName()+", he can cost you "+enemy.getAttack()+ " lifepoint(s). "+l+
                         "If you flee, you will be set back to a previous chamber!"+l+
                         "[1] -> to fight,"+l+
-                        "[2] -> to flee." +l+
+                        "[2] -> to flee" +l+
                         "-----------------------------------------------------"
         );
         Scanner scan = new Scanner(System.in);
         String playersChoice = scan.next();
 
         if (playersChoice.equals("1")) {
-            return true;
+            accept = true;
         } else if (playersChoice.equals("2")) {
-            return false;
+            accept = false;
+        }else {
+            System.out.println("You can only type 1 or 2");
+            acceptFight(enemy);
         }
-        System.out.println("You can only type 1 or 2");
-        return acceptFight(enemy);
+        return accept;
     }
     /**
      * When the Player finds an offensive gear:
@@ -148,13 +151,13 @@ public abstract class Player extends Character {
      */
     public void handleOffensiveGear(OffensiveGear gear){
         if (gear.getAuthorizedHandler().equals(this.getType())){
-
             if(this.getOffensiveGear()!=null){
                 String l = System.getProperty("line.separator");
                 System.out.println("You already have a "+this.getOffensiveGear().getName()+" as offensive gear. "+ l +
                         "[1] -> replace my offensive gear" +l+
                         "[2] -> store in my inventory" +l+
                         "[3] -> leave the "+gear.getName());
+
                 Scanner scan = new Scanner(System.in);
                 String playersChoice = scan.next();
                 if(playersChoice.equals("1")){
@@ -163,6 +166,7 @@ public abstract class Player extends Character {
                 } else if (playersChoice.equals("2")) {
                     this.inventory.setOffensiveGear(gear);
                     System.out.println(this.inventory);
+
                 }
             }else{
                 this.setOffensiveGear(gear);
