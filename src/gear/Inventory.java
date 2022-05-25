@@ -4,14 +4,11 @@ import character.player.Player;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 import gear.potions.Potion;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Inventory {
 
+    private Player owner;
     private OffensiveGear offensiveGear;
     private DefensiveGear defensiveGear;
     private final List<Potion> potions = new ArrayList<Potion>();
@@ -48,25 +45,57 @@ public class Inventory {
         );
     }
 
-    public void switchGear(Player player, Gear gear){
+    public void inventoryMenu(){
+        System.out.println(this);
+        String l = System.getProperty("line.separator");
+        System.out.println(
+                        "[1] -> Switch my offensive gear,"+l+
+                        "[2] -> Remove my offensive gear" +l+
+                        "[3] -> Switch my defensive gear" +l+
+                        "[4] -> Remove my defensive gear" +l+
+                        "[5] -> Drink a potion" +l+
+                        "-----------------------------------------------------"
+        );
+        Scanner scan = new Scanner(System.in);
+        String playersChoice = scan.next();
+        switch (playersChoice){
+            case "1":
+                switchGear(this.getOffensiveGear());
+                break;
+            case "2":
+                System.out.println("Remove offensive gear - to be implemented");
+                break;
+            case "3":
+                switchGear(this.getDefensiveGear());
+                break;
+            case "4":
+                System.out.println("Remove defensive gear - to be implemented");
+                break;
+            case "5":
+                owner.drinkPotion(getSinglePotion(0));
+                break;
+        }
+    }
+
+    public void switchGear(Gear gear){
         Gear playersGear;
         if(gear instanceof OffensiveGear){
 
             // aller chercher l'arme du joueur
-            playersGear=player.getOffensiveGear();
+            playersGear=this.owner.getOffensiveGear();
             // mettre l'arme du joueur dans l'inventaire
             this.setOffensiveGear((OffensiveGear) playersGear);
             // mettre l'arme de l'inventaire dans la main du joueur
-            player.setOffensiveGear((OffensiveGear) gear);
+            this.owner.setOffensiveGear((OffensiveGear) gear);
 
         } else if (gear instanceof DefensiveGear) {
 
             // chercher la protection du joueur
-            playersGear=player.getDefensiveGear();
+            playersGear=this.owner.getDefensiveGear();
             // mettre la protection dans l'inventaire
             this.setDefensiveGear((DefensiveGear) playersGear);
             // mettre la protection de l'inventaire sur le joueur
-            player.setDefensiveGear((DefensiveGear) gear);
+            this.owner.setDefensiveGear((DefensiveGear) gear);
 
         }else if(gear instanceof Potion){
             System.out.println("You can not switch a potion!");
