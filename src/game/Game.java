@@ -4,7 +4,6 @@ import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
-import exceptions.PlayerOutOfBoardException;
 import exceptions.PlayerRunsException;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
@@ -306,22 +305,18 @@ public class Game {
      * @param roll
      * @return currentCell : player's new position
      */
-    public void movePlayer(int roll) throws PlayerOutOfBoardException {
-       // Cell currentCell;
-            this.playerPosition += roll;
+    public void movePlayer(int roll){
+        this.playerPosition += roll;
 
-            if(this.playerPosition<board.getBoardLength()-1){
-                this.currentCell = board.getCell(this.playerPosition);
-                System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
+        if(this.playerPosition<board.getBoardLength()-1){
+            this.currentCell = board.getCell(this.playerPosition);
+            System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
 
-            }else{
-                this.playerPosition=(board.getBoardLength());
-                System.out.println(" -----  You arrived in the last chamber  -----");
-                this.currentCell = board.getCell(board.getBoardLength()-1);
-                //PlayerOutOfBoardException outOfBoardException = new PlayerOutOfBoardException();
-                //throw outOfBoardException;
-            }
-        //return currentCell;
+        }else{
+            this.playerPosition=(board.getBoardLength());
+            System.out.println(" -----  You arrived in the last chamber  -----");
+            this.currentCell = board.getCell(board.getBoardLength()-1);
+        }
     }
 
     /**
@@ -341,8 +336,10 @@ public class Game {
         }else if(playersChoice.equals("2")){
             savePlayer(this.player);
         }else{
-            playerPosition = 0;
-            start();
+            this.playerPosition = 0;
+            this.player.setLifePoints(5);
+            //start();
+            launchGame();
         }
     }
 

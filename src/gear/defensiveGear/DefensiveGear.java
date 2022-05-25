@@ -3,8 +3,6 @@ package gear.defensiveGear;
 import character.player.Player;
 import gear.Gear;
 
-import java.sql.Driver;
-
 public abstract class DefensiveGear extends Gear {
 
     private String authorizedHandler;
@@ -34,7 +32,7 @@ public abstract class DefensiveGear extends Gear {
      */
     public void happen(Player player){
         System.out.println("You found a "+ this.getName());
-        player.pickDefensiveGear(this);
+        player.handleDefensiveGear(this);
     }
 
 }
