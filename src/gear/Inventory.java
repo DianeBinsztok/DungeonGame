@@ -63,12 +63,14 @@ public class Inventory {
                 switchGear(this.getOffensiveGear());
                 break;
             case "2":
+                removeGear(this.getOffensiveGear());
                 System.out.println("Remove offensive gear - to be implemented");
                 break;
             case "3":
                 switchGear(this.getDefensiveGear());
                 break;
             case "4":
+                removeGear(this.getDefensiveGear());
                 System.out.println("Remove defensive gear - to be implemented");
                 break;
             case "5":
@@ -101,6 +103,29 @@ public class Inventory {
             System.out.println("You can not switch a potion!");
         }else{
             System.out.println("You can not switch this!");
+        }
+    }
+
+    public void removeGear(Gear gear){
+        Gear playersGear;
+        if(gear instanceof OffensiveGear){
+
+            // aller chercher l'arme du joueur
+            playersGear=this.owner.getOffensiveGear();
+            // supprimer
+            this.setOffensiveGear(null);
+
+        } else if (gear instanceof DefensiveGear) {
+
+            // chercher la protection du joueur
+            playersGear=this.owner.getDefensiveGear();
+            // supprmier
+            this.setDefensiveGear(null);
+
+        }else if(gear instanceof Potion){
+            System.out.println("You can not remove a potion!");
+        }else{
+            System.out.println("You can not remove this from your inventory!");
         }
     }
 
