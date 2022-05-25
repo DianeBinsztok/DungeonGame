@@ -1,5 +1,6 @@
 package gear;
 
+import character.player.Player;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
 import gear.potions.Potion;
@@ -47,6 +48,33 @@ public class Inventory {
         );
     }
 
+    public void switchGear(Player player, Gear gear){
+        Gear playersGear;
+        if(gear instanceof OffensiveGear){
+
+            // aller chercher l'arme du joueur
+            playersGear=player.getOffensiveGear();
+            // mettre l'arme du joueur dans l'inventaire
+            this.setOffensiveGear((OffensiveGear) playersGear);
+            // mettre l'arme de l'inventaire dans la main du joueur
+            player.setOffensiveGear((OffensiveGear) gear);
+
+        } else if (gear instanceof DefensiveGear) {
+
+            // chercher la protection du joueur
+            playersGear=player.getDefensiveGear();
+            // mettre la protection dans l'inventaire
+            this.setDefensiveGear((DefensiveGear) playersGear);
+            // mettre la protection de l'inventaire sur le joueur
+            player.setDefensiveGear((DefensiveGear) gear);
+
+        }else if(gear instanceof Potion){
+            System.out.println("You can not switch a potion!");
+        }else{
+            System.out.println("You can not switch this!");
+        }
+    }
+
     // 1 - GETTERS
     // Afficher le contenu total de mon inventaire:
     public Map<String, Object> getContent(){
@@ -90,4 +118,5 @@ public class Inventory {
             // Permettre de cibler et remplacer une potion. Il faudra appeler une autre fonction
         }
     }
+
 }

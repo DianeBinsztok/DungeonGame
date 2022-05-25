@@ -1,4 +1,4 @@
-import game.Game;
+package game;
 
 public class Menu {
 
