@@ -1,7 +1,6 @@
 package gear.offensiveGear;
 
 import character.player.Player;
-import character.player.Warrior;
 import gear.Gear;
 
 public abstract class OffensiveGear extends Gear {
@@ -33,6 +32,6 @@ public abstract class OffensiveGear extends Gear {
      */
     public void happen(Player player){
         System.out.println("You found a "+ this.getName());
-        player.pickOffensiveGear(this);
+        player.handleOffensiveGear(this);
     }
 }

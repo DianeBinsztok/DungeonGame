@@ -1,8 +1,5 @@
 package character;
 
-import events.Event;
-import gear.Gear;
-
 public abstract class Character{
     private String name;
     private String type;
@@ -66,7 +63,4 @@ public abstract class Character{
         }
         return opponent.lifePoints;
     }
-
-
-
 }

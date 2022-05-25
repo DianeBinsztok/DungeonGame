@@ -4,7 +4,6 @@ import character.player.Player;
 import character.player.Warrior;
 import character.player.Wizard;
 import events.Event;
-import exceptions.PlayerOutOfBoardException;
 import exceptions.PlayerRunsException;
 import gear.defensiveGear.DefensiveGear;
 import gear.offensiveGear.OffensiveGear;
@@ -37,13 +36,38 @@ public class Game {
      */
     public void start () {
         // 1 - Création du personnage
-        this.player = setPlayer();
+        setPlayer();
         // 2 - Mise en place du donjon:
         this.board = new Board();
     }
 
-    private Player setPlayer(){
-        Player player = null;
+    public void menu(){
+        String l = System.getProperty("line.separator");
+        System.out.println(
+                "[1] -> quit the game" +l+
+                "[2] -> inventory"+l+
+                "[3] -> back to game");
+        Scanner scan = new Scanner(System.in);
+        String playersChoice = scan.next();
+        switch(playersChoice){
+            case "1":
+                this.stop();
+                break;
+            case "2":
+                System.out.println(this.player.getInventory());
+                break;
+            case "3":
+                break;
+            default:
+                System.out.println("You can only type 1, 2 or 3");
+                break;
+        }
+    }
+
+    public Player getPlayer(){
+        return this.player;
+    }
+    public void setPlayer(){
         Scanner nameScan = new Scanner(System.in);
         String l = System.getProperty("line.separator");
         System.out.println(
@@ -53,23 +77,20 @@ public class Game {
                 );
         String choice = nameScan.next();
         if(choice.equals("1")){
-            player = setNewPlayer();
+            setNewPlayer();
         }else if(choice.equals("2")){
-            player = getHeroes();
+            this.player = getHeroes();
         }else{
             System.out.println("Your answer can only be 1 or 2 !");
         }
-        return player;
+
     }
 
     /**
      * Ask for user input and create a new player
      * @return player = new instance of Warrior or Wizard
      */
-    private  Player setNewPlayer() {
-
-        Player player=null;
-
+    private void setNewPlayer() {
         Scanner nameScan = new Scanner(System.in);
         System.out.println("Welcome stranger. What is your name? ");
         String playersName = nameScan.next();
@@ -79,16 +100,16 @@ public class Game {
         String playersClass = classScan.next();
 
         if (playersClass.equals("Warrior")) {
-            player = new Warrior(playersName);
+            this.player = new Warrior(playersName);
         } else if (playersClass.equals("Wizard")) {
-            player = new Wizard(playersName);
+            this.player = new Wizard(playersName);
         }else{
             System.out.println("You can only choose between these types: Warrior or Wizard");
             setNewPlayer();
         }
-        System.out.println(player);
+        System.out.println(this.player);
         //savePlayer(player);
-        return player;
+
     }
 
     /**
@@ -108,7 +129,7 @@ public class Game {
             while(result.next()){
                 String l = System.getProperty("line.separator");
                 System.out.println(
-                        "--------------- player " +result.getInt("id")+": -----------------------" + l +
+                        "--------------- player " +result.getInt("id")+": -------------------" + l +
                         "Name : " + result.getString("name")+ l +
                         "Class : " + result.getString("type")+ l +
                         "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
@@ -150,7 +171,7 @@ public class Game {
             if(result.next()){
                 String l = System.getProperty("line.separator");
                 System.out.println(
-                        "--------------- selected player: " + result.getString("name")+ "-----------------------" + l +
+                        "--------------- selected player: " + result.getString("name")+ "----------------" + l +
                                 "Class : " + result.getString("type")+ l +
                                 "Gear : offensive: "+result.getString("offensiveGear")+ ", defensive : "+result.getString("defensiveGear")+ l +
                                 "LifePoints : " + result.getInt("lifepoints")+ l +
@@ -167,7 +188,6 @@ public class Game {
                 Constructor cons= selectedPlayersClass.getConstructor(String.class, String.class, String.class, int.class, int.class, int.class, int.class, OffensiveGear.class, DefensiveGear.class);
                 // NewPlayer Appelle le contructeur pour instancier la classe
                 newPlayer = (Player) cons.newInstance(result.getString("name"), result.getString("type"), result.getString("image"), result.getInt("lifepoints"), result.getInt("maxLifePoints"), result.getInt("attack"), result.getInt("maxAttack"), checkIfOffensiveGear(result.getString("offensiveGear")), checkIfDefensiveGear(result.getString("defensiveGear")));
-                System.out.println("newPlayer's stats --->"+ newPlayer);
                 System.out.println("Welcome back, " + newPlayer.getName()+". Let's play!" );
 
             };
@@ -231,26 +251,25 @@ public class Game {
 
     /**
      * Save player in database
-     * @param player
      */
-    public void savePlayer(Player player){
+    public void savePlayer(){
         try{
             Connection con = DBConnect.getConnection();
             String query = "insert into Hero (name, image, lifepoints, attack, maxLifePoints, maxAttack, offensiveGear, defensiveGear, playersType_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(query);
             // Insérer la valeur dans la query
-            stmt.setString(1, player.getName());
-            stmt.setString(2, player.getImage());
-            stmt.setInt(3, player.getLifePoints());
-            stmt.setInt(4, player.getAttack());
-            stmt.setInt(5, player.getMaxLifePoints());
-            stmt.setInt(6, player.getMaxAttack());
-            stmt.setObject(7, player.getOffensiveGear().getName());
-            stmt.setObject(8, player.getDefensiveGear().getName());
+            stmt.setString(1, this.player.getName());
+            stmt.setString(2, this.player.getImage());
+            stmt.setInt(3, this.player.getLifePoints());
+            stmt.setInt(4, this.player.getAttack());
+            stmt.setInt(5, this.player.getMaxLifePoints());
+            stmt.setInt(6, this.player.getMaxAttack());
+            stmt.setObject(7, this.player.getOffensiveGear().getName());
+            stmt.setObject(8, this.player.getDefensiveGear().getName());
 
-            if(player.getType().equals("Warrior")){
+            if(this.player.getType().equals("Warrior")){
                 stmt.setInt(9, 1);
-            } else if (player.getType().equals("Wizard")) {
+            } else if (this.player.getType().equals("Wizard")) {
                 stmt.setInt(9, 2);
             }else{
                 System.out.println("A problem occurred with your character's class");
@@ -278,7 +297,6 @@ public class Game {
     // L'exception est throw en aval, catch en amont (où est appelée la méthode)
             while((this.playerPosition < this.board.getBoardLength())&&(this.player.getLifePoints()>0)) {
                 int roll = this.forward ? diceRoll() : -diceRoll();
-
                 try {
                    movePlayer(roll);
                     // 3 - Interface.Event de la cellule
@@ -292,7 +310,7 @@ public class Game {
                     System.out.println("A problem occurred -> " + e);
                 }
             }
-        stop(player);
+        stop();
     }
 
     /**
@@ -310,31 +328,26 @@ public class Game {
      * @param roll
      * @return currentCell : player's new position
      */
-    public void movePlayer(int roll) throws PlayerOutOfBoardException {
-       // Cell currentCell;
-            this.playerPosition += roll;
+    public void movePlayer(int roll){
+        this.playerPosition += roll;
 
-            if(this.playerPosition<board.getBoardLength()-1){
-                this.currentCell = board.getCell(this.playerPosition);
-                System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
+        if(this.playerPosition<board.getBoardLength()-1){
+            this.currentCell = board.getCell(this.playerPosition);
+            System.out.println(" -----  You arrived in the " + playerPosition + "th chamber  -----");
 
-            }else{
-                this.playerPosition=(board.getBoardLength());
-                System.out.println(" -----  You arrived in the last chamber  -----");
-                this.currentCell = board.getCell(board.getBoardLength()-1);
-                //PlayerOutOfBoardException outOfBoardException = new PlayerOutOfBoardException();
-                //throw outOfBoardException;
-            }
-        //return currentCell;
+        }else{
+            this.playerPosition=(board.getBoardLength());
+            System.out.println(" --------  You arrived in the last chamber  --------");
+            this.currentCell = board.getCell(board.getBoardLength()-1);
+        }
     }
 
     /**
      * Stop the game, displays end message
-     * @param player
      */
-    public void stop(Player player){
+    public void stop(){
         String l = System.getProperty("line.separator");
-        System.out.println(setMessage(player) +l+
+        System.out.println(setMessage() +l+
             "[1] -> quit"+l+
             "[2] -> save my player and quit"+l+
             "[3] -> start over");
@@ -343,25 +356,26 @@ public class Game {
         if(playersChoice.equals("1")){
             System.out.println("Goodbye.");
         }else if(playersChoice.equals("2")){
-            savePlayer(this.player);
+            savePlayer();
         }else{
-            playerPosition = 0;
-            start();
+            this.playerPosition = 0;
+            this.player.setLifePoints(5);
+            //start();
+            launchGame();
         }
     }
 
     /**
      * Set the end message, depending on how the game ended
-     * @param player
      * @return message
      */
-    public String setMessage(Player player){
+    public String setMessage(){
         if(playerPosition>=board.getBoardLength()){
-           return  "Congratulations "+player.getName()+", You have survived the dungeon!";
-        } else if (player.getLifePoints()<=0) {
+           return  "Congratulations "+this.player.getName()+", You have survived the dungeon!";
+        } else if (this.player.getLifePoints()<=0) {
             return "You are dead.";
         }
-        return "A problem occured";
+        return "A problem occurred";
     }
 }
 
