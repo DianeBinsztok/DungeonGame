@@ -41,8 +41,33 @@ public class Game {
         this.board = new Board();
     }
 
-    private void setPlayer(){
+    public void menu(){
+        String l = System.getProperty("line.separator");
+        System.out.println(
+                "[1] -> quit the game" +l+
+                "[2] -> inventory"+l+
+                "[3] -> back to game");
+        Scanner scan = new Scanner(System.in);
+        String playersChoice = scan.next();
+        switch(playersChoice){
+            case "1":
+                this.stop();
+                break;
+            case "2":
+                System.out.println(this.player.getInventory());
+                break;
+            case "3":
+                break;
+            default:
+                System.out.println("You can only type 1, 2 or 3");
+                break;
+        }
+    }
 
+    public Player getPlayer(){
+        return this.player;
+    }
+    public void setPlayer(){
         Scanner nameScan = new Scanner(System.in);
         String l = System.getProperty("line.separator");
         System.out.println(
@@ -66,7 +91,6 @@ public class Game {
      * @return player = new instance of Warrior or Wizard
      */
     private void setNewPlayer() {
-
         Scanner nameScan = new Scanner(System.in);
         System.out.println("Welcome stranger. What is your name? ");
         String playersName = nameScan.next();
@@ -83,7 +107,7 @@ public class Game {
             System.out.println("You can only choose between these types: Warrior or Wizard");
             setNewPlayer();
         }
-        System.out.println(player);
+        System.out.println(this.player);
         //savePlayer(player);
 
     }
@@ -227,26 +251,25 @@ public class Game {
 
     /**
      * Save player in database
-     * @param player
      */
-    public void savePlayer(Player player){
+    public void savePlayer(){
         try{
             Connection con = DBConnect.getConnection();
             String query = "insert into Hero (name, image, lifepoints, attack, maxLifePoints, maxAttack, offensiveGear, defensiveGear, playersType_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement stmt = con.prepareStatement(query);
             // Insérer la valeur dans la query
-            stmt.setString(1, player.getName());
-            stmt.setString(2, player.getImage());
-            stmt.setInt(3, player.getLifePoints());
-            stmt.setInt(4, player.getAttack());
-            stmt.setInt(5, player.getMaxLifePoints());
-            stmt.setInt(6, player.getMaxAttack());
-            stmt.setObject(7, player.getOffensiveGear().getName());
-            stmt.setObject(8, player.getDefensiveGear().getName());
+            stmt.setString(1, this.player.getName());
+            stmt.setString(2, this.player.getImage());
+            stmt.setInt(3, this.player.getLifePoints());
+            stmt.setInt(4, this.player.getAttack());
+            stmt.setInt(5, this.player.getMaxLifePoints());
+            stmt.setInt(6, this.player.getMaxAttack());
+            stmt.setObject(7, this.player.getOffensiveGear().getName());
+            stmt.setObject(8, this.player.getDefensiveGear().getName());
 
-            if(player.getType().equals("Warrior")){
+            if(this.player.getType().equals("Warrior")){
                 stmt.setInt(9, 1);
-            } else if (player.getType().equals("Wizard")) {
+            } else if (this.player.getType().equals("Wizard")) {
                 stmt.setInt(9, 2);
             }else{
                 System.out.println("A problem occurred with your character's class");
@@ -287,7 +310,7 @@ public class Game {
                     System.out.println("A problem occurred -> " + e);
                 }
             }
-        stop(player);
+        stop();
     }
 
     /**
@@ -314,18 +337,17 @@ public class Game {
 
         }else{
             this.playerPosition=(board.getBoardLength());
-            System.out.println(" -----  You arrived in the last chamber  -----");
+            System.out.println(" --------  You arrived in the last chamber  --------");
             this.currentCell = board.getCell(board.getBoardLength()-1);
         }
     }
 
     /**
      * Stop the game, displays end message
-     * @param player
      */
-    public void stop(Player player){
+    public void stop(){
         String l = System.getProperty("line.separator");
-        System.out.println(setMessage(player) +l+
+        System.out.println(setMessage() +l+
             "[1] -> quit"+l+
             "[2] -> save my player and quit"+l+
             "[3] -> start over");
@@ -334,7 +356,7 @@ public class Game {
         if(playersChoice.equals("1")){
             System.out.println("Goodbye.");
         }else if(playersChoice.equals("2")){
-            savePlayer(this.player);
+            savePlayer();
         }else{
             this.playerPosition = 0;
             this.player.setLifePoints(5);
@@ -345,13 +367,12 @@ public class Game {
 
     /**
      * Set the end message, depending on how the game ended
-     * @param player
      * @return message
      */
-    public String setMessage(Player player){
+    public String setMessage(){
         if(playerPosition>=board.getBoardLength()){
-           return  "Congratulations "+player.getName()+", You have survived the dungeon!";
-        } else if (player.getLifePoints()<=0) {
+           return  "Congratulations "+this.player.getName()+", You have survived the dungeon!";
+        } else if (this.player.getLifePoints()<=0) {
             return "You are dead.";
         }
         return "A problem occurred";
