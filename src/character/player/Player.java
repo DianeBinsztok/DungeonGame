@@ -206,6 +206,22 @@ public abstract class Player extends Character {
         }
     }
 
+    public void handlePotion(Potion potion){
+        String l = System.getProperty("line.separator");
+        System.out.println(
+                "[1] -> drink the potion" +l+
+                        "[2] -> store in my inventory" +l+
+                        "[3] -> leave the potion");
+        Scanner scan = new Scanner(System.in);
+        String playersChoice = scan.next();
+        if(playersChoice.equals("1")){
+            this.drinkPotion(potion);
+        } else if (playersChoice.equals("2")) {
+            this.inventory.addPotion(potion);
+            System.out.println(this.inventory);
+        }
+    }
+
     /**
      * When the Player finds a potion:
      * set player's lifePoints

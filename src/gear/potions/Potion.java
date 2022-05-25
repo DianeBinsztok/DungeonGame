@@ -19,6 +19,6 @@ public abstract class Potion extends Gear {
      */
     public void happen(Player player){
         System.out.println("You found a "+ this.getName());
-        player.drinkPotion(this);
+        player.handlePotion(this);
     }
 }
