@@ -8,6 +8,7 @@ public class Menu {
      * @param args
      */
     public static void main(String[] args) {
+        GUI GUI = new GUI();
         // starting new game.Game
         Game game = new Game();
         game.start();
